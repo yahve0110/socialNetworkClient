@@ -1,0 +1,33 @@
+*{
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+
+}
+
+
+
+
+
+[data-theme="dark"]:root{
+  --primary-background: #1d1d1d;
+  --main-section-color: #2e2e2e;
+  --main-text-color: #d8d8d8;
+  --secondary-section-color: #4d4d4d;
+
+}
+
+:root{
+  --main-section-color: #f2f2f2;
+  --main-text-color: #3d3d3d;
+  --primary-background: #e5e8eb;
+  --secondary-section-color: #f8f8f8;
+}
+
+
+body{
+  max-height: 100vh;
+  background-color: var(--primary-background);
+
+}

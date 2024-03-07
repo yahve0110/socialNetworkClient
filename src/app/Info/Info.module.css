@@ -1,0 +1,15 @@
+.Info {
+
+    padding: 16px;
+    border-radius: 10px;
+
+    grid-column-start: 27;
+    grid-column-end: 33;
+
+    grid-row-start: 1;
+    grid-row-end: 12;
+
+    background-color: var(--secondary-section-color);
+
+
+}

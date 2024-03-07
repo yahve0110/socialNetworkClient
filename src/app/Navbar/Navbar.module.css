@@ -1,0 +1,46 @@
+
+
+
+.Navbar {
+
+    padding: 16px;
+    border-radius: 10px;
+
+    grid-column-start: 6;
+    grid-column-end: 12;
+
+    grid-row-start: 1;
+    grid-row-end: -1;
+
+    transition: all 100ms ease-in;
+
+}
+
+
+
+.Navbar ul {
+    margin: 0 auto;
+    padding: 0;
+
+}
+
+.Navbar ul li {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.link  {
+    color: var(--main-text-color);
+    font-size: 20px;
+    text-decoration: none;
+
+
+}
+
+
+.active {
+    color: #3e8c98 ;
+    font-size: 26px;
+    text-decoration: none;
+
+}

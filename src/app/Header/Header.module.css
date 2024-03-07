@@ -1,0 +1,179 @@
+.Header {
+    height: 50px;
+    background-color: var(--main-section-color);
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    color: black;
+    color: var(--main-text-color);
+
+}
+
+
+.HeaderContainer {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    grid-row-end: 5;
+    grid-column-end: -1;
+    padding: 10px 10px;
+    display: grid;
+    max-width: 1200px;
+    width: 100%;
+    grid-template-columns: repeat(12, 1fr);
+    align-items: center;
+    justify-content: center; /* Center horizontally */
+    position: relative;
+}
+
+/*<----------LOGO BLOCK*<---------->/*/
+.logo {
+
+
+    margin-right: 10px;
+}
+
+.logoBlock {
+    display: flex;
+    align-items: center;
+}
+
+.logoBlock h1 {
+    margin: 0;
+
+}
+
+/*<----------INPUT BLOCK*<---------->/*/
+.HeaderInputDiv {
+    grid-column-start: 3;
+    grid-column-end: 9;
+    position: relative;
+
+}
+
+.HeaderInputDiv input {
+    width: 94%;
+    border: transparent;
+    background-color: #48a2b0;
+    height: 35px;
+    border-radius: 10px;
+    padding: 5px 40px;
+    font-size: 15px;
+    color: #eaeaea;
+
+
+}
+
+.HeaderInputDiv input:focus {
+    outline: none;
+}
+
+.searchIcon {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 13px;
+    left: 8px;
+}
+
+
+/*<----------USER BLOCK*<---------->/*/
+.UserInfoBlock {
+    display: flex;
+    align-items: center;
+    width: 130px;
+    justify-content: space-between;
+    grid-column-start: 11;
+
+}
+
+.UserInfoBlock img {
+    width: 26px;
+    height: 26px;
+
+}
+
+.UserProfileBlock {
+    width: 60px;
+
+    border-radius: 10px;
+    padding: 4px 9px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.userAvatar {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    background-color: #eaeaea;
+    margin-right: 10px;
+
+}
+
+.arrow {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+
+.switchBox{
+    display: none ;
+}
+
+.swithcDiv {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+
+}
+
+.switchLabel {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #d1d1d1;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.switch switchBox {
+    display: none
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 17px;
+    left: 5px;
+    top: 2px;
+    background-color: #f9e127;
+    transition: 0.4s;
+    border-radius: 50%;
+
+}
+
+.switchBox:checked + .slider {
+    background-color: #3d3d3d;
+
+}
+
+.switchBox:checked + .slider:before {
+    transform: translateX(12px);
+    background-color: #ebeaea;
+}
