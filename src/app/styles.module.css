@@ -10,8 +10,8 @@
 }
 
 .content{
-    grid-column-start: 11;
-    grid-column-end: 26;
+    grid-column-start:10;
+    grid-column-end: 31;
 
     grid-row-start: 1;
     grid-row-end: -1;

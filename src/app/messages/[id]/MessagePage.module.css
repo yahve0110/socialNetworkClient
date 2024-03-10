@@ -1,0 +1,125 @@
+.messagePageContainer{
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(8,1fr);
+
+    gap: 30px;
+
+ }
+
+ .messagePageContainerUp{
+    height: 7%;
+border-bottom: var(--main-border);
+display: flex;
+justify-content: space-between;
+padding: 0 20px;
+align-items: center;
+ }
+
+
+
+
+
+
+ .arrowImg{
+    transform: rotate(90deg);
+    margin-right: 5px;
+    position: relative;
+    top: 3px;
+ }
+
+ .goBackDiv{
+cursor: pointer;
+ }
+
+ .messagePageContainerBottom{
+    min-height: 10%;
+    border: var(--main-border);
+    background-color: var(--main-section-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding: 5px;
+ }
+
+ .messagePageContainerBottom textarea{
+    min-width: 500px;
+    resize: none;
+    border-radius: 5px;
+    border: var(--main-border);
+    background-color: var(--secondary-section-color);
+    padding: 8px;
+    height: auto;
+    max-height: 150px;
+
+    overflow: auto;
+ }
+
+ .messagePageContainerBottom textarea:focus{
+    outline: 0;
+ }
+
+ .messagePageContainerBottom textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.sendMsgIcon{
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.messagePageContainerMiddle{
+    height: 83%;
+    padding: 2rem;
+    padding-left: 3rem;
+ }
+
+
+ /* <--------------MESSAGE--------------------> */
+
+.message{
+    margin-bottom: 20px;
+}
+ .messageLeftPart{
+display: flex;
+
+ }
+ .messageName p{
+    font-size: 13px;
+ }
+
+ .messageLeftPart img{
+    margin-right: 3px;
+    border-radius: 50%;
+ }
+
+ .messageText{
+    display: flex;
+    align-items: flex-end;
+margin-left: 10px;
+margin-bottom: 5px;
+ }
+
+ .messagePageWrapper{
+   height: 100%;
+
+
+   grid-column-start: 1;
+   grid-column-end: 7;
+   background-color: var(--secondary-section-color);
+   border-radius: 10px;
+   border: var(--main-border);
+
+
+   overflow: hidden;
+
+   display: flex;
+   flex-direction: column;
+ }
+
+ .goBackDiv a{
+   text-decoration: none;
+   color: var(--main-text-color);
+ }

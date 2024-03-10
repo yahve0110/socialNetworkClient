@@ -1,6 +1,6 @@
 .Header {
     height: 50px;
-    background-color: var(--main-section-color);
+    background-color: var(--secondary-section-color);
     margin-bottom: 2rem;
     display: flex;
     justify-content: center;
@@ -19,7 +19,7 @@
     display: grid;
     max-width: 1200px;
     width: 100%;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(14, 1fr);
     align-items: center;
     justify-content: center; /* Center horizontally */
     position: relative;
@@ -27,8 +27,6 @@
 
 /*<----------LOGO BLOCK*<---------->/*/
 .logo {
-
-
     margin-right: 10px;
 }
 
@@ -42,47 +40,15 @@
 
 }
 
-/*<----------INPUT BLOCK*<---------->/*/
-.HeaderInputDiv {
-    grid-column-start: 3;
-    grid-column-end: 9;
-    position: relative;
-
-}
-
-.HeaderInputDiv input {
-    width: 94%;
-    border: transparent;
-    background-color: #48a2b0;
-    height: 35px;
-    border-radius: 10px;
-    padding: 5px 40px;
-    font-size: 15px;
-    color: #eaeaea;
-
-
-}
-
-.HeaderInputDiv input:focus {
-    outline: none;
-}
-
-.searchIcon {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 13px;
-    left: 8px;
-}
 
 
 /*<----------USER BLOCK*<---------->/*/
 .UserInfoBlock {
     display: flex;
     align-items: center;
-    width: 130px;
+    width: 100px;
     justify-content: space-between;
-    grid-column-start: 11;
+    grid-column-start: 12;
 
 }
 
@@ -126,7 +92,7 @@
 .swithcDiv {
     position: absolute;
     top: 10px;
-    right: 30px;
+    right: 0px;
 
 }
 

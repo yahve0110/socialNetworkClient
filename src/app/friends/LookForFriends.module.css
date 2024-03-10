@@ -1,0 +1,81 @@
+
+
+.lookFriendsContainer{
+    height: 100%;
+
+    grid-column-start: 1;
+    grid-column-end: 7;
+    background-color: var(--secondary-section-color);
+    border-radius: 10px;
+
+
+    padding-top:50px;
+    padding:  40px;
+    overflow: hidden;
+
+}
+
+.divider{
+    width: 100%;
+    background-color: rgb(194, 194, 194);
+    height: 1px;
+    border-radius: 5px;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.recommededFriendsDiv{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    height: 100%;
+    overflow: auto;
+    padding-bottom: 20%;
+}
+
+.recommededFriendsDiv::-webkit-scrollbar {
+    display: none;
+}
+
+
+.rFriendCard{
+/* background-color: var(--main-section-color); */
+border: var(--main-border);
+border-radius: 10px;
+padding: 5px;
+
+width: 200px;
+height: 200px;
+}
+.rFriendCard img{
+    margin-bottom: 25px;
+}
+
+.followDiv{
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.followDiv button{
+    margin-top: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: transparent ;
+
+    background-color: var(--main-section-color);
+    color: var(--main-text-color);
+    border-radius: 3px;
+
+    letter-spacing: 0.7px;
+    width: 50px;
+    padding: 3px;
+    display: flex;
+    justify-content: space-around;
+    height: 20px;
+}
+
+.followDiv button:hover{
+    background-color: var(--bright-blue-color);
+}

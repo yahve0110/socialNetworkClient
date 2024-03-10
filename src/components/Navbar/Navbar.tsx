@@ -14,7 +14,6 @@ export default function Navbar() {
     { name: "Messages", href: "/messages" },
     { name: "Groups", href: "/groups" },
     { name: "News", href: "/news" },
-    { name: "Settings", href: "/settings" },
   ]
 
   return (
@@ -25,7 +24,9 @@ export default function Navbar() {
             <li>
               <Link
                 href={route.href}
-                className={pathname === route.href ? styles.active : styles.link}
+                className={
+                  pathname === route.href ? styles.active : styles.link
+                }
               >
                 {route.name}
               </Link>

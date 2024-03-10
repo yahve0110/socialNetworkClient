@@ -1,0 +1,30 @@
+
+.newsContainer {
+    border-radius: 10px;
+
+
+    display: grid;
+    grid-template-columns: repeat(8,1fr);
+
+
+    gap: 30px;
+    overflow: hidden;
+
+}
+
+
+.newsPostsContainer{
+    grid-column-start: 1;
+    grid-column-end: 7;
+
+
+    overflow: auto;
+
+
+
+}
+
+.newsPostsContainer::-webkit-scrollbar {
+    width: 0;
+}
+

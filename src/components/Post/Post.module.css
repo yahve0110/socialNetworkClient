@@ -1,0 +1,109 @@
+
+
+.post{
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: var(--secondary-section-color);
+    margin-bottom: 20px;
+    border:var(--main-border);
+    font-size: 15px;
+}
+
+.postImg{
+    border-radius: 10px;
+    width:100%;
+    height: auto;
+    object-fit: contain;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.divider{
+    width: 100%;
+    background-color: rgb(194, 194, 194);
+    height: 1px;
+    border-radius: 5px;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.postAuthor{
+    display: flex;
+}
+
+.postAuthor img{
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.commentUnder{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.commentUnder div {
+display: flex;
+align-items: center;
+
+}
+
+.commentUnder div img {
+   margin-left: 10px;
+   cursor: pointer;
+    }
+
+    /* <----------------ADD POST COMMENT-----------------> */
+
+    .createComment{
+        margin-top: 28px;
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 2px;
+        margin-top: 25px;
+
+        padding: 10px;
+
+
+    }
+    .createComment textarea{
+        width: 80%;
+        resize: none;
+        border-radius: 10px;
+        border: transparent;
+        padding: 7px;
+        background: transparent;
+    }
+
+    .createComment textarea.createPostContainerTextarea:focus,.createComment textarea:focus{
+        outline: none;
+    }
+
+    .commentBtn {
+        width: 80px;
+        height: 22px;
+        border-radius: 5px;
+        margin-top: 20px;
+        border: transparent;
+        background-color:var(--main-section-color) ;
+        color: var(--main-text-color);
+        font-size: 14px;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+.commentPostBtnContainer{
+    display: flex;
+justify-content: flex-end;
+margin-bottom: 5px;
+
+}
+
+.commentsContainer{
+    margin-top: 10px;
+    padding-left: 70px;
+}

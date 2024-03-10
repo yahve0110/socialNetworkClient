@@ -1,0 +1,73 @@
+/* <------------USER INFO ---------------> */
+
+.profileInfo{
+      background-color: var(--secondary-section-color);
+      border-radius: 10px;
+
+
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      padding:5px 80px 5px 40px;
+      border:var(--main-border);
+
+}
+
+.conditional{
+    opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+}
+
+.conditionalShow{
+
+    opacity: 1;
+    max-height: 500px;
+}
+
+.profileInfo h2{
+    margin-top: 30px;
+    margin-bottom:20px ;
+    margin-left: 36px;
+}
+
+.moreInfo{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+
+
+}
+
+.moreInfo p{
+
+    margin-right: 10px;
+    color: rgb(62, 165, 171);
+}
+
+.nickname{
+    margin-top: 10px;
+
+}
+
+.birthday{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+.moreInfoBlock p{
+    margin-bottom: 10px;
+
+}
+
+.about{
+  max-width: 400px;
+}

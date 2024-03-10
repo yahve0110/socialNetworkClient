@@ -3,11 +3,10 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import styles from "./styles.module.css"
-import Navbar from "@/app/Navbar/Navbar"
-import { Header } from "@/app/Header/Header"
-import Info from "@/app/Info/Info"
+import Navbar from "@/components/Navbar/Navbar"
+import { Header } from "@/components/Header/Header"
+
 import Providers from "./providers"
-import ThemeSwitch from "@/components/ThemeSwitcher"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -26,8 +25,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
             <Navbar />
 
             <div className={styles.content}>{children}</div>
-
-            <Info />
           </section>
         </Providers>
       </body>

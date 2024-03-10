@@ -1,2 +1,73 @@
 
 
+
+.profile {
+
+    color: var(--main-text-color);
+    min-height: 20rem;
+    box-shadow: none;
+    overflow: hidden;
+    border-radius: 15px;
+    padding: 2px;
+}
+
+.profileContentContainer{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(6,1fr);
+    grid-template-rows: repeat(20,50px);
+
+    margin-top: 10px;
+
+    height: 100%;
+}
+
+.postsContainer{
+    grid-column-start: 1;
+    grid-column-end: 5;
+    /* background-color: var(--main-section-color); */
+    border-radius: 4px;
+    overflow: auto;
+    padding-bottom: 87%;
+    grid-row-start: 1;
+    grid-row-end: -1;
+
+
+}
+
+.postsContainer::-webkit-scrollbar {
+    width: 0;
+}
+
+
+
+
+/* <------------Followers Block ---------------> */
+
+.followersBLock{
+
+height: 250px;
+
+background-color: var(--secondary-section-color);
+border-radius: 10px;
+padding:2px;
+margin-bottom: 1rem;
+padding:12px;
+border:var(--main-border);
+
+}
+/* <------------Groups Block ---------------> */
+.groupsBlock{
+
+    height: 350px;
+
+    background-color: var(--secondary-section-color);
+    border-radius: 10px;
+    padding:12px;
+    border:var(--main-border);
+    }
+
+    .additionalContainer{
+        grid-column-start: 5;
+        grid-column-end: -1;
+    }

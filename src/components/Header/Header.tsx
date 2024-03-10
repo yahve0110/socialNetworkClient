@@ -26,8 +26,6 @@ export const Header: React.FC = () => {
             alt="notification"
           />
 
-          <ThemeSwitch />
-
           <div className={styles.UserProfileBlock}>
             <Image
               className={styles.userAvatar}
@@ -43,6 +41,7 @@ export const Header: React.FC = () => {
               width={10}
               height={10}
             />
+            <ThemeSwitch />
           </div>
         </div>
       </div>
