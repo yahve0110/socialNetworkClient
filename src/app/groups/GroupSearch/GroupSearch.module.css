@@ -1,0 +1,54 @@
+
+
+.groupBlock{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+   border-bottom: var(--main-border);
+   padding: 5px;
+   margin-bottom: 20px;
+   border-radius: 5px;
+}
+
+
+.groupBlock:hover{
+    background-color: var(--main-section-color);
+    cursor: pointer;
+}
+
+.groupBlockLeft{
+    display: flex;
+}
+
+.groupBlockLeft img{
+    margin-right: 15px;
+}
+
+.groupBlockLeft div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.subscribers{
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.subscribeBtn{
+    margin-right: 30px;
+    height: 25px;
+    border: transparent ;
+    padding: 2px;
+    font-size: 13px;
+    background-color: var(--main-details-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    width: 90px;
+}
+
+.subscribeBtn:hover{
+    background-color: var(--bright-blue-color);
+color: white;
+}

@@ -2,13 +2,16 @@
 
 
 .profile {
-
     color: var(--main-text-color);
     min-height: 20rem;
     box-shadow: none;
-    overflow: hidden;
+
     border-radius: 15px;
     padding: 2px;
+    margin: 0;
+    max-height:calc(100vh - 250px);
+
+
 }
 
 .profileContentContainer{
@@ -20,6 +23,7 @@
     margin-top: 10px;
 
     height: 100%;
+    overflow: hidden;
 }
 
 .postsContainer{
@@ -31,6 +35,7 @@
     padding-bottom: 87%;
     grid-row-start: 1;
     grid-row-end: -1;
+
 
 
 }

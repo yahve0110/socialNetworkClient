@@ -4,19 +4,20 @@ import styles from "./ProfileInfo.module.css"
 import Image from "next/image"
 
 export default function ProfileInfo() {
+  const imgSrc =
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-0trKrA03N9_grGBCj0Y6YGghus45asrtDGtzg6WmilN37IYaYUjbTwG0vTCSzX1aZtQ&usqp=CAU"
   const [showAbout, setShowAbout] = useState(false)
   return (
     <div className={styles.profileInfo}>
       <div>
         <Image
           className={styles.avatarImg}
-          src="/assets/imgs/avatar.png"
+          src={imgSrc}
           alt="avatar"
-          width={120}
-          height={120}
+          width={160}
+          height={160}
         />
-
-        <div>
+        <div className={styles.nameDiv}>
           {
             <p
               className={`${styles.about} ${styles.conditional} ${
@@ -33,8 +34,7 @@ export default function ProfileInfo() {
       </div>
       <div>
         <div>
-          <h2>Ilya Skorokhodov</h2>
-          <hr />
+          <h2 className={styles.name}>Ilya Skorokhodov</h2>
         </div>
 
         <div
@@ -65,6 +65,7 @@ export default function ProfileInfo() {
           ></Image>{" "}
         </div>
       </div>
+      {!showAbout && <div className={styles.additionalElem}></div>}
     </div>
   )
 }

@@ -30,7 +30,7 @@ export default function Friends() {
           Look for friends
         </div>
       </div>
-   
+
     </div>
   )
 }

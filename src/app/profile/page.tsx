@@ -9,13 +9,11 @@ export default function Profile() {
   return (
     <div className={`sectionComponent ${styles.profile}`}>
       <ProfileInfo />
-
       <div className={styles.profileContentContainer}>
         <div className={styles.additionalContainer}>
           <FollowersBlock />
           <GroupsBlock />
         </div>
-
         <div className={styles.postsContainer}>
         <CreatePost />
           <Post />

@@ -1,0 +1,9 @@
+.cratePostContainer{
+    grid-row-start: 1;
+    grid-row-end: -1;
+    background-color: var(--secondary-section-color);
+    height: 50px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: var(--main-border);
+}
