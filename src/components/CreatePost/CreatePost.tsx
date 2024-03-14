@@ -1,27 +1,19 @@
 "use client"
-import { useState } from "react"
-import styles from "./CreatePost.module.css"
-import Image from "next/image"
-import { FC } from "react" // Import FC (Functional Component) type
 
-export default function CreatePost() {
-  const [formActive, setFormActive] = useState(false)
-  return (
-    <>
-      {formActive ? (
-        <InputFormActive />
-      ) : (
-        <InputFormInactive setFormActive={setFormActive} />
-      )}
-    </>
-  )
-}
+import { useState } from "react";
+import styles from "./CreatePost.module.css";
+import Image from "next/image";
+import { FC } from "react"; // Import FC (Functional Component) type
 
 interface PostFormInactiveProps {
-  setFormActive:React.Dispatch<React.SetStateAction<boolean>>
+  setFormActive: React.Dispatch<React.SetStateAction<boolean>>;
+  placeholder: string;
 }
 
-export const InputFormInactive: FC<PostFormInactiveProps> = ({ setFormActive }) => {
+export const InputFormInactive: FC<PostFormInactiveProps> = ({
+  setFormActive,
+  placeholder,
+}) => {
   return (
     <div className={styles.createPostContainer}>
       <Image
@@ -33,7 +25,7 @@ export const InputFormInactive: FC<PostFormInactiveProps> = ({ setFormActive }) 
       />
       <textarea
         className={styles.createPostContainerTextarea}
-        placeholder="what's new?"
+        placeholder={placeholder || "what's new?"}
         onFocus={() => setFormActive(true)}
       ></textarea>
       <Image
@@ -44,7 +36,21 @@ export const InputFormInactive: FC<PostFormInactiveProps> = ({ setFormActive }) 
         height={15}
       />
     </div>
-  )
+  );
+}
+
+export default function CreatePost({ placeholder }: { placeholder: string }) {
+  const [formActive, setFormActive] = useState(false);
+
+  return (
+    <>
+      {formActive ? (
+        <InputFormActive />
+      ) : (
+        <InputFormInactive setFormActive={setFormActive} placeholder={placeholder} />
+      )}
+    </>
+  );
 }
 
 function InputFormActive() {
@@ -58,7 +64,6 @@ function InputFormActive() {
           width={30}
           height={30}
         />
-
         <Image
           className={styles.avatarImg}
           src="/assets/icons/addImage.svg"
@@ -76,5 +81,5 @@ function InputFormActive() {
         <button className={styles.postBtn}>Post</button>
       </div>
     </div>
-  )
+  );
 }

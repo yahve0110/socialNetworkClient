@@ -1,0 +1,70 @@
+.crateEventContainer{
+    grid-row-start: 1;
+    grid-row-end: -1;
+    background-color: var(--secondary-section-color);
+
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: var(--main-border);
+    padding: 10px 30px;
+
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.leftPart{
+    display: flex;
+    flex-direction: column;
+}
+.leftPart input{
+margin-bottom: 3px;
+border: transparent ;
+border: var(--main-border);
+background-color: transparent;
+height: 30px;
+border-radius: 10px;
+padding: 5px;
+}
+
+.rightPart textarea{
+    resize: none;
+    border-radius: 10px;
+    border: transparent;
+    padding: 7px;
+    background: transparent;
+    border: var(--main-border);
+    height: 80px;
+    width: 100%;
+    margin-bottom: 10px;
+
+}
+
+
+.rightPart textarea:focus, .leftPart input:focus{
+    outline: none;
+}
+
+.rightPart{
+    width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.rightPart button{
+    border: transparent;
+    min-width: 80px;
+    padding: 5px;
+    letter-spacing: 0.8px;
+    border-radius: 10px;
+
+    background-color: var(--main-details-color);
+    cursor: pointer;
+}
+
+.rightPart button:hover{
+    background-color: var(--bright-blue-color);
+}

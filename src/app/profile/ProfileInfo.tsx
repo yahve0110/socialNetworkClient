@@ -65,7 +65,17 @@ export default function ProfileInfo() {
           ></Image>{" "}
         </div>
       </div>
-      {!showAbout && <div className={styles.additionalElem}></div>}
+      {!showAbout && (
+        <div className={styles.additionalElem}>
+          <Image
+        className={styles.additionalElemImg}
+            src="https://t4.ftcdn.net/jpg/05/71/83/47/360_F_571834789_ujYbUnH190iUokdDhZq7GXeTBRgqYVwa.jpg"
+            alt="avatar"
+            width={1000}
+            height={1000}
+          />
+        </div>
+      )}
     </div>
   )
 }

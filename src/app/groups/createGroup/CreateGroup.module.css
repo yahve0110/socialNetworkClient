@@ -1,0 +1,58 @@
+.creatGroupWrapper{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.titleInput{
+    max-width: 200px;
+    height: 30px;
+    margin-bottom: 30px;
+    border: var(--main-border);
+    background: transparent;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+
+.groupAbout{
+    resize: none;
+    margin-bottom: 30px;
+    border: var(--main-border);
+    background: transparent;
+    border-radius: 5px;
+    height: 100px;
+    padding: 10px;
+}
+
+.titleInput,.groupAbout:focus{
+    outline: none;
+}
+
+.addImageDiv{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.buttonDiv{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buttonDiv button{
+    width: 80px;
+    margin-bottom: 5px;
+    border: transparent;
+    background: transparent;
+    background: var(--main-details-color);
+    padding: 3px;
+    font-size: 15px;
+
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.buttonDiv button:hover{
+    background: var(--bright-blue-color);
+}

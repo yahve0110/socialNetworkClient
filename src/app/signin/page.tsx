@@ -1,3 +1,7 @@
+import { SignInUi } from "./SignInUi";
+
 export default function page() {
-  return <p>login</p>
+  return (
+    <SignInUi/>
+  )
 }

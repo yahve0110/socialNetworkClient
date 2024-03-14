@@ -2,11 +2,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import styles from "./styles.module.css"
-import Navbar from "@/components/Navbar/Navbar"
-import { Header } from "@/components/Header/Header"
-
-import Providers from "./providers"
+import ApplicattionWrapper from "@/components/ApplicationWrapper/ApplicattionWrapper"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -19,14 +15,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          <Header />
-          <section className={styles.container}>
-            <Navbar />
-
-            <div className={styles.content}>{children}</div>
-          </section>
-        </Providers>
+        <ApplicattionWrapper>{children}</ApplicattionWrapper>
       </body>
     </html>
   )
