@@ -11,7 +11,7 @@ const FriendCart: React.FC<FriendCartProps> = ({ avatar, name }) => {
   return (
     <div className={styles.cartDiv}>
       <div className={styles.imageDiv}>
-        <img src={avatar} alt="Avatar" width={60} height={60} />
+        <Image src={"https://www.w3schools.com/howto/img_avatar.png"} alt="Avatar" width={60} height={60} />
         <p>{name}</p>
       </div>
       <div className={styles.buttonContainer}>

@@ -14,8 +14,8 @@ export default function ProfileInfo() {
           className={styles.avatarImg}
           src={imgSrc}
           alt="avatar"
-          width={160}
-          height={160}
+          width={120}
+          height={120}
         />
         <div className={styles.nameDiv}>
           {

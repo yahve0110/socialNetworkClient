@@ -8,6 +8,7 @@ import Providers from "@/app/providers"
 import { usePathname } from "next/navigation"
 import { SignInUi } from "@/app/signin/SignInUi"
 import { SignUpUi } from "@/app/signup/SignUpUi"
+import Image from "next/image"
 
 export default function ApplicattionWrapper({
   children,
@@ -16,11 +17,11 @@ export default function ApplicattionWrapper({
 }) {
   const pathname = usePathname()
 
-  if (pathname === "/signin"){
-    return <SignInUi/>
+  if (pathname === "/signin") {
+    return <SignInUi />
   }
-  if (pathname === "/signup"){
-    return <SignUpUi/>
+  if (pathname === "/signup") {
+    return <SignUpUi />
   }
 
   return (
@@ -29,7 +30,17 @@ export default function ApplicattionWrapper({
         <Header />
         <section className={styles.container}>
           <Navbar />
-          <div className={styles.content}>{children}</div>
+
+          <div className={styles.content}>
+            {" "}
+            <Image
+            className={styles.polygonImg}
+              src="/assets/imgs/back.svg"
+              alt="back"
+              fill={true}
+            />
+            {children}
+          </div>
         </section>
       </Providers>
     </div>

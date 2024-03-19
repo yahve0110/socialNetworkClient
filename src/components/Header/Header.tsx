@@ -1,8 +1,16 @@
 import ThemeSwitch from "@/components/ThemeSwitcher"
 import styles from "./Header.module.css"
 import Image from "next/image"
+import { logoutHandler } from "@/actions/logout"
+import { useState } from "react"
 
 export const Header: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false)
+
+  function logUserOut() {
+    logoutHandler()
+  }
+
   return (
     <div className={styles.Header}>
       <div className={styles.HeaderContainer}>
@@ -26,7 +34,10 @@ export const Header: React.FC = () => {
             alt="notification"
           />
 
-          <div className={styles.UserProfileBlock}>
+          <div
+            className={styles.UserProfileBlock}
+            onClick={() => setModalOpen(!modalOpen)}
+          >
             <Image
               className={styles.userAvatar}
               src="/assets/imgs/avatar.png"
@@ -34,8 +45,24 @@ export const Header: React.FC = () => {
               width={50}
               height={50}
             />
+
+            {modalOpen && (
+              <div className={styles.modal}>
+                <button className={styles.logoutBtn} >
+                  My profile
+                </button>
+
+                <button className={styles.logoutBtn} onClick={logUserOut}>
+                  logout
+                </button>
+              </div>
+            )}
             <Image
-              className={styles.arrow}
+              className={
+                modalOpen
+                  ? `${styles.arrow} ${styles.arrowReverse}`
+                  : styles.arrow
+              }
               src="/assets/imgs/arrow.png"
               alt="arrow"
               width={10}

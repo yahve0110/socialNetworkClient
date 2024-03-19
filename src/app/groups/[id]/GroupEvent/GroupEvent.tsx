@@ -15,19 +15,18 @@ export default function GroupEvent() {
         setVotingData((prevData) => ({
           ...prevData,
           goingNr: prevData.goingNr + 1,
-        }));
+        }))
       } else {
         setVotingData((prevData) => ({
           ...prevData,
           notGoingNr: prevData.notGoingNr + 1,
-        }));
+        }))
       }
-      setUserVoted(true);
+      setUserVoted(true)
     } else {
-      alert("Please select an option before voting.");
+      alert("Please select an option before voting.")
     }
   }
-
 
   useEffect(() => {
     // Calculate the total votes
@@ -70,21 +69,34 @@ export default function GroupEvent() {
       </p>
 
       <Image
-      className={styles.eventImg}
-      src="https://media.istockphoto.com/id/1391884768/vector/alternative-band-musicians-concert-with-crowd-silhouettes.jpg?s=612x612&w=0&k=20&c=vzy4deVEqBKVAGXuo5H_Bl2h9khJTq_dO2vNl_uFGCQ="
-      alt="rock"
-      width={300}
-      height={300}
+        className={styles.eventImg}
+        src="https://media.istockphoto.com/id/1391884768/vector/alternative-band-musicians-concert-with-crowd-silhouettes.jpg?s=612x612&w=0&k=20&c=vzy4deVEqBKVAGXuo5H_Bl2h9khJTq_dO2vNl_uFGCQ="
+        alt="rock"
+        width={300}
+        height={300}
       />
+      <h3 className={styles.question}>Will you go?</h3>
 
       {!userVoted && (
         <div>
           <div className={styles.votingBlock}>
             <button onClick={() => checkVote("going")} value="going">
-              Going
+             Yes
+              <Image
+                src="/assets/icons/ok.svg"
+                alt="rock"
+                width={16}
+                height={16}
+              />
             </button>
             <button onClick={() => checkVote("notGoing")} value="notGoing">
-              Not going
+              No
+              <Image
+                src="/assets/icons/notok.svg"
+                alt="rock"
+                width={16}
+                height={16}
+              />
             </button>
           </div>
         </div>
@@ -94,7 +106,7 @@ export default function GroupEvent() {
         <div>
           <div className={styles.goingProgress}>
             <div className={styles.goingUsersNr}>
-              accepted: {votingData.goingNr}
+              Accepted: {votingData.goingNr}
             </div>
             <div
               className={styles.goingProgressFill}
@@ -104,7 +116,7 @@ export default function GroupEvent() {
           </div>
           <div className={styles.notGoingProgress}>
             <div className={styles.notGoingUsersNr}>
-              refused: {votingData.notGoingNr}
+              Refused: {votingData.notGoingNr}
             </div>
             <div
               className={styles.notGoingProgressFill}

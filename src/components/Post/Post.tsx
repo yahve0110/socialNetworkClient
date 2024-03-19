@@ -29,10 +29,11 @@ export default function Post() {
       </p>
       <Image
         className={styles.postImg}
-        src="/assets/imgs/cars_trip.jpg"
+        src="/assets/imgs/comtest.png"
         alt="postImg"
         width={500}
         height={200}
+
       />
 
       <div className={styles.commentUnder}>

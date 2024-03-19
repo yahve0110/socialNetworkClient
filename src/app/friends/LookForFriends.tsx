@@ -11,7 +11,7 @@ export default function LookForFriends() {
       </div>
       <div className={styles.recommededFriendsDiv}>
         {data.map((data) => {
-          return <RecomendedFriendCart avatar={data.avatar} name={data.name} />
+          return <RecomendedFriendCart key={data.id} avatar={data.avatar} name={data.name} />
         })}
       </div>
     </div>

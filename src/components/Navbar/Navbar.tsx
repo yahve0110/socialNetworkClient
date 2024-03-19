@@ -28,6 +28,7 @@ export default function Navbar() {
                   pathname === route.href ? styles.active : styles.link
                 }
               >
+
                 {route.name}
               </Link>
             </li>

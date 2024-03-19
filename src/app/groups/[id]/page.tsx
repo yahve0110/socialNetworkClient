@@ -10,21 +10,21 @@ import Post from "@/components/Post/Post"
 import GroupAbout from "./GroupAbout/GroupAbout"
 import CreateGroupPost from "./CreateGroupEvent/CreateGroupEvent"
 import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
-import { useState } from "react"
+// import { useState } from "react"
 import CreateGroupEvent from "./CreateGroupEvent/CreateGroupEvent"
 import GroupEvent from "./GroupEvent/GroupEvent"
 
 export default function page() {
-  const [showCreatePost, setShowCreatePost] = useState(false)
-  const [showCreateEvent, setShowCreateEvent] = useState(false)
+  // const [showCreatePost, setShowCreatePost] = useState(false)
+  // const [showCreateEvent, setShowCreateEvent] = useState(false)
   return (
     <div className={styles.container}>
       <GroupAbout />
-      <div className={styles.uppperInfo}>
+      {/* <div className={styles.uppperInfo}>
         {" "}
         {showCreatePost && <CreatePost placeholder={"Suggest news"} />}
         {showCreateEvent && <CreateGroupEvent />}
-      </div>
+      </div> */}
       <Container>
         <GroupEvent/>
         <Post />
@@ -40,12 +40,12 @@ export default function page() {
         <Post />
       </Container>
       <div className={styles.sidebar}>
-        <ButtonsBlock
+        {/* <ButtonsBlock
           setShowCreatePost={setShowCreatePost}
           showCreatePost={showCreatePost}
           showCreateEvent={showCreateEvent}
           setShowCreateEvent = {setShowCreateEvent}
-        />
+        /> */}
         <Events />
         <GroupMembers />
         <GroupContacts />

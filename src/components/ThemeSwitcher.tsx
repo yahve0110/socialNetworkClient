@@ -29,7 +29,9 @@ const ThemeSwitch = () => {
 
   return (
     <>
+    {theme === "light" ?   <div className={styles.sunMoonDiv}></div> : <div className={styles.moonDiv}></div>}
       <div className={styles.swithcDiv}>
+
         <label className={styles.switchLabel}>
           <input
             type="checkbox"

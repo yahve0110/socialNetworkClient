@@ -67,3 +67,8 @@
 .loginBtn:hover {
     background-color: #41d5f5;
 }
+
+.invalidCredentialsError{
+    font-size: 14px;
+    color: #de2316;
+}

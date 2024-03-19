@@ -75,7 +75,7 @@
     width: 70px;
     height: 70px;
     background-color: #eaeaea;
-    margin-right: 10px;
+    margin-right: 15px;
 
 }
 
@@ -83,6 +83,9 @@
     width: 16px !important;
     height: 16px !important;
 }
+
+.arrowReverse{
+    transform: rotateX(180deg);}
 
 
 .switchBox{
@@ -142,4 +145,38 @@
 .switchBox:checked + .slider:before {
     transform: translateX(12px);
     background-color: #ebeaea;
+}
+
+
+.modal{
+    width: 140px;
+    height: 90px;
+    background-color: var(--main-section-color);
+    border-radius: 10px;
+    position: absolute;
+    top:53px;
+    right:  145px;
+    z-index: 999;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+
+.logoutBtn{
+    width: 100%;
+    height: 20px;
+    border: transparent;
+    background-color: var(--main-details-color);
+    margin-top: 10px;
+    cursor: pointer;
+
+    transition: all 0.3s ease-in;
+
+}
+
+.logoutBtn:hover{
+    transform: scale(1.05);
+    background-color: var(--bright-blue-color);
 }

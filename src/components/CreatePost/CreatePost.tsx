@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react";
-import styles from "./CreatePost.module.css";
-import Image from "next/image";
-import { FC } from "react"; // Import FC (Functional Component) type
+import { useState } from "react"
+import styles from "./CreatePost.module.css"
+import Image from "next/image"
+import { FC } from "react" // Import FC (Functional Component) type
 
 interface PostFormInactiveProps {
-  setFormActive: React.Dispatch<React.SetStateAction<boolean>>;
-  placeholder: string;
+  setFormActive: React.Dispatch<React.SetStateAction<boolean>>
+  placeholder?: string
 }
 
 export const InputFormInactive: FC<PostFormInactiveProps> = ({
@@ -15,19 +15,20 @@ export const InputFormInactive: FC<PostFormInactiveProps> = ({
   placeholder,
 }) => {
   return (
-    <div className={styles.createPostContainer}>
-      <Image
-        className={styles.avatarImg}
-        src="/assets/imgs/avatar.png"
-        alt="avatar"
-        width={20}
-        height={20}
-      />
-      <textarea
-        className={styles.createPostContainerTextarea}
-        placeholder={placeholder || "what's new?"}
-        onFocus={() => setFormActive(true)}
-      ></textarea>
+    <div
+      className={styles.createPostContainer}
+      onClick={() => setFormActive(true)}
+    >
+      <div className={styles.leftPart}>
+        <Image
+          className={styles.avatarImg}
+          src="/assets/imgs/search.png"
+          alt="avatar"
+          width={20}
+          height={20}
+        />
+        <p>Add post</p>
+      </div>
       <Image
         className={styles.avatarImg}
         src="/assets/icons/addImage.svg"
@@ -36,21 +37,24 @@ export const InputFormInactive: FC<PostFormInactiveProps> = ({
         height={15}
       />
     </div>
-  );
+  )
 }
 
 export default function CreatePost({ placeholder }: { placeholder: string }) {
-  const [formActive, setFormActive] = useState(false);
+  const [formActive, setFormActive] = useState(false)
 
   return (
     <>
       {formActive ? (
         <InputFormActive />
       ) : (
-        <InputFormInactive setFormActive={setFormActive} placeholder={placeholder} />
+        <InputFormInactive
+          setFormActive={setFormActive}
+          placeholder={placeholder}
+        />
       )}
     </>
-  );
+  )
 }
 
 function InputFormActive() {
@@ -81,5 +85,5 @@ function InputFormActive() {
         <button className={styles.postBtn}>Post</button>
       </div>
     </div>
-  );
+  )
 }

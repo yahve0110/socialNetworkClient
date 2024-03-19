@@ -74,7 +74,7 @@ export default function FriendsPageContent() {
 
         <div className={styles.friendsBlockContainer}>
           {data.map((data) => {
-            return <FriendCart avatar={data.avatar} name={data.name} />
+            return <FriendCart key ={data.id} avatar={data.avatar} name={data.name} />
           })}
         </div>
       </div>

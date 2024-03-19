@@ -12,6 +12,7 @@
     max-height:calc(100vh - 250px);
 
 
+
 }
 
 .profileContentContainer{
@@ -22,20 +23,20 @@
 
     margin-top: 10px;
 
-    height: 100%;
-    overflow: hidden;
+    height: 92%;
+    overflow: hidden ;
 }
 
 .postsContainer{
     grid-column-start: 1;
     grid-column-end: 5;
-    /* background-color: var(--main-section-color); */
+    padding: 5px;
+    border-radius: 10px;
     border-radius: 4px;
     overflow: auto;
-    padding-bottom: 87%;
+    padding-bottom: 92%;
     grid-row-start: 1;
     grid-row-end: -1;
-
 
 
 }
@@ -46,19 +47,17 @@
 
 
 
-
 /* <------------Followers Block ---------------> */
 
 .followersBLock{
 
 height: 250px;
-
+box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 background-color: var(--secondary-section-color);
 border-radius: 10px;
 padding:2px;
 margin-bottom: 1rem;
 padding:12px;
-border:var(--main-border);
 
 }
 /* <------------Groups Block ---------------> */
@@ -69,10 +68,8 @@ border:var(--main-border);
     background-color: var(--secondary-section-color);
     border-radius: 10px;
     padding:12px;
-    border:var(--main-border);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 
-    }
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; }
 
     .additionalContainer{
         grid-column-start: 5;
