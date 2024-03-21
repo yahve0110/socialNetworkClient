@@ -1,9 +1,11 @@
 "use client"
-import { signIn } from "@/actions/authentication"
+
 import styles from "./SignIn.module.css"
 import { useState } from "react"
 
 import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { signIn } from "@/actions/auth/login"
 
 export const SignInUi = () => {
   const [username, setUsername] = useState("")
@@ -14,8 +16,8 @@ export const SignInUi = () => {
   const router = useRouter()
   const sendData = async () => {
     // Вызываем signIn и передаем ему данные о пользователе
-    setUnauthorized(false);
-    setServerError(false);
+    setUnauthorized(false)
+    setServerError(false)
 
     const response = await signIn(username, password)
     console.log(response)
@@ -51,12 +53,22 @@ export const SignInUi = () => {
             Invalid Credentials
           </div>
         )}
-        {serverError && <div  className={styles.invalidCredentialsError}>Server error try again later</div>}
+        {serverError && (
+          <div className={styles.invalidCredentialsError}>
+            Server error try again later
+          </div>
+        )}
+
 
         <button className={styles.loginBtn} onClick={sendData}>
           Log In
         </button>
+        <div className={styles.linkDiv}>
+      <p>No account ?</p>
+    <Link href={"/signup"}>Sign up</Link>
+    </div>
       </div>
+
     </div>
   )
 }

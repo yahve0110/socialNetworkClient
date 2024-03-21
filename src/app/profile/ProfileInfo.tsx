@@ -32,7 +32,7 @@ export default function ProfileInfo() {
           }
         </div>
       </div>
-      <div>
+      <div className={styles.infoDetails}>
         <div>
           <h2 className={styles.name}>Ilya Skorokhodov</h2>
         </div>

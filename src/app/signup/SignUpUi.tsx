@@ -1,50 +1,94 @@
 "use client"
 
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import styles from "./SignUp.module.css";
-import avatar from "../../assets/imgs/avatar.png";
-import Image from "next/image";
+import React, { useState, ChangeEvent, FormEvent } from "react"
+import styles from "./SignUp.module.css"
+import Image from "next/image"
+import Link from "next/link"
+import ImageUploader from "./imageUploader"
+import { signUp } from "@/actions/auth/signUp"
+import { useRouter } from "next/navigation"
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  nickname: string;
-  password: string;
-  confirmPassword: string;
-  birthDate: string;
-  gender: string;
-  avatar: string;
-  about: string;
+export interface FormData {
+  first_name: string
+  last_name: string
+  email: string
+  username: string
+  password: string
+  confirmPassword: string
+  birth_date: string
+  gender: string
+  profilePicture: string
+  about: string
 }
 
 export const SignUpUi: React.FC = () => {
+  //state for input forms
   const [formData, setFormData] = useState<FormData>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    nickname: '',
-    password: '',
-    confirmPassword: '',
-    birthDate: '',
-    gender: 'Male', // default value
-    avatar: '',
-    about: ''
-  });
+    first_name: "",
+    last_name: "",
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    birth_date: "",
+    gender: "Male",
+    profilePicture: "",
+    about: "",
+  })
+  const router = useRouter()
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+  //state for error message
+  const [error, setError] = useState("")
+
+  //state for user avatar
+  const [avatar, setAvatar] = useState("")
+
+  //state for password errors
+  const [passwordMatch, setPasswordMatch] = useState(true)
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target
     setFormData({
       ...formData,
-      [name]: value
-    });
-  };
+      [name]: value,
+    })
+  }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData); // вывод данных в консоль
-    // здесь вы можете добавить логику отправки данных на сервер или другие действия
-  };
+  //on form submit
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setPasswordMatch(true)
+    setError("")
+
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordMatch(false)
+      return
+    }
+    formData.profilePicture = avatar
+
+    try {
+      const response = await signUp(formData)
+      console.log(response)
+      if (response !== "success" && response !== undefined) {
+        setError(response)
+      } else if (response === "success" && response !== undefined) {
+        console.log("sucsss")
+
+        router.push("/signin")
+      } else {
+        setError("unknown error")
+      }
+    } catch (error) {
+      console.error("Error signing up:", error)
+    }
+  }
+
+  const deleteImg = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setAvatar("") // Assuming setting avatar to an empty string removes the avatar
+  }
 
   return (
     <div className={styles.signupWrapper}>
@@ -53,41 +97,144 @@ export const SignUpUi: React.FC = () => {
         <div className={styles.underline}></div>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputsContainer}>
-            <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder={"First Name"} />
-            <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder={"Last Name"} />
-            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder={"Email"} />
-            <input type="text" name="nickname" value={formData.nickname} onChange={handleChange} placeholder={"Nickname"} autoComplete="off" />
-            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder={"Password"} autoComplete="off" />
-            <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder={"Confirm Password"} />
+            <input
+              type="text"
+              minLength={3}
+              maxLength={15}
+              required
+              name="first_name"
+              value={formData.first_name}
+              onChange={handleChange}
+              placeholder={"First Name *"}
+            />
+            <input
+              type="text"
+              minLength={3}
+              maxLength={15}
+              required
+              name="last_name"
+              value={formData.last_name}
+              onChange={handleChange}
+              placeholder={"Last Name *"}
+            />
+            <input
+              type="email"
+              minLength={3}
+              maxLength={25}
+              required
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder={"Email *"}
+            />
+            <input
+              type="text"
+              required
+              name="username"
+              minLength={3}
+              maxLength={15}
+              value={formData.username}
+              onChange={handleChange}
+              placeholder={"Nickname *"}
+              autoComplete="off"
+            />
+            <input
+              type="password"
+              required
+              minLength={6}
+              maxLength={25}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder={"Password *"}
+              autoComplete="off"
+            />
+            <input
+              type="password"
+              minLength={6}
+              maxLength={25}
+              required
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder={"Confirm Password *"}
+            />
             <div>
-              <label htmlFor="birthDate">Your birth day</label>
-              <input type="date" name="birthDate" value={formData.birthDate} onChange={handleChange} placeholder={"BirthDate"} />
+              <label htmlFor="birth_date">Your birth day *</label>
+              <input
+                required
+                type="date"
+                name="birth_date"
+                value={formData.birth_date}
+                onChange={handleChange}
+                placeholder={"BirthDate"}
+              />
             </div>
 
             <div className={styles.selectWrapper}>
               <label htmlFor="gender">Your gender</label>
-              <select name="gender" value={formData.gender} onChange={handleChange} className={styles.Select}>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className={styles.Select}
+              >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
               </select>
             </div>
-            <div>
-              <Image
-                src="/assets/imgs/avatar.png"
-                alt="avatar"
-                width={100}
-                height={100}
-              />
+            <div className={styles.imgDiv}>
+              {avatar ? (
+                <Image
+                  src={avatar}
+                  alt="avatar"
+                  width={100}
+                  height={100}
+                  className={styles.selectedImg}
+                />
+              ) : (
+                <Image
+                  className={styles.selectedImg}
+                  src="/assets/imgs/avatar.png"
+                  alt="avatar"
+                  width={130}
+                  height={100}
+                />
+              )}
+              {avatar && (
+                <Image
+                  src={"/assets/icons/delete.svg"}
+                  alt="delete"
+                  width={20}
+                  height={20}
+                  className={styles.removeImgBtn}
+                  onClick={(e) => deleteImg(e)}
+                />
+              )}
             </div>
-            <div>
-              <button className={styles.avatarBtn}>Change avatar</button>
-            </div>
+            <ImageUploader avatar={avatar} setAvatar={setAvatar} />
           </div>
-          <textarea name="about" value={formData.about} onChange={handleChange} placeholder={"Write about you"} className={styles.aboutTextarea} />
-          <button type="submit" className={styles.loginBtn}>Register</button>
+          <textarea
+            name="about"
+            value={formData.about}
+            onChange={handleChange}
+            placeholder={"Write about you"}
+            className={styles.aboutTextarea}
+          />
+          {!passwordMatch && (
+            <div className={styles.passwordErrorDiv}>Passwords don't match</div>
+          )}
+          {error && <div className={styles.errorDiv}>{error}</div>}
+          <button type="submit" className={styles.signUpBtn}>
+            Sign up
+          </button>
+          <div className={styles.linkdiv}>
+            <p>Have account ?</p>
+            <Link href="/signin">Sign in</Link>
+          </div>
         </form>
       </div>
     </div>
-  );
-};
+  )
+}

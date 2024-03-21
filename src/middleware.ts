@@ -1,6 +1,6 @@
 "use client"
 import { NextRequest, NextResponse } from "next/server"
-import { isSessionValid } from "./actions/sessionCheck"
+import { isSessionValid } from "./actions/auth/sessionCheck"
 
 export async function middleware(request: NextRequest) {
   const cookie = request.cookies.get("sessionID")?.value

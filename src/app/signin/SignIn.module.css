@@ -20,13 +20,15 @@
 
     flex-direction: column;
     padding: 5rem;
+    padding-top: 3rem;
+    position: relative;
 
 
 }
 
 .loginForm h2 {
     font-size: 28px;
-    margin-bottom: 20px;
+
 }
 
 .underline {
@@ -34,6 +36,7 @@
     height: 5px;
     width: 120px;
     border-radius: 10px;
+    margin-top: 8px;
     margin-bottom: 4rem;
 }
 
@@ -71,4 +74,15 @@
 .invalidCredentialsError{
     font-size: 14px;
     color: #de2316;
+}
+
+.linkDiv{
+    display: flex;
+    font-size: 13px;
+    position: absolute;
+    bottom: 15px;
+
+}
+.linkDiv p{
+    margin-right: 5px;
 }

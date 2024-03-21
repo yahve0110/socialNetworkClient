@@ -1,8 +1,9 @@
 import ThemeSwitch from "@/components/ThemeSwitcher"
 import styles from "./Header.module.css"
 import Image from "next/image"
-import { logoutHandler } from "@/actions/logout"
+
 import { useState } from "react"
+import { logoutHandler } from "@/actions/auth/logout"
 
 export const Header: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false)
