@@ -1,7 +1,6 @@
 import InputComponent from "@/components/Input/InputComponent"
 import FriendCart from "./FriendCart"
-import styles from "./friends.module.css"
-
+import styles from "../friends.module.css"
 
 export const data = [
   {
@@ -74,7 +73,9 @@ export default function FriendsPageContent() {
 
         <div className={styles.friendsBlockContainer}>
           {data.map((data) => {
-            return <FriendCart key ={data.id} avatar={data.avatar} name={data.name} />
+            return (
+              <FriendCart key={data.id} avatar={data.avatar} name={data.name} />
+            )
           })}
         </div>
       </div>

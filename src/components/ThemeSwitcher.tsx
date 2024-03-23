@@ -7,7 +7,7 @@ import Image from "next/image"
 
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
+  let { theme, setTheme } = useTheme()
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
@@ -17,6 +17,8 @@ const ThemeSwitch = () => {
   if (!mounted) {
     return null
   }
+console.log(theme);
+
 
   const toggleTheme = () => {
     if (theme === "light") {

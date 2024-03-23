@@ -1,11 +1,9 @@
-// Importing necessary dependencies and styles
 "use client"
 
 import { useState } from "react"
-import FriendsPageContent from "./FriendsPageContent"
-import LookForFriends from "./LookForFriends"
+import FriendsPageContent from "./myFriends/FriendsPageContent"
+import LookForFriends from "./lookForFriends/LookForFriends"
 import styles from "./friends.module.css"
-import Info from "@/components/Info/Info"
 
 // Define the Friends component
 export default function Friends() {
@@ -13,6 +11,7 @@ export default function Friends() {
 
   return (
     <div className={styles.friendsContainer}>
+
       {showMyFriends ? <FriendsPageContent /> : <LookForFriends />}
 
       <div className={styles.selectFriends}>
@@ -21,6 +20,7 @@ export default function Friends() {
           onClick={() => setShowMyFriends(true)}
         >
           My friends
+          
         </div>
 
         <div
@@ -30,7 +30,6 @@ export default function Friends() {
           Look for friends
         </div>
       </div>
-
     </div>
   )
 }

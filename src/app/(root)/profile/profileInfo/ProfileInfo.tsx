@@ -5,7 +5,7 @@ import Image from "next/image"
 
 export default function ProfileInfo() {
   const imgSrc =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-0trKrA03N9_grGBCj0Y6YGghus45asrtDGtzg6WmilN37IYaYUjbTwG0vTCSzX1aZtQ&usqp=CAU"
+    "https://cdn5.vectorstock.com/i/1000x1000/01/69/businesswoman-character-avatar-icon-vector-12800169.jpg"
   const [showAbout, setShowAbout] = useState(false)
   return (
     <div className={styles.profileInfo}>
@@ -16,6 +16,7 @@ export default function ProfileInfo() {
           alt="avatar"
           width={120}
           height={120}
+          
         />
         <div className={styles.nameDiv}>
           {

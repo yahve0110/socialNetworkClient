@@ -1,5 +1,5 @@
-import { URL } from "@/globals"
-import { navigateToLogin } from "../helpers"
+import { URL } from "@/globals";
+
 
 export async function logoutHandler() {
   try {
@@ -9,17 +9,17 @@ export async function logoutHandler() {
         "Content-Type": "application/json",
       },
       credentials: "include",
-    })
+    });
 
-    console.log(response.status)
+    console.log(response.status);
 
     if (response.ok) {
-      navigateToLogin()
+    return true
     } else {
-      return false
+      return false;
     }
   } catch (error) {
-    console.error("Error checking session:", error)
-    return false
+    console.error("Error checking session:", error);
+    return false;
   }
 }

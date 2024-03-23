@@ -1,11 +1,10 @@
 "use client"
 import Post from "@/components/Post/Post"
-import ProfileInfo from "./ProfileInfo"
+import ProfileInfo from "./profileInfo/ProfileInfo"
 import styles from "./profile.module.css"
-import FollowersBlock from "./FollowersBlock"
-import GroupsBlock from "./GroupsBlock"
+import FollowersBlock from "./profileInfo/FollowersBlock"
+import GroupsBlock from "./profileInfo/GroupsBlock"
 import CreatePost from "@/components/CreatePost/CreatePost"
-import { isSessionValid } from "@/actions/sessionCheck"
 
 export default function Profile() {
   return (

@@ -1,5 +1,5 @@
 "use server"
-import { FormData } from "@/app/signup/SignUpUi"
+import { FormData } from "@/app/(auth)/signup/SignUpUi"
 import { URL } from "@/globals"
 
 export async function signUp(formData: FormData) {

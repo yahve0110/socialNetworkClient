@@ -1,15 +1,23 @@
+
 import ThemeSwitch from "@/components/ThemeSwitcher"
 import styles from "./Header.module.css"
 import Image from "next/image"
 
+
 import { useState } from "react"
 import { logoutHandler } from "@/actions/auth/logout"
+import { useRouter } from "next/navigation";
 
 export const Header: React.FC = () => {
+  const { push } = useRouter();
+
   const [modalOpen, setModalOpen] = useState(false)
 
-  function logUserOut() {
-    logoutHandler()
+  async function  logUserOut() {
+   const res = await logoutHandler()
+   if(res){
+    push("/")
+   }
   }
 
   return (
@@ -69,8 +77,9 @@ export const Header: React.FC = () => {
               width={10}
               height={10}
             />
-            <ThemeSwitch />
+
           </div>
+          <ThemeSwitch  />
         </div>
       </div>
     </div>
