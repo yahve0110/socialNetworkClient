@@ -10,7 +10,7 @@ interface FriendCardProps {
 const RecommendedFriendCard: React.FC<FriendCardProps> = ({ avatar, name }) => {
   return (
     <div className={styles.rFriendCard}>
-      <img src={avatar} alt="Avatar" width={110} height={110} />
+      <Image src={avatar} alt="Avatar" width={110} height={110} />
       <h3>{name}</h3>
       <div className={styles.followDiv}>
         <button>

@@ -7,6 +7,7 @@ import Image from "next/image"
 import { useState } from "react"
 import { logoutHandler } from "@/actions/auth/logout"
 import { useRouter } from "next/navigation";
+import { usePersonStore } from "@/lib/state/userStore"
 
 export const Header: React.FC = () => {
   const { push } = useRouter();
@@ -19,6 +20,9 @@ export const Header: React.FC = () => {
     push("/")
    }
   }
+
+  const avatarImg = usePersonStore((state) => state.avatar)
+
 
   return (
     <div className={styles.Header}>
@@ -49,10 +53,10 @@ export const Header: React.FC = () => {
           >
             <Image
               className={styles.userAvatar}
-              src="/assets/imgs/avatar.png"
+              src={avatarImg}
               alt="avatar"
-              width={50}
-              height={50}
+              width={100}
+              height={100}
             />
 
             {modalOpen && (

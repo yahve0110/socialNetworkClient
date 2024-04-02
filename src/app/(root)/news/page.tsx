@@ -1,12 +1,14 @@
+"use client"
+
 import Post from "@/components/Post/Post"
 import styles from "./News.module.css"
 import Info from "@/components/Info/Info"
 
-
 export default function News() {
   return (
     <div className={`sectionComponent ${styles.newsContainer}`}>
-      <div  className={styles.newsPostsContainer}>
+      <div className={styles.newsPostsContainer}>
+        {/* <Post />
         <Post />
         <Post />
         <Post />
@@ -14,10 +16,9 @@ export default function News() {
         <Post />
         <Post />
         <Post />
-        <Post />
-        <Post />
+        <Post /> */}
       </div>
-      <Info/>
+      <Info />
     </div>
   )
 }

@@ -27,6 +27,7 @@ export default function page() {
       </div> */}
       <Container>
         <GroupEvent/>
+        {/* <Post />
         <Post />
         <Post />
         <Post />
@@ -36,8 +37,7 @@ export default function page() {
         <Post />
         <Post />
         <Post />
-        <Post />
-        <Post />
+        <Post /> */}
       </Container>
       <div className={styles.sidebar}>
         {/* <ButtonsBlock

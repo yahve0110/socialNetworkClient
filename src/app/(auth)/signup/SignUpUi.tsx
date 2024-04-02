@@ -223,7 +223,7 @@ export const SignUpUi: React.FC = () => {
             className={styles.aboutTextarea}
           />
           {!passwordMatch && (
-            <div className={styles.passwordErrorDiv}>Passwords don't match</div>
+            <div className={styles.passwordErrorDiv}>{`Passwords don't match`}</div>
           )}
           {error && <div className={styles.errorDiv}>{error}</div>}
           <button type="submit" className={styles.signUpBtn}>

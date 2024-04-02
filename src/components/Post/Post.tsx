@@ -2,43 +2,106 @@
 import { useState } from "react"
 import styles from "./Post.module.css"
 import Image from "next/image"
-import Comment from "../Comment/Comment"
+import { deleteUserPost } from "@/actions/post/deletePost"
+import { ShowPostCommentBlock } from "./CommentsBLock"
+import { removePostHandler } from "@/app/(root)/profile/page"
+import { formatDateWithoutSeconds } from "@/helpers/convertTime"
+import { togglePostLike } from "@/actions/post/toggleLike"
+import { useProfilePostStore } from "@/lib/state/profilePostStore"
 
-export default function Post() {
+type PostType = {
+  id: string
+  content: string
+  creationTime: string
+  authorFirstname: string
+  authorLastname: string
+  image: string
+  likes: number
+}
+
+export default function Post(props: PostType) {
+  const {
+    id,
+    content,
+    creationTime,
+    authorFirstname,
+    authorLastname,
+    image,
+    likes,
+  } = props
+
   const [showComments, setShowComments] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleDeletePost = async () => {
+    const removed = await deleteUserPost(id)
+    if (removed) {
+      removePostHandler(id)
+    }
+  }
+
+  var formattedDate = formatDateWithoutSeconds(creationTime)
+
+  const addPostLikeHandler = async () => {
+    const data = await togglePostLike(id)
+    if(data){
+      useProfilePostStore.getState().changeLikesCount(id, data.likes_count)
+    }
+
+  }
+
 
   return (
-    <div className={styles.post}>
+    <div className={styles.post} id={id}>
       <div className={styles.postAuthor}>
-        <Image
-          src="/assets/imgs/avatar.png"
-          alt="avatar"
-          width={20}
-          height={20}
-        />
-        <p>Ilya Skorokhodov</p>
+        <div className={styles.postNameAuthor}>
+          <p>
+            {authorFirstname} {authorLastname}
+          </p>
+        </div>
+        <div
+          className={styles.postMore}
+          onClick={() => setOpenModal(!openModal)}
+        >
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
+      {openModal && (
+        <div className={styles.postModal}>
+          <div className={styles.modalItem} onClick={handleDeletePost}>
+            Delete{" "}
+            <Image
+              src={"/assets/icons/delete.svg"}
+              alt="delete"
+              width={15}
+              height={15}
+            />
+          </div>
+        </div>
+      )}
 
       <div className={styles.divider}></div>
 
-      <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam
-        cumque a culpa corporis at voluptatum quia eaque. Quis harum molestiae
-        nihil inventore porro nesciunt, illum quo, corporis facilis corrupti
-        exercitationem!
-      </p>
-      <Image
-        className={styles.postImg}
-        src="/assets/imgs/comtest.png"
-        alt="postImg"
-        width={500}
-        height={200}
+      <div className={styles.postText}>{content}</div>
+      {image && (
+        <div className={styles.postImageDiv}>
+          <Image
+            className={styles.postImg}
+            src={image}
+            alt="postImg"
+            width={500}
+            height={500}
+          />
+        </div>
+      )}
 
-      />
+      <div className={styles.timeDiv}> {formattedDate}</div>
 
       <div className={styles.commentUnder}>
-        <div>
-          0{" "}
+        <div onClick={addPostLikeHandler}>
+          {likes}{" "}
           <Image
             className={styles.likeImg}
             src="/assets/icons/like.svg"
@@ -58,52 +121,7 @@ export default function Post() {
           />
         </div>
       </div>
-      {showComments && <ShowPostCommentBlock />}
+      {showComments && <ShowPostCommentBlock postId={id} />}
     </div>
-  )
-}
-
-function ShowPostCommentBlock() {
-  const [addCommentActive, setAddCommentActive] = useState(false)
-  return (
-    <>
-      <div className={styles.createComment}>
-        <Image
-          className={styles.avatarImg}
-          src="/assets/imgs/avatar.png"
-          alt="avatar"
-          width={30}
-          height={30}
-        />
-        <textarea
-          placeholder="Enter your comment"
-          onFocus={() => setAddCommentActive(true)}
-        ></textarea>
-
-        {addCommentActive && (
-          <Image
-            className={styles.avatarImg}
-            src="/assets/icons/addImage.svg"
-            alt="addimg"
-            width={20}
-            height={20}
-          />
-        )}
-      </div>
-
-      <div className={styles.commentPostBtnContainer}>
-        {addCommentActive && (
-          <button className={styles.commentBtn}>Post</button>
-        )}
-      </div>
-      <div className={styles.divider}></div>
-
-      <div className={styles.commentsContainer}>
-        <Comment />
-        <Comment />
-        <Comment />
-        <Comment />
-      </div>
-    </>
   )
 }

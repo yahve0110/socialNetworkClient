@@ -135,7 +135,7 @@ position: absolute;
     cursor: pointer;
     background-color: var(--bright-blue-color);
     font-size: 19px;
-    margin-top: 2rem;
+    margin-top:30px;
     border-radius: 51px;
     transition: all 9v 0ms ease-in-out;
     padding: 5px;

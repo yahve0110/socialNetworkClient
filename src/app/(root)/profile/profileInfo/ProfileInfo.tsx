@@ -2,40 +2,55 @@
 import { useState } from "react"
 import styles from "./ProfileInfo.module.css"
 import Image from "next/image"
+import { usePersonStore } from "@/lib/state/userStore"
 
 export default function ProfileInfo() {
-  const imgSrc =
-    "https://cdn5.vectorstock.com/i/1000x1000/01/69/businesswoman-character-avatar-icon-vector-12800169.jpg"
   const [showAbout, setShowAbout] = useState(false)
+
+  //<----------------------GET DATA FROM STORE ----------------------->
+  const firstName = usePersonStore((state) => state.firstName)
+  const lastName = usePersonStore((state) => state.lastName)
+  const about = usePersonStore((state) => state.about)
+  const birthady = usePersonStore((state) => state.birth_date)
+  const email = usePersonStore((state) => state.email)
+  const avatarImg = usePersonStore((state) => state.avatar)
+  const username = usePersonStore((state) => state.username)
+
+  //<----------------------CONVET DATE INTO READABLE ----------------------->
+
+  const date = new Date(birthady)
+  const day = date.getUTCDate()
+  const month = date.getUTCMonth() + 1 // Months are zero-based, so we add 1
+  const year = date.getUTCFullYear()
+  const birthDayReadable = `${day < 10 ? "0" : ""}${day}.${
+    month < 10 ? "0" : ""
+  }${month}.${year}`
+
   return (
     <div className={styles.profileInfo}>
+
       <div>
-        <Image
-          className={styles.avatarImg}
-          src={imgSrc}
-          alt="avatar"
-          width={120}
-          height={120}
-          
-        />
-        <div className={styles.nameDiv}>
-          {
-            <p
-              className={`${styles.about} ${styles.conditional} ${
-                showAbout && styles.conditionalShow
-              }`}
-            >
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio
-              numquam ea, vitae dolores doloremque sapiente ipsam reiciendis
-              repellat illum perspiciatis ullam nostrum excepturi porro earum
-              quos. Odio incidunt illum eaque.
-            </p>
-          }
+
+        <div className={styles.avatarImg}>
+          <Image src={avatarImg} alt="avatar" fill={true} />
         </div>
+      </div>
+      <div className={styles.nameDiv}>
+        {
+          <p
+            className={`${styles.about} ${styles.conditional} ${
+              showAbout && styles.conditionalShow
+            }`}
+          >
+            {about}
+          </p>
+        }
       </div>
       <div className={styles.infoDetails}>
         <div>
-          <h2 className={styles.name}>Ilya Skorokhodov</h2>
+          <h2 className={styles.name}>
+            {firstName} {lastName}
+          </h2>
         </div>
 
         <div
@@ -43,13 +58,13 @@ export default function ProfileInfo() {
             showAbout && styles.conditionalShow
           }`}
         >
-          <p className={styles.birthday}>Birthday: 01.10.2001</p>
+          <p className={styles.birthday}>Birthday: {birthDayReadable}</p>
           <div className={styles.moreInfoBlock}>
-            <p>Email: ilja.skorokhodov@gmail.com</p>
-            <p>Nickname: iliks12</p>
+            <p>Email: {email}</p>
+            <p>Nickname: {username}</p>
           </div>
         </div>
-
+       {showAbout &&  <div className={styles.decorColor}></div>}
         <div className={styles.moreInfo}>
           <p
             onClick={() => {
@@ -63,13 +78,13 @@ export default function ProfileInfo() {
             alt="avatar"
             width={20}
             height={20}
-          ></Image>{" "}
+          />
         </div>
       </div>
       {!showAbout && (
         <div className={styles.additionalElem}>
           <Image
-        className={styles.additionalElemImg}
+            className={styles.additionalElemImg}
             src="https://t4.ftcdn.net/jpg/05/71/83/47/360_F_571834789_ujYbUnH190iUokdDhZq7GXeTBRgqYVwa.jpg"
             alt="avatar"
             width={1000}

@@ -6,6 +6,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { signIn } from "@/actions/auth/login"
+import UserStorePopulation from "@/lib/populateState/UserStorePopulation"
 
 export const SignInUi = () => {
   const [username, setUsername] = useState("")
@@ -23,6 +24,7 @@ export const SignInUi = () => {
     console.log(response)
     if (response === "success") {
       router.push("/")
+
     } else if (response === "Unauthorized") {
       setUnauthorized(true)
     } else if (response === "serverError") {
@@ -59,16 +61,14 @@ export const SignInUi = () => {
           </div>
         )}
 
-
         <button className={styles.loginBtn} onClick={sendData}>
           Log In
         </button>
         <div className={styles.linkDiv}>
-      <p>No account ?</p>
-    <Link href={"/signup"}>Sign up</Link>
-    </div>
+          <p>No account ?</p>
+          <Link href={"/signup"}>Sign up</Link>
+        </div>
       </div>
-
     </div>
   )
 }

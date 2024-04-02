@@ -5,11 +5,13 @@ import Image from "next/image"
 import React from "react"
 import styles from "./styles.module.css"
 import Providers from "@/app/providers"
+import UserStorePopulation from "@/lib/populateState/UserStorePopulation"
 
 const Lauout = ({ children }: { children: React.ReactNode }) => {
+  UserStorePopulation()
   return (
     <Providers>
-      
+
       <Header />
       <section className={styles.container}>
         <Navbar />
