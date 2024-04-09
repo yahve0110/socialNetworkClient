@@ -1,19 +1,43 @@
 import React from "react"
 import styles from "./LookForFriends.module.css"
 import Image from "next/image"
+import { followUser } from "@/actions/follows/followUser"
 
 interface FriendCardProps {
+  id:string
   avatar: string
-  name: string
+  firstName: string
+  lastName:string
 }
 
-const RecommendedFriendCard: React.FC<FriendCardProps> = ({ avatar, name }) => {
+const RecommendedFriendCard: React.FC<FriendCardProps> = ({
+  id,
+  avatar,
+  firstName,
+  lastName,
+}) => {
+
+const followUserHandler = () =>{
+  followUser(id)
+}
+
+
   return (
-    <div className={styles.rFriendCard}>
-      <Image src={avatar} alt="Avatar" width={110} height={110} />
-      <h3>{name}</h3>
+    <div className={styles.rFriendCard} id={id}>
+      <div className={styles.friendImageDiv}>
+        <Image
+          src={avatar}
+          alt="Avatar"
+          width={500}
+          height={500}
+          className={styles.avatarImg}
+        />
+        <h3>
+          {firstName} {lastName}
+        </h3>
+      </div>{" "}
       <div className={styles.followDiv}>
-        <button>
+        <button onClick={followUserHandler}>
           Add{" "}
           <Image
             src="/assets/icons/addPerson.svg"

@@ -1,6 +1,7 @@
 "use server"
 import { cookies } from "next/headers"
 import { URL } from "@/globals"
+import { log } from "console"
 
 //sign in function
 export async function signIn(username: string, password: string) {
@@ -30,7 +31,9 @@ export async function signIn(username: string, password: string) {
         secure: cookie.Secure,
         path: "/",
       })
-      return "success"
+
+
+      return responseData
     } else {
       console.error("Failed to sign in:", response.statusText)
       return response.statusText // Возвращаем null или другое значение, если запрос неудачный

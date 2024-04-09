@@ -3,9 +3,9 @@
 import { URL } from "@/globals"
 import { cookies } from "next/headers"
 
-export const getUserFollowers = async (userId: string) => {
+export const getAllUsers = async () => {
   try {
-    const response = await fetch(URL + `/getFollowers?user_id=${userId}`, {
+    const response = await fetch(URL + `/getAllUsers`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -14,11 +14,10 @@ export const getUserFollowers = async (userId: string) => {
     })
     if (response.ok) {
       const responseData = await response.json()
+      console.log("users: ", responseData)
 
       return responseData
     } else {
-
-
       console.error("Failed to get data:", response.statusText)
       console.log(response.statusText)
     }

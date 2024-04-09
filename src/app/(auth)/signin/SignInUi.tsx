@@ -22,12 +22,12 @@ export const SignInUi = () => {
 
     const response = await signIn(username, password)
     console.log(response)
-    if (response === "success") {
-      router.push("/")
+    if (response.message === "Login successful") {
+      router.push(`/profile`)
 
     } else if (response === "Unauthorized") {
       setUnauthorized(true)
-    } else if (response === "serverError") {
+    } else {
       setServerError(true)
     }
   }

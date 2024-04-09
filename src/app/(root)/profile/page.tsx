@@ -1,45 +1,42 @@
 "use client"
-import Post from "@/components/Post/Post";
-import ProfileInfo from "./profileInfo/ProfileInfo";
-import styles from "./profile.module.css";
-import FollowersBlock from "./profileInfo/FollowersBlock";
-import GroupsBlock from "./profileInfo/GroupsBlock";
-import CreatePost from "@/components/CreatePost/CreatePost";
-import { getPostsForProfile } from "@/actions/post/getPosts";
-import { useEffect, useState } from "react";
-import { useProfilePostStore } from "@/lib/state/profilePostStore";
-import { getStaticProps } from "@/actions/user/getUserInfo";
-import { getUserFollowers } from "@/actions/follows/getFollowers";
+import Post from "@/components/Post/Post"
+import ProfileInfo from "./profileInfo/ProfileInfoHOC"
+import styles from "./profile.module.css"
+import FollowersBlock from "./profileInfo/FollowersBlock"
+import GroupsBlock from "./profileInfo/GroupsBlock"
+import CreatePost from "@/components/CreatePost/CreatePost"
+import { getPostsForProfile } from "@/actions/post/getPosts"
+import { useEffect, useState } from "react"
+import { useProfilePostStore } from "@/lib/state/profilePostStore"
+import { getStaticProps } from "@/actions/user/getUserInfo"
+import { getUserFollowers } from "@/actions/follows/getFollowers"
 
-export const removePostHandler = (postId: string) => {
-  console.log(postId);
-  useProfilePostStore.getState().removePost(postId);
-};
+
 
 export default function Profile() {
-  const setPosts = useProfilePostStore((state) => state.setPostsArray);
+  const setPosts = useProfilePostStore((state) => state.setPostsArray)
   const [followers, setFollowers] = useState([])
 
   useEffect(() => {
     async function fetchPageData() {
-      const userData = await getStaticProps();
-      const userId = userData.user_id;
-      setPosts([]);
+      const userData = await getStaticProps()
+      const userId = userData.user_id
 
-      // Получение постов для профиля
-      const posts = await getPostsForProfile(userId);
+      setPosts([])
+
+      const posts = await getPostsForProfile(userId)
       if (posts) {
-        setPosts(posts);
+        setPosts(posts)
       }
 
-      const followers = await getUserFollowers(userId);
-      setFollowers(followers);
+      const followers = await getUserFollowers(userId)
+      setFollowers(followers)
     }
 
-    fetchPageData();
-  }, [setPosts]);
+    fetchPageData()
+  }, [setPosts])
 
-  const posts = useProfilePostStore((state) => state.postsArray);
+  const posts = useProfilePostStore((state) => state.postsArray)
 
   return (
     <div className={`sectionComponent ${styles.profile}`}>
@@ -65,11 +62,11 @@ export default function Profile() {
                 image={post.image}
                 likes={post.likes_count}
               />
-            );
+            )
           })}
           <div className={styles.emptyDiv}></div>
         </div>
       </div>
     </div>
-  );
+  )
 }

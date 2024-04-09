@@ -3,22 +3,23 @@
 import { URL } from "@/globals"
 import { cookies } from "next/headers"
 
-export const getUserFollowers = async (userId: string) => {
+export const followUser = async (userId:string) => {
   try {
-    const response = await fetch(URL + `/getFollowers?user_id=${userId}`, {
-      method: "GET",
+    const response = await fetch(URL + `/followUser`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Cookie: cookies().toString(),
       },
+      body: JSON.stringify({
+        user_followed: userId
+      })
     })
     if (response.ok) {
-      const responseData = await response.json()
+      const responseData = await response
 
-      return responseData
+      return true
     } else {
-
-
       console.error("Failed to get data:", response.statusText)
       console.log(response.statusText)
     }

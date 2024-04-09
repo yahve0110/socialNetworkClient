@@ -27,11 +27,12 @@
 .recommededFriendsDiv{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 12px;
+    align-items: flex-start;
     height: 100%;
     overflow: auto;
-    padding-bottom: 20%;
+    padding-bottom: 60%;
 }
 
 .recommededFriendsDiv::-webkit-scrollbar {
@@ -78,4 +79,17 @@ height: 190px;
 
 .followDiv button:hover{
     background-color: var(--bright-blue-color);
+}
+
+.avatarImg{
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.friendImageDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

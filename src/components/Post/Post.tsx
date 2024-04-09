@@ -4,10 +4,11 @@ import styles from "./Post.module.css"
 import Image from "next/image"
 import { deleteUserPost } from "@/actions/post/deletePost"
 import { ShowPostCommentBlock } from "./CommentsBLock"
-import { removePostHandler } from "@/app/(root)/profile/page"
+
 import { formatDateWithoutSeconds } from "@/helpers/convertTime"
 import { togglePostLike } from "@/actions/post/toggleLike"
 import { useProfilePostStore } from "@/lib/state/profilePostStore"
+import { removePostHandler } from "@/app/(root)/profile/helper"
 
 type PostType = {
   id: string
@@ -44,12 +45,10 @@ export default function Post(props: PostType) {
 
   const addPostLikeHandler = async () => {
     const data = await togglePostLike(id)
-    if(data){
+    if (data) {
       useProfilePostStore.getState().changeLikesCount(id, data.likes_count)
     }
-
   }
-
 
   return (
     <div className={styles.post} id={id}>

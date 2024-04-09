@@ -9,6 +9,7 @@ const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
   let { theme, setTheme } = useTheme()
 
+
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
     setMounted(true)
@@ -19,15 +20,16 @@ const ThemeSwitch = () => {
   }
 console.log(theme);
 
-
-  const toggleTheme = () => {
-    if (theme === "light") {
-      setTheme("dark")
-    }
-    if (theme === "dark") {
-      setTheme("light")
-    }
+const toggleTheme = () => {
+  if (theme === "light") {
+    setTheme("dark");
+  } else if (theme === "dark") {
+    setTheme("system"); 
+  } else if (theme === "system") {
+    setTheme("light");
   }
+};
+
 
   return (
     <>

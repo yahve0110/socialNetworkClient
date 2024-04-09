@@ -1,36 +1,24 @@
-"use client"
-import { useState } from "react"
 import styles from "./ProfileInfo.module.css"
 import Image from "next/image"
-import { usePersonStore } from "@/lib/state/userStore"
+import { useState } from "react"
 
-export default function ProfileInfo() {
-  const [showAbout, setShowAbout] = useState(false)
+type ProfileInfoUIType = {
+    firstName: string,
+    lastName: string,
+    about: string,
+    birthday: string,
+    email: string,
+    avatarImg: string,
+    username: string,
+}
 
-  //<----------------------GET DATA FROM STORE ----------------------->
-  const firstName = usePersonStore((state) => state.firstName)
-  const lastName = usePersonStore((state) => state.lastName)
-  const about = usePersonStore((state) => state.about)
-  const birthady = usePersonStore((state) => state.birth_date)
-  const email = usePersonStore((state) => state.email)
-  const avatarImg = usePersonStore((state) => state.avatar)
-  const username = usePersonStore((state) => state.username)
+const ProfileInfoUI = (props:ProfileInfoUIType) => {
+    const [showAbout, setShowAbout] = useState(false)
 
-  //<----------------------CONVET DATE INTO READABLE ----------------------->
-
-  const date = new Date(birthady)
-  const day = date.getUTCDate()
-  const month = date.getUTCMonth() + 1 // Months are zero-based, so we add 1
-  const year = date.getUTCFullYear()
-  const birthDayReadable = `${day < 10 ? "0" : ""}${day}.${
-    month < 10 ? "0" : ""
-  }${month}.${year}`
-
+    const {firstName, lastName,about, birthday,email,avatarImg,username} = props
   return (
     <div className={styles.profileInfo}>
-
       <div>
-
         <div className={styles.avatarImg}>
           <Image src={avatarImg} alt="avatar" fill={true} />
         </div>
@@ -58,13 +46,13 @@ export default function ProfileInfo() {
             showAbout && styles.conditionalShow
           }`}
         >
-          <p className={styles.birthday}>Birthday: {birthDayReadable}</p>
+          <p className={styles.birthday}>Birthday: {birthday}</p>
           <div className={styles.moreInfoBlock}>
             <p>Email: {email}</p>
             <p>Nickname: {username}</p>
           </div>
         </div>
-       {showAbout &&  <div className={styles.decorColor}></div>}
+        {showAbout && <div className={styles.decorColor}></div>}
         <div className={styles.moreInfo}>
           <p
             onClick={() => {
@@ -95,3 +83,5 @@ export default function ProfileInfo() {
     </div>
   )
 }
+
+export default ProfileInfoUI
