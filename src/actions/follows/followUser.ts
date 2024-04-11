@@ -16,7 +16,7 @@ export const followUser = async (userId:string) => {
       })
     })
     if (response.ok) {
-      const responseData = await response
+   
 
       return true
     } else {

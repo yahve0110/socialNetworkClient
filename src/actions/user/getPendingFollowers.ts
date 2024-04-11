@@ -1,26 +1,23 @@
 "use server"
-
-import { URL } from "@/globals"
 import { cookies } from "next/headers"
+import { URL } from "@/globals"
 
-export const unFollowUser = async (userId:string) => {
+export const getPendingFollowers = async (userID:string) => {
   try {
-    const response = await fetch(URL + `/unfollowUser`, {
-      method: "POST",
+    const response = await fetch(URL + `/getPendingFollowers?user_id=${userID}`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Cookie: cookies().toString(),
       },
-      body: JSON.stringify({
-        user_to_unfollow: userId
-      })
     })
-    if (response.ok) {
 
-      return true
+    if (response.ok) {
+      const responseData = await response.json()
+      return responseData
     } else {
       console.error("Failed to get data:", response.statusText)
-      console.log(response.statusText)
+      return response.statusText
     }
   } catch (error) {
     console.error("Error signing in:", error)

@@ -12,6 +12,7 @@ type FriendCartProps = {
   about:string
   email:string
   birthday:string
+  unfollowHanlderCallback:(id:string)=>void
 }
 
 
@@ -20,13 +21,14 @@ const FriendCart = ({
   profilePicture,
   firstName,
   lastName,
+  unfollowHanlderCallback
 }:FriendCartProps) => {
 
-  const unfollowHanlder = async(e:any) =>{
-    e.preventDefault()
-    const isUnfollowed = await unFollowUser(user_id)
-  }
 
+const unfollowHanlder = (e: React.MouseEvent<HTMLElement>) => {
+  e.preventDefault()
+  unfollowHanlderCallback(user_id)
+}
   return (
     <Link href={`/profile/${user_id}`}>
       <div className={styles.cartDiv}>

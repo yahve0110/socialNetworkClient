@@ -5,58 +5,112 @@ import { useEffect, useState } from "react"
 import { getAllFollowers } from "@/actions/follows/getAllFollowers"
 import { usePersonStore } from "@/lib/state/userStore"
 import { getUserFollowers } from "@/actions/follows/getFollowers"
+import { debounce } from "@/components/Input/inputHelpers"
+import { followUser } from "@/actions/follows/followUser"
 
 interface Friend {
   user_id: string
   profilePicture: string
   first_name: string
   last_name: string
-  email:string
-  birthday:string
-  about:string
+  email: string
+  birthday: string
+  about: string
+  canBeFollowed: boolean
 }
-export  function FollowersPageContent() {
-  const [friends, setFriends] = useState<Friend[]>([])
 
+export function FollowersPageContent() {
+  const [friends, setFriends] = useState<Friend[]>([])
+  const [iFollowUsers, setIFollowUsers] = useState<Friend[]>([])
+  const [usersCanBeFollowed, setUsersCanBeFollowed] = useState<Friend[]>([])
+  const [initialFriends, setInitialFriends] = useState<Friend[]>([])
   const userId = usePersonStore((state) => state.userID)
-  console.log(userId)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     async function getPossibleFriends() {
       try {
         const friendsArr = await getUserFollowers(userId)
-        console.log(friendsArr)
-
+        const iFollow = await getAllFollowers(userId)
+        setIFollowUsers(iFollow)
         setFriends(friendsArr)
+        setInitialFriends(friendsArr)
+        const notFollowingUsers = friendsArr.filter(
+          (friend: Friend) =>
+            !iFollow.some(
+              (followed: any) => followed.user_id === friend.user_id
+            )
+        )
+        setUsersCanBeFollowed(notFollowingUsers)
       } catch (error) {
         console.error("Error fetching users:", error)
+      } finally {
+        setLoading(false) // Set loading to false regardless of success or failure
       }
     }
     getPossibleFriends()
   }, [])
 
+  const handleSearch = debounce((params: string) => {
+    if (params) {
+      const lowerCaseParams = params.toLowerCase()
+      const newArr = friends.filter(
+        (friend) =>
+          friend.first_name.toLowerCase().includes(lowerCaseParams) ||
+          friend.last_name.toLowerCase().includes(lowerCaseParams)
+      )
+      setFriends(newArr)
+    } else {
+      setFriends(initialFriends)
+    }
+  }, 300)
+
+  const followUserHandler = async (id: string) => {
+    const isFollowed = await followUser(id)
+    if (isFollowed) {
+      // After following a user, update the list of users that can be followed
+      const updatedUsersCanBeFollowed = usersCanBeFollowed.filter(
+        (user) => user.user_id !== id
+      )
+      setUsersCanBeFollowed(updatedUsersCanBeFollowed)
+    }
+  }
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+console.log(friends);
+
   return (
     <>
       <div className={styles.searchForFriendsBlock}>
-        <InputComponent />
+        <InputComponent sortHandler={handleSearch} />
         <div className={styles.divider}></div>
 
         <div className={styles.friendsBlockContainer}>
-          {friends &&
-            friends.map((friend) => {
+          {usersCanBeFollowed && ( friends &&
+            friends.length > 0 ?
+             friends.map((user) => {
+              const usersCanBeFollowedBool = usersCanBeFollowed.some(
+                (friend) => friend.user_id === user.user_id
+              )
               return (
                 <FollowerCart
-                  key={friend.user_id}
-                  user_id={friend.user_id}
-                  profilePicture={friend.profilePicture}
-                  firstName={friend.first_name}
-                  lastName={friend.last_name}
-                  about={friend.about}
-                  email={friend.email}
-                  birthday={friend.birthday}
+                  key={user.user_id}
+                  user_id={user.user_id}
+                  profilePicture={user.profilePicture}
+                  firstName={user.first_name}
+                  lastName={user.last_name}
+                  about={user.about}
+                  email={user.email}
+                  birthday={user.birthday}
+                  canBeFollowed={usersCanBeFollowedBool}
+                  onFollow={() => followUserHandler(user.user_id)}
                 />
               )
-            })}
+            })
+            : <div>{`You don't have any followers yet`}</div>  )
+           }
         </div>
       </div>
     </>

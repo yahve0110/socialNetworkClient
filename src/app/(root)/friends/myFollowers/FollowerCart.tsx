@@ -11,6 +11,8 @@ type FriendCartProps = {
   about:string
   email:string
   birthday:string
+  canBeFollowed:boolean
+  onFollow:(userId:string)=>void
 }
 
 export const FollowerCart = ({
@@ -18,7 +20,15 @@ export const FollowerCart = ({
   profilePicture,
   firstName,
   lastName,
+  canBeFollowed,
+  onFollow
 }:FriendCartProps) => {
+
+const followHandler = (e:React.MouseEvent<HTMLElement>) =>{
+  e.preventDefault()
+  onFollow(user_id)
+}
+
   return (
     <Link href={`/profile/${user_id}`}>
       <div className={styles.cartDiv}>
@@ -28,8 +38,11 @@ export const FollowerCart = ({
             {firstName} {lastName}
           </p>
         </div>
+
         <div className={styles.buttonContainer}>
+      {canBeFollowed &&   <button onClick={(e)=>(followHandler(e))}>Follow back</button>}
           <button>Send message</button>
+
           <Image
             src="/assets/imgs/plane.png"
             alt="searchIcon"
@@ -37,6 +50,7 @@ export const FollowerCart = ({
             height={15}
           />
         </div>
+
       </div>
     </Link>
   )

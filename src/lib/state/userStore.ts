@@ -10,6 +10,7 @@ type State = {
   gender: string;
   avatar: string;
   username: string;
+  privacy:string;
 };
 
 type Action = {
@@ -22,6 +23,7 @@ type Action = {
   updateGender: (gender: State["gender"]) => void;
   updateAvatar: (avatar: State["avatar"]) => void;
   updateUsername: (username: State["username"]) => void;
+  updatePrivacy: (privacy: State["privacy"]) => void;
 };
 
 export const usePersonStore = create<State & Action>((set) => ({
@@ -36,6 +38,7 @@ export const usePersonStore = create<State & Action>((set) => ({
   avatar:
     "https://res.cloudinary.com/djkotlye3/image/upload/v1711275268/zm3vbgtmcr7i4g1l2s4t.png",
   username: "",
+  privacy: "",
 
   updateUserID: (id) => set(() => ({ userID: id })),
   updateFirstName: (firstName) => set(() => ({ firstName: firstName })),
@@ -46,4 +49,5 @@ export const usePersonStore = create<State & Action>((set) => ({
   updateGender: (gender) => set(() => ({ gender: gender })),
   updateAvatar: (avatar) => set(() => ({ avatar: avatar })),
   updateUsername: (username) => set(() => ({ username: username })),
+  updatePrivacy: (privacy) => set(() => ({ privacy: privacy })),
 }));

@@ -90,3 +90,11 @@ padding:12px;
         grid-column-start: 5;
         grid-column-end: -1;
     }
+
+
+    .privateDiv{
+        font-size: 30px;
+        width: 100%;
+        justify-content: center;
+        padding: 3rem;
+    }

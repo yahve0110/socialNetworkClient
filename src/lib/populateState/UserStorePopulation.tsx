@@ -13,6 +13,7 @@ const UserStorePopulation = () => {
   const updateAvatar = usePersonStore((state) => state.updateAvatar)
   const updateEmail = usePersonStore((state) => state.updateEmail)
   const updateUsername = usePersonStore((state) => state.updateUsername)
+  const updatePrivacy = usePersonStore((state) => state.updatePrivacy)
 
   useEffect(() => {
     const fetchDataAndLog = async () => {
@@ -28,6 +29,7 @@ const UserStorePopulation = () => {
         updateAvatar(data.profilePicture)
         updateEmail(data.email)
         updateUsername(data.username)
+        updatePrivacy(data.privacy)
       } catch (error) {
         console.error("Error fetching data:", error)
       }

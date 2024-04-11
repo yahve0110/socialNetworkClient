@@ -8,6 +8,7 @@ interface FriendCardProps {
   avatar: string
   firstName: string
   lastName:string
+  followUserHandler:(id:string)=>void
 }
 
 const RecommendedFriendCard: React.FC<FriendCardProps> = ({
@@ -15,11 +16,9 @@ const RecommendedFriendCard: React.FC<FriendCardProps> = ({
   avatar,
   firstName,
   lastName,
+  followUserHandler
 }) => {
 
-const followUserHandler = () =>{
-  followUser(id)
-}
 
 
   return (
@@ -37,8 +36,8 @@ const followUserHandler = () =>{
         </h3>
       </div>{" "}
       <div className={styles.followDiv}>
-        <button onClick={followUserHandler}>
-          Add{" "}
+        <button onClick={()=>followUserHandler(id)}>
+          Follow{" "}
           <Image
             src="/assets/icons/addPerson.svg"
             alt="searchIcon"

@@ -14,6 +14,7 @@ export default function Navbar() {
     { name: "Messages", href: "/messages" },
     { name: "Groups", href: "/groups" },
     { name: "News", href: "/news" },
+    { name: "Settings", href: "/settings" },
   ]
 
   return (
