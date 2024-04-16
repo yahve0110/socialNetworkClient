@@ -28,28 +28,39 @@ export function FollowersPageContent() {
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    async function getPossibleFriends() {
+    let isMounted = true; // Flag to track component mounting status
+
+    async function fetchData() {
       try {
-        const friendsArr = await getUserFollowers(userId)
-        const iFollow = await getAllFollowers(userId)
-        setIFollowUsers(iFollow)
-        setFriends(friendsArr)
-        setInitialFriends(friendsArr)
-        const notFollowingUsers = friendsArr.filter(
-          (friend: Friend) =>
-            !iFollow.some(
-              (followed: any) => followed.user_id === friend.user_id
-            )
-        )
-        setUsersCanBeFollowed(notFollowingUsers)
+        const friendsArr = await getUserFollowers(userId);
+        const iFollow = await getAllFollowers(userId);
+
+        if (isMounted) { // Check if component is still mounted before updating state
+          setIFollowUsers(iFollow);
+          setFriends(friendsArr);
+          setInitialFriends(friendsArr);
+
+          const notFollowingUsers = friendsArr.filter(
+            (friend:any) => !iFollow.some((followed:any) => followed.user_id === friend.user_id)
+          );
+          setUsersCanBeFollowed(notFollowingUsers);
+        }
       } catch (error) {
-        console.error("Error fetching users:", error)
+        console.error("Error fetching users:", error);
       } finally {
-        setLoading(false) // Set loading to false regardless of success or failure
+        setLoading(false); // Set loading to false regardless of success or failure
       }
     }
-    getPossibleFriends()
-  }, [])
+
+    fetchData();
+
+    // Cleanup function to cancel ongoing tasks
+    return () => {
+      isMounted = false; // Update flag to indicate component unmounting
+      // You can cancel any ongoing tasks here if needed
+    };
+  }, []); // Dependency array is empty since this effect should only run once on mount
+
 
   const handleSearch = debounce((params: string) => {
     if (params) {

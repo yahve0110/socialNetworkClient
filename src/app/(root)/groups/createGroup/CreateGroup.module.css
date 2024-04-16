@@ -71,3 +71,20 @@
 .buttonDiv button:hover{
     background: var(--bright-blue-color);
 }
+
+.errorDiv{
+    color: red;
+}
+
+.previewDiv{
+    width: 100%;
+    height: auto;
+}
+
+.previewImg{
+    width: 100%;
+   max-height: 150px;
+   border-radius: 20px 20px 0  0;
+   margin-bottom: 20px;
+   object-fit: cover;
+}

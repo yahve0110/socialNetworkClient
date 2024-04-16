@@ -21,3 +21,34 @@
     grid-column-end: -1;
     width: 100%;
 }
+
+.noPosts{
+    width: 100%;
+
+
+    font-size: 30px;
+}
+
+.noPosts div{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.noPosts button{
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    margin: 0 auto;
+    font-size: 23px;
+    border: transparent;
+    background-color: var(--bright-blue-color);
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.5ms ease-in-out;
+
+}
+
+.noPosts button:hover{
+    background-color: var(--main-details-color);
+}

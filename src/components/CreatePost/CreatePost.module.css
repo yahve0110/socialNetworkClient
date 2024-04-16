@@ -50,7 +50,7 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 
     background-color: var(--secondary-section-color);
-
+    position: relative;
 
 }
 
@@ -109,7 +109,128 @@
 .lowerPostDiv{
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.privacyDiv{
+    display: flex;
+    position: relative;
+
+}
+.privacyDiv p{
+    margin-right: 10px;
+}
+
+.privacyDiv div{
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.privacyDiv div img{
+margin-left: 5px;
+  }
+.privacyModalDiv{
+    width: 200px;
+    background-color: var(--main-section-color);
+    border-radius: 10px;
+    position: absolute;
+    top: 24px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+
+
+}
+
+.reverseArrow{
+    transform: rotate(180deg);
+}
+
+.privacyModalDiv div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 3px;
+    padding: 3px;
+    transition: all 0.8ms ease-in-out;
+}
+.privacyModalDiv div:hover{
+    background-color: var(--main-details-color);
+}
+.privacyModalDiv div p{
+    font-size: 12px;
+}
+
+.almostPrivateModal{
+    background-color: var(--main-section-color);
+    opacity: 90%;
+    width: 100%;
+    min-height: 300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 300;
+    overflow: auto;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modalBottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.modalBottom button{
+    width: 100px;
+    height: 25px;
+    border-radius: 5px;
+    margin-top: 20px;
+    border: transparent;
+    background-color:var(--main-details-color) ;
+    color: var(--main-text-color);
+    font-size: 15px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.modalItem{
+    margin-top: 20px;
+    width: 100%;
+    z-index: 333;
+    background-color: var(--secondary-section-color);
+    opacity: 100;
+    display: flex;
+    padding: 5px 20px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+}
+.modalItem div{
+    display: flex;
+}
+.modalItem img{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.modalCheckbox{
+    width: 15px;
+    height: 15px;
 }
 
 .ImgPreviewDiv{

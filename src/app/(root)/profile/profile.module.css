@@ -65,12 +65,30 @@ padding:12px;
 
 }
 
+.myFollowersDiv{
+    display: flex;
+    overflow: auto;
+}
+
+.myFollowersDiv a{
+    margin-right: 7px;
+}
+
+.followersBLock img{
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .noFollowers{
    font-size: 20px;
-   height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.myFollowers{
+    height: 50%;
+
 }
 
 

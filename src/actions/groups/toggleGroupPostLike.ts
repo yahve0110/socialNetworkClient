@@ -1,16 +1,25 @@
 "use server"
-
-import { URL } from "@/globals"
 import { cookies } from "next/headers"
 
-export const getAllFollowers = async (userId:string) => {
+import { URL } from "@/globals"
+
+export const toggleGroupPostLike = async (
+  groupId: string,
+  postId: string,
+
+) => {
+
   try {
-    const response = await fetch(URL + `/getFollowing?user_id=${userId}`, {
-      method: "GET",
+    const response = await fetch(URL + "/addGroupPostLike", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Cookie: cookies().toString(),
       },
+      body: JSON.stringify({
+        group_id: groupId,
+        post_id:postId
+      }),
     })
     if (response.ok) {
       const responseData = await response.json()
@@ -18,10 +27,8 @@ export const getAllFollowers = async (userId:string) => {
       return responseData
     } else {
       console.error("Failed to get data:", response.statusText)
-      console.log(response.statusText)
     }
   } catch (error) {
-    console.error("Error signing in:", error)
-    return "serverError"
+    console.error("Error toggling like:", error)
   }
 }

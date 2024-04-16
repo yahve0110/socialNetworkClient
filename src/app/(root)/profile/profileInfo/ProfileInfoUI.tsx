@@ -20,7 +20,7 @@ const ProfileInfoUI = (props:ProfileInfoUIType) => {
     <div className={styles.profileInfo}>
       <div>
         <div className={styles.avatarImg}>
-          <Image src={avatarImg} alt="avatar" fill={true} />
+          <Image src={avatarImg} alt="avatar" width={240} height={240} fetchPriority="high"/>
         </div>
       </div>
       <div className={styles.nameDiv}>
@@ -71,13 +71,7 @@ const ProfileInfoUI = (props:ProfileInfoUIType) => {
       </div>
       {!showAbout && (
         <div className={styles.additionalElem}>
-          <Image
-            className={styles.additionalElemImg}
-            src="https://t4.ftcdn.net/jpg/05/71/83/47/360_F_571834789_ujYbUnH190iUokdDhZq7GXeTBRgqYVwa.jpg"
-            alt="avatar"
-            width={1000}
-            height={1000}
-          />
+
         </div>
       )}
     </div>

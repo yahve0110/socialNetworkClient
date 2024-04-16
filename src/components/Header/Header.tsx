@@ -1,28 +1,27 @@
-
+"use client"
 import ThemeSwitch from "@/components/ThemeSwitcher"
 import styles from "./Header.module.css"
 import Image from "next/image"
 
-
 import { useState } from "react"
 import { logoutHandler } from "@/actions/auth/logout"
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
 import { usePersonStore } from "@/lib/state/userStore"
+import UserStorePopulation from "@/lib/populateState/UserStorePopulation"
 
 export const Header: React.FC = () => {
-  const { push } = useRouter();
-
+  const { push } = useRouter()
+  UserStorePopulation()
   const [modalOpen, setModalOpen] = useState(false)
 
-  async function  logUserOut() {
-   const res = await logoutHandler()
-   if(res){
-    push("/")
-   }
+  async function logUserOut() {
+    const res = await logoutHandler()
+    if (res) {
+      push("/")
+    }
   }
 
   const avatarImg = usePersonStore((state) => state.avatar)
-
 
   return (
     <div className={styles.Header}>
@@ -61,9 +60,7 @@ export const Header: React.FC = () => {
 
             {modalOpen && (
               <div className={styles.modal}>
-                <button className={styles.logoutBtn} >
-                  My profile
-                </button>
+                <button className={styles.logoutBtn}>My profile</button>
 
                 <button className={styles.logoutBtn} onClick={logUserOut}>
                   logout
@@ -81,9 +78,8 @@ export const Header: React.FC = () => {
               width={10}
               height={10}
             />
-
           </div>
-          <ThemeSwitch  />
+          <ThemeSwitch />
         </div>
       </div>
     </div>

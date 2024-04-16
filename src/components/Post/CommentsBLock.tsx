@@ -9,8 +9,6 @@ import { createComment } from "@/actions/post/createComment"
 import { getComments } from "@/actions/post/getCommentsForPost"
 import { useCommentsStore } from "@/lib/state/commentsStore"
 import { deleteComment } from "@/actions/post/deleteComment"
-import { toggleCommentLike } from "@/actions/post/toggleCommentLike"
-import { json } from "stream/consumers"
 
 export function ShowPostCommentBlock({ postId }: { postId: string }) {
   //<----------------------STATE----------------------->

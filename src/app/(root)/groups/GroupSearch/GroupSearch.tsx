@@ -1,11 +1,13 @@
 import InputComponent from "@/components/Input/InputComponent"
 import GroupBlock from "./GroupBlock"
+import { log } from "console"
 
 export default function GroupSearch() {
   return (
     <div>
       <div>
-        <InputComponent />
+        <InputComponent sortHandler={()=>(console.log("ads")
+        )} />
       </div>
       <div>
         <GroupBlock />

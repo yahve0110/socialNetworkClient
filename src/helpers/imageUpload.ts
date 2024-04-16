@@ -8,7 +8,7 @@ interface FileWithSize extends File {
 export const handleFileChange = async (file: FileWithSize) => {
   if (file) {
     const fileSizeMB = file.size / (1024 * 1024)
-    if (fileSizeMB > MAX_FILE_SIZE_MB) {
+    if (fileSizeMB >= MAX_FILE_SIZE_MB) {
         return false
 
     }

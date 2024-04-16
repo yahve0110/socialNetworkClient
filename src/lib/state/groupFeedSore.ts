@@ -1,7 +1,7 @@
 import { create } from "zustand"
 
 export type Post = {
-  private_users: string[]
+  group_post_img: string
   post_id: string
   author_id: string
   author_first_name: string
@@ -10,12 +10,11 @@ export type Post = {
   created_at: string
   image: string
   likes_count: number
-  privacy: string
 }
+
 interface State {
   postsArray: Post[]
 }
-
 interface Actions {
   setPostsArray: (posts: Post[]) => void
   addPost: (newPost: Post) => void
@@ -23,11 +22,8 @@ interface Actions {
   changeLikesCount: (postId: string, likesCount: number) => void
 }
 
-export const useProfilePostStore = create<State & Actions>((set) => ({
-  // Define the initial state here
+export const useGroupFeedStore = create<State & Actions>((set) => ({
   postsArray: [],
-
-  // Define the actions here
   setPostsArray: (posts) => set({ postsArray: posts }),
   addPost: (newPost) =>
     set((state) => ({

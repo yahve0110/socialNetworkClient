@@ -16,28 +16,38 @@ const UserStorePopulation = () => {
   const updatePrivacy = usePersonStore((state) => state.updatePrivacy)
 
   useEffect(() => {
+    let isMounted = false
+
     const fetchDataAndLog = async () => {
       try {
         const data = await getStaticProps()
         console.log(data)
 
-        updateUserID(data.user_id)
-        updateFirstName(data.first_name)
-        updateLastName(data.last_name)
-        updateAbout(data.about)
-        updateBirthDate(data.birth_date)
-        updateAvatar(data.profilePicture)
-        updateEmail(data.email)
-        updateUsername(data.username)
-        updatePrivacy(data.privacy)
+        if (isMounted) {
+          updateUserID(data.user_id)
+          updateFirstName(data.first_name)
+          updateLastName(data.last_name)
+          updateAbout(data.about)
+          updateBirthDate(data.birth_date)
+          updateAvatar(data.profilePicture)
+          updateEmail(data.email)
+          updateUsername(data.username)
+          updatePrivacy(data.privacy)
+        }
       } catch (error) {
         console.error("Error fetching data:", error)
       }
     }
+
     fetchDataAndLog()
+
+    // Cleanup function
+    return () => {
+      isMounted = true
+    }
   }, [])
 
-  return null
+  return true
 }
 
 export default UserStorePopulation

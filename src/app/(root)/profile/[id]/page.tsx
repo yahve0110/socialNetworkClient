@@ -1,5 +1,5 @@
 "use client"
-import Post from "@/components/Post/Post"
+
 import styles from "../profile.module.css"
 import FollowersBlock from "../profileInfo/FollowersBlock"
 import GroupsBlock from "../profileInfo/GroupsBlock"
@@ -10,6 +10,8 @@ import { getUserFollowers } from "@/actions/follows/getFollowers"
 import ProfileInfoUI from "../profileInfo/ProfileInfoUI"
 import { getUserInfoById } from "@/actions/user/getUserInfoById"
 import { usePersonStore } from "@/lib/state/userStore"
+import { getAllFollowers } from "@/actions/follows/getAllFollowers"
+import ProfilePostHOC from "@/components/Post/ProfilePostHOC"
 
 export interface UserInfo {
   first_name: string
@@ -20,6 +22,7 @@ export interface UserInfo {
   profilePicture: string
   username: string
   privacy: string
+
 }
 
 interface ProfileProps {
@@ -28,40 +31,56 @@ interface ProfileProps {
 
 export default function Profile({ params }: ProfileProps) {
   const setPosts = useProfilePostStore((state) => state.setPostsArray)
-  const [followers, setFollowers] = useState([])
+  const [followers, setFollowers] = useState<{ user_id: string }[]>([])
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+  const [iFollow, setIfollow] = useState([])
 
   useEffect(() => {
     async function fetchPageData() {
-      console.log(params.id)
+      try {
+        console.log(params.id)
+        setLoading(true)
 
-      const userId = params.id
-      setPosts([])
+        const userId = params.id
+        setPosts([])
 
-      const userData = await getUserInfoById(userId)
-      setUserInfo(userData)
+        const userData = await getUserInfoById(userId)
+        setUserInfo(userData)
 
-      const posts = await getPostsForProfile(userId)
-      if (posts) {
-        setPosts(posts)
+        const posts = await getPostsForProfile(userId)
+        if (posts) {
+          setPosts(posts)
+        }
+
+        const iFollow = await getAllFollowers(userId)
+        setIfollow(iFollow)
+        const fetchedFollowers = await getUserFollowers(userId)
+        setFollowers(fetchedFollowers)
+      } catch (error) {
+        setError(error as Error)
+      } finally {
+        setLoading(false)
       }
-
-      const followers = await getUserFollowers(userId)
-      setFollowers(followers)
     }
 
     fetchPageData()
   }, [params.id, setPosts])
 
   const posts = useProfilePostStore((state) => state.postsArray)
+  const currentUserId = usePersonStore((state) => state.userID) as string
+  const profileAccess = followers?.some(
+    (follower) => follower.user_id === currentUserId
+  )
 
-  const currentUserId = usePersonStore((state) => state.userID)
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error.message}</div>
 
-  const profileAccess = followers.some((follower) => follower.user_id === currentUserId);
-
+  console.log(followers)
   return (
     <div className={`sectionComponent ${styles.profile}`}>
-      {userInfo && userInfo.privacy === "public" || profileAccess ? (
+      {userInfo && (userInfo.privacy === "public" || profileAccess) ? (
         <>
           <ProfileInfoUI
             firstName={userInfo.first_name}
@@ -75,22 +94,70 @@ export default function Profile({ params }: ProfileProps) {
 
           <div className={styles.profileContentContainer}>
             <div className={styles.additionalContainer}>
-              <FollowersBlock followers={followers} />
+              <FollowersBlock followers={followers} iFollow={iFollow} />
               <GroupsBlock />
             </div>
             <div className={styles.postsContainer}>
-              {posts.map((post) => (
-                <Post
-                  key={post.post_id}
-                  id={post.post_id}
-                  content={post.content}
-                  creationTime={post.created_at}
-                  authorFirstname={post.author_first_name}
-                  authorLastname={post.author_last_name}
-                  image={post.image}
-                  likes={post.likes_count}
-                />
-              ))}
+              {posts.map((post) => {
+                console.log("Post privacy:", post.privacy) // Log privacy value
+                if (post.privacy === "public") {
+                  return (
+                    <ProfilePostHOC
+                      key={post.post_id}
+                      id={post.post_id}
+                      content={post.content}
+                      creationTime={post.created_at}
+                      authorFirstname={post.author_first_name}
+                      authorLastname={post.author_last_name}
+                      image={post.image}
+                      likes={post.likes_count}
+                      author_id={post.author_id}
+                    />
+                  )
+                } else if (post.privacy === "private") {
+                  if (
+                    followers &&
+                    followers.length > 0 &&
+                    followers.map((el) => el.user_id).includes(currentUserId)
+                  ) {
+                    return (
+                      <ProfilePostHOC
+                        key={post.post_id}
+                        id={post.post_id}
+                        content={post.content}
+                        creationTime={post.created_at}
+                        authorFirstname={post.author_first_name}
+                        authorLastname={post.author_last_name}
+                        image={post.image}
+                        likes={post.likes_count}
+                        author_id={post.author_id}
+                      />
+                    )
+                  }
+                } else if (post.privacy === "almost private") {
+                  if (
+                    followers &&
+                    followers.length > 0 &&
+                    post.private_users &&
+                    post.private_users.includes(currentUserId) &&
+                    followers.map((el) => el.user_id).includes(currentUserId)
+                  ) {
+                    return (
+                      <ProfilePostHOC
+                        key={post.post_id}
+                        id={post.post_id}
+                        content={post.content}
+                        creationTime={post.created_at}
+                        authorFirstname={post.author_first_name}
+                        authorLastname={post.author_last_name}
+                        image={post.image}
+                        likes={post.likes_count}
+                        author_id={post.author_id}
+                      />
+                    )
+                  }
+                }
+              })}
               <div className={styles.emptyDiv}></div>
             </div>
           </div>
@@ -98,7 +165,9 @@ export default function Profile({ params }: ProfileProps) {
       ) : (
         <div className={styles.privateDiv}>
           <div>This profile is private!</div>
-          <div>To access information  you have to be accepted follower first</div>
+          <div>
+            To access information, you have to be an accepted follower first.
+          </div>
         </div>
       )}
     </div>

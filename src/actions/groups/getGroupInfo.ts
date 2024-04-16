@@ -1,11 +1,11 @@
 "use server"
-
-import { URL } from "@/globals"
 import { cookies } from "next/headers"
 
-export const getAllFollowers = async (userId:string) => {
+import { URL } from "@/globals"
+
+export const getGroupById = async (groupId:string) => {
   try {
-    const response = await fetch(URL + `/getFollowing?user_id=${userId}`, {
+    const response = await fetch(`${URL}/getGroupById?groupID=${groupId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -14,14 +14,12 @@ export const getAllFollowers = async (userId:string) => {
     })
     if (response.ok) {
       const responseData = await response.json()
-
+        console.log(responseData)
       return responseData
     } else {
       console.error("Failed to get data:", response.statusText)
-      console.log(response.statusText)
     }
   } catch (error) {
-    console.error("Error signing in:", error)
-    return "serverError"
+    console.error("Error getting group info:", error)
   }
 }

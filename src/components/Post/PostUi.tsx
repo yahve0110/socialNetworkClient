@@ -1,26 +1,14 @@
 "use client"
 import { useState } from "react"
 import styles from "./Post.module.css"
+import { usePersonStore } from "@/lib/state/userStore"
 import Image from "next/image"
-import { deleteUserPost } from "@/actions/post/deletePost"
 import { ShowPostCommentBlock } from "./CommentsBLock"
-
+import { PostType } from "./ProfilePostHOC"
 import { formatDateWithoutSeconds } from "@/helpers/convertTime"
-import { togglePostLike } from "@/actions/post/toggleLike"
-import { useProfilePostStore } from "@/lib/state/profilePostStore"
-import { removePostHandler } from "@/app/(root)/profile/helper"
 
-type PostType = {
-  id: string
-  content: string
-  creationTime: string
-  authorFirstname: string
-  authorLastname: string
-  image: string
-  likes: number
-}
 
-export default function Post(props: PostType) {
+const PostUi = (props: PostType) => {
   const {
     id,
     content,
@@ -29,26 +17,15 @@ export default function Post(props: PostType) {
     authorLastname,
     image,
     likes,
+    author_id,
+    handleDeletePost,
+    addPostLikeHandler
   } = props
-
+  const currentUserId = usePersonStore((state) => state.userID)
   const [showComments, setShowComments] = useState(false)
   const [openModal, setOpenModal] = useState(false)
 
-  const handleDeletePost = async () => {
-    const removed = await deleteUserPost(id)
-    if (removed) {
-      removePostHandler(id)
-    }
-  }
-
   var formattedDate = formatDateWithoutSeconds(creationTime)
-
-  const addPostLikeHandler = async () => {
-    const data = await togglePostLike(id)
-    if (data) {
-      useProfilePostStore.getState().changeLikesCount(id, data.likes_count)
-    }
-  }
 
   return (
     <div className={styles.post} id={id}>
@@ -58,14 +35,16 @@ export default function Post(props: PostType) {
             {authorFirstname} {authorLastname}
           </p>
         </div>
-        <div
-          className={styles.postMore}
-          onClick={() => setOpenModal(!openModal)}
-        >
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+        {author_id === currentUserId && (
+          <div
+            className={styles.postMore}
+            onClick={() => setOpenModal(!openModal)}
+          >
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        )}
       </div>
       {openModal && (
         <div className={styles.postModal}>
@@ -124,3 +103,5 @@ export default function Post(props: PostType) {
     </div>
   )
 }
+
+export default PostUi

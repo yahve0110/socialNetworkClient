@@ -1,3 +1,4 @@
+"use client"
 // InputFormActive.tsx
 import React, { useEffect, useRef, useState } from "react"
 import Image from "next/image"
@@ -8,6 +9,7 @@ import { MAX_FILE_SIZE_MB } from "@/globals"
 import { handleFileChange } from "@/helpers/imageUpload"
 import { createUserPost } from "@/actions/post/createPost"
 import { useProfilePostStore } from "@/lib/state/profilePostStore"
+import { createGroupPost } from "@/actions/groups/createGroupPost"
 interface PostFormInactiveProps {
   setFormActive: React.Dispatch<React.SetStateAction<boolean>>
   placeholder?: string
@@ -16,6 +18,8 @@ interface PostFormInactiveProps {
 interface InputFormActiveProps {
   formActive: boolean
   setFormActive: React.Dispatch<React.SetStateAction<boolean>>
+  addPostToGroupFeedHandler?:(text:string,image:string | ArrayBuffer | null) => void
+  followers?: any[]
 }
 
 export const InputFormInactive: FC<PostFormInactiveProps> = ({
@@ -45,15 +49,38 @@ export const InputFormInactive: FC<PostFormInactiveProps> = ({
   )
 }
 
-export default function CreatePost({ placeholder }: { placeholder: string }) {
-  const [formActive, setFormActive] = useState(false)
+type CreatePostType = {
+  placeholder: string
+  addPostToGroupFeedHandler?:(text:string,image:string | ArrayBuffer | null) => void
 
+  followers?: any[]
+}
+
+export default function CreatePost({
+  placeholder,
+  followers,
+  addPostToGroupFeedHandler,
+
+}: CreatePostType) {
+  const [formActive, setFormActive] = useState(false)
+  if (addPostToGroupFeedHandler) {
+    return (
+      <InputFormActive
+        followers={followers}
+        formActive={formActive}
+        setFormActive={setFormActive}
+        addPostToGroupFeedHandler={addPostToGroupFeedHandler}
+      />
+    )
+  }
   return (
     <>
       {formActive ? (
         <InputFormActive
+          followers={followers}
           formActive={formActive}
           setFormActive={setFormActive}
+          addPostToGroupFeedHandler={addPostToGroupFeedHandler}
         />
       ) : (
         <InputFormInactive
@@ -65,17 +92,26 @@ export default function CreatePost({ placeholder }: { placeholder: string }) {
   )
 }
 
-function InputFormActive({ formActive, setFormActive }: InputFormActiveProps) {
+function InputFormActive({
+  formActive,
+  setFormActive,
+  followers,
+  addPostToGroupFeedHandler,
+}: InputFormActiveProps) {
   //<----------------------STATE----------------------->
   const [postImg, setPostImg] = useState<string | ArrayBuffer | null>(null)
   const [postText, setPostText] = useState("")
   const [emptyTextError, setEmptyTextError] = useState("")
   const formRef = useRef<HTMLDivElement>(null)
+  const [openModal, setOpenModal] = useState(false)
+  const [privacy, setPrivacy] = useState("Public")
+  const [openUsersModal, setOpenUsersModal] = useState(false)
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([])
+  const [selectedUsersFinal, setSelectedUsersFinal] = useState<string[]>([])
 
   const avatarImg = usePersonStore((state) => state.avatar)
 
   function activateInput() {
-    console.log("im in")
     const input = document.getElementById("input")
     input?.click()
   }
@@ -99,6 +135,8 @@ function InputFormActive({ formActive, setFormActive }: InputFormActiveProps) {
     }
   }
   const addPost = useProfilePostStore((state) => state.addPost)
+  const postsArray = useProfilePostStore((state) => state.postsArray);
+  const setPostsArray = useProfilePostStore((state) => state.setPostsArray);
 
   const handlePostClick = async () => {
     setEmptyTextError("")
@@ -107,28 +145,114 @@ function InputFormActive({ formActive, setFormActive }: InputFormActiveProps) {
       setEmptyTextError(`Form can't be empty`)
       return
     }
+    if (!addPostToGroupFeedHandler) {
+      const newPost = await createUserPost(
+        postText,
+        privacy,
+        selectedUsersFinal,
+        postImg
+      )
+      if(!postsArray){
+        setPostsArray([newPost])
+      }else{
+        addPost(newPost)
 
-    const newPost = await createUserPost(postText, postImg)
+      }
+    }
+    if (addPostToGroupFeedHandler) {
+      addPostToGroupFeedHandler(postText,postImg)
+      setFormActive(false)
+    }
 
-    addPost(newPost)
     setFormActive(false)
   }
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (formRef.current && !formRef.current.contains(event.target as Node)) {
-      setFormActive(false)
-    }
-  }
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside)
+    const handleClick = (event: MouseEvent) => {
+      if (formRef.current && !formRef.current.contains(event.target as Node)) {
+        setFormActive(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClick)
+
     return () => {
-      document.removeEventListener("click", handleClickOutside)
+      document.removeEventListener("mousedown", handleClick)
     }
   }, [])
+
+  const handleAlmostPrivate = () => {
+    setOpenUsersModal(true)
+    setPrivacy("Almost Private")
+  }
+  const handleCloseUserModal = () => {
+    setOpenUsersModal(false)
+    setPrivacy("Public")
+  }
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    userId: string
+  ) => {
+    const isChecked = event.target.checked
+    if (isChecked) {
+      setSelectedUsers([...selectedUsers, userId])
+    } else {
+      setSelectedUsers(selectedUsers.filter((id) => id !== userId))
+    }
+  }
+
+  const handleAddPrivateUsers = () => {
+    setSelectedUsersFinal([...selectedUsers])
+    setOpenUsersModal(false)
+    setPrivacy("almost private")
+    console.log("selectedUsers: ", selectedUsers)
+  }
 
   //<----------------------JSX----------------------->
   return (
     <div className={styles.ActiveCreatePostContainer} ref={formRef}>
+      {openUsersModal && (
+        <div className={styles.almostPrivateModal}>
+          <div>
+            <h2>Choose followers that able to see your post</h2>
+
+            {followers &&
+              followers.length > 0 &&
+              followers.map((el) => {
+                if (selectedUsersFinal.includes(el.user_id)) {
+                  return
+                }
+                return (
+                  <div className={styles.modalItem} key={el.user_id}>
+                    <div>
+                      <Image
+                        src={el.profilePicture}
+                        alt="avatar"
+                        width={100}
+                        height={100}
+                      />
+                      <div>
+                        {el.first_name} {el.last_name}
+                      </div>
+                    </div>
+                    <input
+                      className={styles.modalCheckbox}
+                      type="checkbox"
+                      onChange={(event) =>
+                        handleCheckboxChange(event, el.user_id)
+                      }
+                    />
+                  </div>
+                )
+              })}
+          </div>
+          <div className={styles.modalBottom}>
+            <button onClick={handleCloseUserModal}>Close</button>
+            <button onClick={handleAddPrivateUsers}>Add</button>
+          </div>
+        </div>
+      )}
+
       <div className={styles.activeImgs}>
         <div>
           <Image
@@ -188,6 +312,48 @@ function InputFormActive({ formActive, setFormActive }: InputFormActiveProps) {
           </div>
         )}
         <div className={styles.lowerPostDiv}>
+          {!addPostToGroupFeedHandler && (
+            <div
+              className={styles.privacyDiv}
+              onClick={() => setOpenModal(!openModal)}
+            >
+              <p>Privacy:</p>
+              <div>
+                {privacy}
+                <Image
+                  className={openModal ? styles.reverseArrow : ""}
+                  src={"/assets/imgs/arrow.png"}
+                  width={15}
+                  height={15}
+                  alt="arrow"
+                />
+                {openModal && (
+                  <div className={styles.privacyModalDiv}>
+                    <div onClick={() => setPrivacy("Public")}>
+                      Public
+                      <p>For all users</p>
+                    </div>
+                    <div onClick={() => setPrivacy("Private")}>
+                      Private
+                      <p>For followers</p>
+                    </div>
+
+                    <div onClick={handleAlmostPrivate}>
+                      Almost private
+                      <p>For specified followers</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+          {selectedUsers && selectedUsers.length > 0 && (
+            <div>
+              {selectedUsers && (
+                <div>private users selected: {selectedUsers.length} </div>
+              )}
+            </div>
+          )}
           <button className={styles.postBtn} onClick={handlePostClick}>
             Post
           </button>

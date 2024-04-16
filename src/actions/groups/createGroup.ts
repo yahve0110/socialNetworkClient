@@ -3,29 +3,27 @@ import { cookies } from "next/headers"
 
 import { URL } from "@/globals"
 
-export const createUserPost = async (
-  postContent: string,
-  privacy:string,
-  selectedUsersFinal:string[],
-  imageBase64?: any,
+export const createGroup = async (
+  groupName: string,
+  groupDescription: string,
+  groupImage:string | ArrayBuffer | null
 
 ) => {
-  if (!imageBase64) {
-    imageBase64 = ""
+  if(!groupImage){
+    groupImage=""
   }
-  console.log("Selected users: " + selectedUsersFinal)
+
   try {
-    const response = await fetch(URL + "/addpost", {
+    const response = await fetch(URL + "/createGroup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Cookie: cookies().toString(),
       },
       body: JSON.stringify({
-        content: postContent,
-        image: imageBase64,
-        private_users:selectedUsersFinal,
-        privacy:privacy.toLowerCase(),
+        group_name: groupName,
+        group_description:groupDescription,
+        group_image:groupImage
       }),
     })
     if (response.ok) {
@@ -36,6 +34,6 @@ export const createUserPost = async (
       console.error("Failed to get data:", response.statusText)
     }
   } catch (error) {
-    console.error("Error creating post:", error)
+    console.error("Error creating group:", error)
   }
 }

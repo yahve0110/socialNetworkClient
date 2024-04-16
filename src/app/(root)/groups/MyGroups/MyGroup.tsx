@@ -2,11 +2,15 @@ import Link from "next/link"
 import styles from "./ MyGroups.module.css"
 import Image from "next/image"
 
+type MyGroupType = {
+  group_id: string
+  group_name: string
+}
 
-export default function MyGroup() {
+export default function MyGroup({group_name,group_id}:MyGroupType) {
   return (
-<Link href="/groups/1" className={styles.link}>
-<div className={styles.myGroup}>
+<Link href={`/groups/${group_id}`} className={styles.link}>
+<div className={styles.myGroup} id={group_id}>
       <Image
         src={
           "https://cdn0.iconfinder.com/data/icons/avatar-1-2/512/group-512.png"
@@ -16,8 +20,8 @@ export default function MyGroup() {
         height={80}
       />
       <div>
-        <p className={styles.groupName}>Group name</p>
-        <p className={styles.subscribers}>10 subscribers</p>
+        <p className={styles.groupName}>{group_name}</p>
+        {/* <p className={styles.subscribers}>10 subscribers</p> */}
       </div>
     </div>
 </Link>

@@ -3,6 +3,7 @@ import { cookies } from "next/headers"
 import { URL } from "@/globals"
 
 export const getStaticProps = async () => {
+  console.log("ENTERED")
   try {
     const response = await fetch(URL + "/getUserInfo", {
       method: "GET",

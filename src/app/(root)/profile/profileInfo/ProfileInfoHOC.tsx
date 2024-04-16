@@ -18,7 +18,7 @@ export default function ProfileInfo() {
 
   const date = new Date(birthady)
   const day = date.getUTCDate()
-  const month = date.getUTCMonth() + 1 // Months are zero-based, so we add 1
+  const month = date.getUTCMonth() + 1 
   const year = date.getUTCFullYear()
   const birthDayReadable = `${day < 10 ? "0" : ""}${day}.${
     month < 10 ? "0" : ""

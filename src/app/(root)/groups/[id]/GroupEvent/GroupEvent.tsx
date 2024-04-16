@@ -1,13 +1,36 @@
 import { useEffect, useState } from "react"
 import styles from "./GroupEvent.module.css"
 import Image from "next/image"
+type GroupEventType = {
+  id: string
+  title: string
+  content: string
+  creationTime: string
+}
 
-export default function GroupEvent() {
-  const [userVoted, setUserVoted] = useState(false)
+export default function GroupEvent(props: GroupEventType) {
+  const { id, title, content, creationTime } = props;
+  const [userVoted, setUserVoted] = useState(false);
   const [votingData, setVotingData] = useState({
     goingNr: 10,
     notGoingNr: 5,
-  })
+  });
+
+  // Function to format the creation time
+  function formatCreationTime(creationTime: string) {
+    const date = new Date(creationTime);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const meridiem = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+
+    return `${day}.${month}.${year} ${formattedHours}:${minutes} ${meridiem}`;
+}
+
+
 
   function checkVote(selectedOption: string) {
     if (selectedOption) {
@@ -15,37 +38,37 @@ export default function GroupEvent() {
         setVotingData((prevData) => ({
           ...prevData,
           goingNr: prevData.goingNr + 1,
-        }))
+        }));
       } else {
         setVotingData((prevData) => ({
           ...prevData,
           notGoingNr: prevData.notGoingNr + 1,
-        }))
+        }));
       }
-      setUserVoted(true)
+      setUserVoted(true);
     } else {
-      alert("Please select an option before voting.")
+      alert("Please select an option before voting.");
     }
   }
 
   useEffect(() => {
     // Calculate the total votes
-    const totalVotes = votingData.goingNr + votingData.notGoingNr
+    const totalVotes = votingData.goingNr + votingData.notGoingNr;
 
     // Calculate progress percentages
-    const goingProgress = (votingData.goingNr / totalVotes) * 100
-    const notGoingProgress = (votingData.notGoingNr / totalVotes) * 100
+    const goingProgress = (votingData.goingNr / totalVotes) * 100;
+    const notGoingProgress = (votingData.notGoingNr / totalVotes) * 100;
 
     // Set the progress state
-    setGoingProgress(goingProgress)
-    setNotGoingProgress(notGoingProgress)
-  }, [votingData])
+    setGoingProgress(goingProgress);
+    setNotGoingProgress(notGoingProgress);
+  }, [votingData]);
 
-  const [goingProgress, setGoingProgress] = useState(0)
-  const [notGoingProgress, setNotGoingProgress] = useState(0)
+  const [goingProgress, setGoingProgress] = useState(0);
+  const [notGoingProgress, setNotGoingProgress] = useState(0);
 
   return (
-    <div className={styles.eventContainer}>
+    <div className={styles.eventContainer} id={id}>
       <div className={styles.eventUpper}>
         <div className={styles.eventAuthor}>
           <Image
@@ -57,16 +80,13 @@ export default function GroupEvent() {
           <p>Ilya Skorokhodov</p>
         </div>
         <div className={styles.dateTime}>
-          <p className={styles.eventDate}>13.03.24 :</p>
-          <p className={styles.eventTime}>15:26 </p>
+          <p className={styles.eventDate}>
+            {formatCreationTime(creationTime)}
+          </p>
         </div>
       </div>
-      <h2>Rock concert</h2>
-      <p className={styles.eventAbout}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla
-        necessitatibus offic cupiditate libero quod ex exercitationem asperiores
-        ullam.
-      </p>
+      <h2>{title}</h2>
+      <p className={styles.eventAbout}>{content}</p>
 
       <Image
         className={styles.eventImg}
@@ -81,7 +101,7 @@ export default function GroupEvent() {
         <div>
           <div className={styles.votingBlock}>
             <button onClick={() => checkVote("going")} value="going">
-             Yes
+              Yes
               <Image
                 src="/assets/icons/ok.svg"
                 alt="rock"
@@ -127,5 +147,5 @@ export default function GroupEvent() {
         </div>
       )}
     </div>
-  )
+  );
 }

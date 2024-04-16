@@ -21,7 +21,6 @@ export const getPostsForProfile = async (userId:string) => {
     })
     if (response.ok) {
       const responseData = await response.json()
-
       useProfilePostStore.getState().setPostsArray(responseData)
       return responseData
     } else {
