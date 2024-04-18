@@ -1,6 +1,5 @@
 "use client"
 
-import Post from "@/components/Post/Post"
 import styles from "./News.module.css"
 import Info from "@/components/Info/Info"
 

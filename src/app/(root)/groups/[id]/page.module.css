@@ -52,3 +52,15 @@
 .noPosts button:hover{
     background-color: var(--main-details-color);
 }
+
+.notAMember{
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+grid-column-start: 1;
+grid-column-end: -1;
+margin-top: 50px;
+    font-size: 30px;
+}

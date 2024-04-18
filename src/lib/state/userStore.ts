@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type State = {
+export type User = {
   userID: string;
   about: string;
   birth_date: string;
@@ -14,19 +14,19 @@ type State = {
 };
 
 type Action = {
-  updateUserID: (id: State["userID"]) => void;
-  updateFirstName: (firstName: State["firstName"]) => void;
-  updateLastName: (lastName: State["lastName"]) => void;
-  updateAbout: (about: State["about"]) => void;
-  updateBirthDate: (birth_date: State["birth_date"]) => void;
-  updateEmail: (email: State["email"]) => void;
-  updateGender: (gender: State["gender"]) => void;
-  updateAvatar: (avatar: State["avatar"]) => void;
-  updateUsername: (username: State["username"]) => void;
-  updatePrivacy: (privacy: State["privacy"]) => void;
+  updateUserID: (id: User["userID"]) => void;
+  updateFirstName: (firstName: User["firstName"]) => void;
+  updateLastName: (lastName: User["lastName"]) => void;
+  updateAbout: (about: User["about"]) => void;
+  updateBirthDate: (birth_date: User["birth_date"]) => void;
+  updateEmail: (email: User["email"]) => void;
+  updateGender: (gender: User["gender"]) => void;
+  updateAvatar: (avatar: User["avatar"]) => void;
+  updateUsername: (username: User["username"]) => void;
+  updatePrivacy: (privacy: User["privacy"]) => void;
 };
 
-export const usePersonStore = create<State & Action>((set) => ({
+export const usePersonStore = create<User & Action>((set) => ({
   userID: "", // Initialize userID with an empty string
   firstName: "John",
   lastName: "Doe",

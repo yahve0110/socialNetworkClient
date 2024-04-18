@@ -1,9 +1,19 @@
+import { joinGroupRequest } from "@/actions/groups/requestGroupEnter"
 import styles from "./GroupSearch.module.css"
 import Image from "next/image"
 
-export default function GroupBlock() {
+export type GroupType = {
+  GroupID: string
+  group_name: string
+}
+
+export default function GroupBlock({ GroupID, group_name }: GroupType) {
+  const requestJoinGroupHandler = async () => {
+    const requested = await joinGroupRequest(GroupID)
+  }
+
   return (
-    <div className={styles.groupBlock}>
+    <div className={styles.groupBlock} id={GroupID}>
       <div className={styles.groupBlockLeft}>
         <Image
           src={
@@ -14,11 +24,12 @@ export default function GroupBlock() {
           height={60}
         />
         <div>
-          <p className={styles.groupName}>Group name</p>
-          <p className={styles.subscribers}>10 subscribers</p>
+          <p className={styles.groupName}>{group_name}</p>
         </div>
       </div>
-      <button className={styles.subscribeBtn}>Subscribe</button>
+      <button className={styles.subscribeBtn} onClick={requestJoinGroupHandler}>
+        Subscribe
+      </button>
     </div>
   )
 }

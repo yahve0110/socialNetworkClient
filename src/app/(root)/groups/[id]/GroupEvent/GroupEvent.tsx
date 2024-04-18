@@ -1,36 +1,69 @@
 import { useEffect, useState } from "react"
 import styles from "./GroupEvent.module.css"
 import Image from "next/image"
+import { joinEvent } from "@/actions/groups/joinEvent"
+import { declineEvent } from "@/actions/groups/declineEvent"
+import { usePersonStore } from "@/lib/state/userStore"
+
+export type eventOptionsType = {
+  going: string[] | null
+  not_going: string[] | null
+}
+
 type GroupEventType = {
   id: string
   title: string
   content: string
   creationTime: string
+  eventImg: string
+  eventOptions: eventOptionsType
 }
 
 export default function GroupEvent(props: GroupEventType) {
-  const { id, title, content, creationTime } = props;
-  const [userVoted, setUserVoted] = useState(false);
+  const { id, title, content, creationTime, eventImg, eventOptions } = props
+  const [userVoted, setUserVoted] = useState(false)
   const [votingData, setVotingData] = useState({
-    goingNr: 10,
-    notGoingNr: 5,
-  });
+    goingNr: 0,
+    notGoingNr: 0,
+  })
+  const [goingProgress, setGoingProgress] = useState(0)
+  const [notGoingProgress, setNotGoingProgress] = useState(0)
+
+  console.log("EVENT OPTIONS:", eventOptions)
 
   // Function to format the creation time
   function formatCreationTime(creationTime: string) {
-    const date = new Date(creationTime);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const meridiem = hours >= 12 ? 'PM' : 'AM';
-    const formattedHours = hours % 12 || 12;
+    const date = new Date(creationTime)
+    const day = String(date.getDate()).padStart(2, "0")
+    const month = String(date.getMonth() + 1).padStart(2, "0")
+    const year = date.getFullYear()
+    const hours = date.getHours()
+    const minutes = String(date.getMinutes()).padStart(2, "0")
+    const meridiem = hours >= 12 ? "PM" : "AM"
+    const formattedHours = hours % 12 || 12
 
-    return `${day}.${month}.${year} ${formattedHours}:${minutes} ${meridiem}`;
-}
+    return `${day}.${month}.${year} ${formattedHours}:${minutes} ${meridiem}`
+  }
+  const currentUserId = usePersonStore((state) => state.userID)
 
+  useEffect(() => {
+    setUserVoted(false)
+    setVotingData({
+      goingNr: eventOptions.going ? eventOptions.going.length : 0,
+      notGoingNr: eventOptions.not_going ? eventOptions.not_going.length : 0,
+    })
 
+    if (eventOptions.going && eventOptions.going.includes(currentUserId)) {
+      setUserVoted(true)
+    }
+
+    if (
+      eventOptions.not_going &&
+      eventOptions.not_going.includes(currentUserId)
+    ) {
+      setUserVoted(true)
+    }
+  }, [eventOptions, currentUserId])
 
   function checkVote(selectedOption: string) {
     if (selectedOption) {
@@ -38,69 +71,75 @@ export default function GroupEvent(props: GroupEventType) {
         setVotingData((prevData) => ({
           ...prevData,
           goingNr: prevData.goingNr + 1,
-        }));
+        }))
       } else {
         setVotingData((prevData) => ({
           ...prevData,
           notGoingNr: prevData.notGoingNr + 1,
-        }));
+        }))
       }
-      setUserVoted(true);
+      setUserVoted(true)
     } else {
-      alert("Please select an option before voting.");
+      alert("Please select an option before voting.")
+    }
+  }
+
+  const joinEventHandler = async () => {
+    const joined = await joinEvent(id)
+    if (joined) {
+      checkVote("going")
+    }
+  }
+
+  const declineEventHandler = async () => {
+    const declined = await declineEvent(id)
+    if (declined) {
+      checkVote("notGoing")
     }
   }
 
   useEffect(() => {
     // Calculate the total votes
-    const totalVotes = votingData.goingNr + votingData.notGoingNr;
+    const totalVotes = votingData.goingNr + votingData.notGoingNr
 
     // Calculate progress percentages
-    const goingProgress = (votingData.goingNr / totalVotes) * 100;
-    const notGoingProgress = (votingData.notGoingNr / totalVotes) * 100;
+    const goingProgress = (votingData.goingNr / totalVotes) * 100
+    const notGoingProgress = (votingData.notGoingNr / totalVotes) * 100
 
     // Set the progress state
-    setGoingProgress(goingProgress);
-    setNotGoingProgress(notGoingProgress);
-  }, [votingData]);
-
-  const [goingProgress, setGoingProgress] = useState(0);
-  const [notGoingProgress, setNotGoingProgress] = useState(0);
+    setGoingProgress(goingProgress)
+    setNotGoingProgress(notGoingProgress)
+  }, [votingData])
 
   return (
     <div className={styles.eventContainer} id={id}>
       <div className={styles.eventUpper}>
-        <div className={styles.eventAuthor}>
-          <Image
-            src="/assets/imgs/avatar.png"
-            alt="avatar"
-            width={20}
-            height={20}
-          />
-          <p>Ilya Skorokhodov</p>
-        </div>
+        <div className={styles.eventAuthor}></div>
         <div className={styles.dateTime}>
-          <p className={styles.eventDate}>
-            {formatCreationTime(creationTime)}
-          </p>
+          <p className={styles.eventDate}>{formatCreationTime(creationTime)}</p>
         </div>
       </div>
       <h2>{title}</h2>
       <p className={styles.eventAbout}>{content}</p>
+      {eventImg && (
+        <Image
+          className={styles.eventImg}
+          src={eventImg}
+          alt="rock"
+          width={300}
+          height={300}
+        />
+      )}
 
-      <Image
-        className={styles.eventImg}
-        src="https://media.istockphoto.com/id/1391884768/vector/alternative-band-musicians-concert-with-crowd-silhouettes.jpg?s=612x612&w=0&k=20&c=vzy4deVEqBKVAGXuo5H_Bl2h9khJTq_dO2vNl_uFGCQ="
-        alt="rock"
-        width={300}
-        height={300}
-      />
       <h3 className={styles.question}>Will you go?</h3>
 
       {!userVoted && (
         <div>
           <div className={styles.votingBlock}>
-            <button onClick={() => checkVote("going")} value="going">
+            <button
+              //  onClick={() => checkVote("going")} value="going"
+              onClick={joinEventHandler}
+            >
               Yes
               <Image
                 src="/assets/icons/ok.svg"
@@ -109,7 +148,10 @@ export default function GroupEvent(props: GroupEventType) {
                 height={16}
               />
             </button>
-            <button onClick={() => checkVote("notGoing")} value="notGoing">
+            <button
+              // onClick={() => checkVote("notGoing")} value="notGoing"
+              onClick={declineEventHandler}
+            >
               No
               <Image
                 src="/assets/icons/notok.svg"
@@ -147,5 +189,5 @@ export default function GroupEvent(props: GroupEventType) {
         </div>
       )}
     </div>
-  );
+  )
 }
