@@ -30,6 +30,20 @@ export default function SwitchPages({
       >
         Create group
       </p>
+
+      <p
+        className={pageNr === 3 ? styles.active : ""}
+        onClick={() => setMyGroupsPage(3)}
+      >
+        Requests
+      </p>
+
+      <p
+        className={pageNr === 4 ? styles.active : ""}
+        onClick={() => setMyGroupsPage(4)}
+      >
+        Invites
+      </p>
     </div>
   )
 }

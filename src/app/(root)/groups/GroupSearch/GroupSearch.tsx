@@ -2,6 +2,7 @@ import InputComponent from "@/components/Input/InputComponent"
 import GroupBlock, { GroupType } from "./GroupBlock"
 import { useEffect, useState } from "react"
 import { getAllGroups } from "@/actions/groups/getAllGroups"
+import styles from "./GroupSearch.module.css"
 
 export default function GroupSearch() {
   const [groups, setGroups] = useState<GroupType[]>([])
@@ -16,8 +17,6 @@ export default function GroupSearch() {
     getGroupsData()
   }, [])
 
-  console.log("GROUPS: ", groups)
-
   return (
     <div>
       <div>
@@ -31,9 +30,13 @@ export default function GroupSearch() {
                 key={group.GroupID}
                 GroupID={group.GroupID}
                 group_name={group.group_name}
+                groups={groups}
+                setGroups={setGroups}
               />
             )
           })}
+
+        {groups.length < 1 && <div className={styles.noGroups}>There is no more groups</div>}
       </div>
     </div>
   )

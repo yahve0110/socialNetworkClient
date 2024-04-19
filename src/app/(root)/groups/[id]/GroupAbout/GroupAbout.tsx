@@ -4,6 +4,11 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { getGroupEnterRequests } from "@/actions/groups/getAllGroupEnterRequests"
 import { acceptGroupEnterRequest } from "@/actions/groups/acceptGroupEnterRequest"
+import { deleteGroup } from "@/actions/groups/deleteGroup"
+import { navigateToGroupPage } from "../../helpers"
+import { getUserFollowers } from "@/actions/follows/getFollowers"
+import { inviteUserToGroup } from "@/actions/groups/inviteUserToGroup"
+import { getAllUninvitedFollowers } from "@/actions/groups/getAllUninvitedFollowers"
 
 type UserType = {
   user_id: string
@@ -20,12 +25,17 @@ type GroupAboutType = {
   groupImg: string
 }
 interface UserRequest {
-  userId: string
+  user_id: string
   firstName: string
   lastName: string
   profilePicture: string
   user: UserType
 }
+
+interface UserRequest extends UserType {
+  user: UserType
+}
+
 export default function GroupAbout({
   groupId,
   creatorId,
@@ -34,14 +44,17 @@ export default function GroupAbout({
   groupImg,
 }: GroupAboutType) {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false)
+  const [inviteToGroupModal, setInviteToGroupModal] = useState(false)
+  const [userFollowers, setUserFollowers] = useState<UserType[]>([])
   const [usersRequests, setUsersRequests] = useState<UserRequest[]>([])
-
   const currentUserId = usePersonStore((state) => state.userID)
 
   useEffect(() => {
     async function getRequest() {
       const enterRequests = await getGroupEnterRequests(groupId)
-      console.log("ENTER requests", enterRequests)
+      const getCurrentUserFollowers = await getAllUninvitedFollowers(groupId)
+
+      setUserFollowers(getCurrentUserFollowers)
       setUsersRequests(enterRequests)
     }
     getRequest()
@@ -52,16 +65,38 @@ export default function GroupAbout({
     if (isAccepted) {
       // Filter out the accepted user from the current state
       const newUsersRequests = usersRequests.filter(
-        (user) => user.userId !== userId
+        (user) => user.user_id !== userId
       )
       // Update the state with the filtered user requests
       setUsersRequests(newUsersRequests)
+      if (setUsersRequests.length == 0) {
+        setUsersRequests([])
+      }
     }
   }
 
-  console.log("current user id:",currentUserId)
-  console.log("creator user id:",creatorId)
+  const deleteGroupHandler = async () => {
+    // Prompt the user for confirmation
+    if (window.confirm("Are you sure you want to delete this group?")) {
+      // If user confirms, proceed with the deletion
+      const groupDeleted = await deleteGroup(groupId)
+      if (groupDeleted) {
+        navigateToGroupPage()
+      }
+    }
+  }
 
+  const inviteUserToGroupHandler = async (userId: string) => {
+    console.log("entering inviteUserToGroupHandler")
+    const isInvited = await inviteUserToGroup(groupId, userId)
+    if (isInvited) {
+      const newUserFollowers = userFollowers.filter(
+        (user) => user.user_id !== userId
+      )
+      setUserFollowers(newUserFollowers)
+      setInviteToGroupModal(false)
+    }
+  }
 
   return (
     <div className={styles.groupAbout}>
@@ -93,6 +128,52 @@ export default function GroupAbout({
             />
           </div>
         )}
+        <div
+          className={styles.invite}
+          onClick={() => setInviteToGroupModal(!inviteToGroupModal)}
+        >
+          Invite to group
+        </div>
+        {inviteToGroupModal && (
+          <div className={styles.inviteToGroupModal}>
+            <div>
+              {userFollowers &&
+                userFollowers.map((el) => {
+                  return (
+                    <div
+                      key={el.user_id}
+                      id={el.user_id}
+                      className={styles.inviteUserDiv}
+                    >
+                      <div className={styles.userDivInfo}>
+                        <Image
+                          src={el.profilePicture}
+                          width={150}
+                          height={150}
+                          alt="avatar"
+                        />
+                        {el.first_name} {el.last_name}
+                      </div>
+                      <div
+                        className={styles.inviteDivBtn}
+                        onClick={() => inviteUserToGroupHandler(el.user_id)}
+                      >
+                        Invite{" "}
+                        <Image
+                          src={"/assets/icons/ok.svg"}
+                          width={20}
+                          height={20}
+                          alt="invite"
+                        />
+                      </div>
+                    </div>
+                  )
+                })}
+
+              {!userFollowers && <div>No followers to invite</div>}
+            </div>
+          </div>
+        )}
       </div>
       {settingsModalOpen && (
         <div className={styles.modalSettings}>
@@ -106,13 +187,18 @@ export default function GroupAbout({
             height={30}
             alt="gear"
           />
+
           <div className={styles.requests}>
             <h2>Group enter requests</h2>
             <div className={styles.requestsDiv}>
               {usersRequests ? (
                 usersRequests.map((el) => {
                   return (
-                    <div className={styles.requestDiv} id={el.user.user_id}>
+                    <div
+                      key={el.user.user_id}
+                      className={styles.requestDiv}
+                      id={el.user.user_id}
+                    >
                       <div className={styles.requestInfo}>
                         <Image
                           className={styles.userRequestAvatar}
@@ -146,6 +232,9 @@ export default function GroupAbout({
               )}
             </div>
           </div>
+          <button className={styles.deleteGroup} onClick={deleteGroupHandler}>
+            Delete group
+          </button>
         </div>
       )}
     </div>

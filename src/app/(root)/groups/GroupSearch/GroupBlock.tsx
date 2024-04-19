@@ -5,11 +5,22 @@ import Image from "next/image"
 export type GroupType = {
   GroupID: string
   group_name: string
+  groups: GroupType[]
+  setGroups: (groups: GroupType[]) => void
 }
 
-export default function GroupBlock({ GroupID, group_name }: GroupType) {
+export default function GroupBlock({
+  GroupID,
+  group_name,
+  groups,
+  setGroups,
+}: GroupType) {
   const requestJoinGroupHandler = async () => {
     const requested = await joinGroupRequest(GroupID)
+    if (requested) {
+      const newGroups = groups.filter((el) => el.GroupID !== GroupID)
+      setGroups(newGroups)
+    }
   }
 
   return (
