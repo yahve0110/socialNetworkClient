@@ -16,7 +16,7 @@ export default function FollowersBlock({
   return (
     <div className={styles.followersBLock}>
       <div className={styles.myFollowers}>
-      <h2>Followers</h2>
+      <h4>Followers</h4>
        <div className={styles.myFollowersDiv}>
        {followers && followers.length > 0 ? (
           followers.map((el: any) => (
@@ -24,10 +24,10 @@ export default function FollowersBlock({
               <Image
                 src={el.profilePicture}
                 alt="avatar"
-                width={40}
-                height={40}
+                width={100}
+                height={100}
               />
-              <div> {el.username}</div>
+              <div> {el.first_name}</div>
             </Link>
           ))
         ) : (
@@ -37,7 +37,7 @@ export default function FollowersBlock({
       </div>
       <hr />
       <div>
-        <h2>Following</h2>
+        <h4>Following</h4>
         <div className={styles.myFollowersDiv}>
         {iFollow && iFollow.length > 0 ? (
           iFollow.map((el: any) => (
@@ -45,8 +45,8 @@ export default function FollowersBlock({
               <Image
                 src={el.profilePicture}
                 alt="avatar"
-                width={40}
-                height={40}
+                width={100}
+                height={100}
               />
               <div> {el.username}</div>
             </Link>

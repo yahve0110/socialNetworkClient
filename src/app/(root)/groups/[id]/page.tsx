@@ -1,7 +1,6 @@
 "use client"
 import Container from "@/components/ PageContainer/Container"
 import styles from "./page.module.css"
-import Events from "../Events/Events"
 import GroupMembers from "./GroupMembersBlock/GroupMembers"
 import GroupContacts from "./GroupContacts/GroupContacts"
 import CreatePost from "@/components/CreatePost/CreatePost"
@@ -16,6 +15,8 @@ import { createGroupPost } from "@/actions/groups/createGroupPost"
 import GroupPostHOC from "@/components/Post/GroupPostHOC"
 import { getGroupFeed } from "@/actions/groups/getGroupFeed"
 import { getAllGroupMembers } from "@/actions/groups/getAllGroupMembers"
+import Loader from "@/components/Loader/Loader"
+import Options from "./Options/Options"
 
 interface GroupInfo {
   CreatorID: string
@@ -36,6 +37,17 @@ interface GroupEventProps {
   options: eventOptionsType
 }
 
+export type GroupMembersResponse = {
+  Members: {
+    user_id: string
+    Username: string
+    profilePicture: string
+    last_name: string
+    first_name: string
+  }[]
+  IsMember: boolean
+}
+
 export default function Group({ params }: { params: { id: string } }) {
   const [groupInfo, setGroupInfo] = useState<GroupInfo>({
     group_name: "Loading....",
@@ -44,21 +56,13 @@ export default function Group({ params }: { params: { id: string } }) {
     CreatorID: "",
   })
 
-  interface GroupMembersResponse {
-    Members: {
-      UserID: string
-      Username: string
-      ProfilePicture: string
-    }[]
-    IsMember: boolean
-  }
-
   const [showCreatePost, setShowCreatePost] = useState(false)
   const [showCreateEvent, setShowCreateEvent] = useState(false)
   const [groupMembers, setGroupMembers] = useState<GroupMembersResponse>({
     Members: [],
     IsMember: false,
   })
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const setPosts = useGroupFeedStore((state) => state.setPostsArray)
 
@@ -73,11 +77,12 @@ export default function Group({ params }: { params: { id: string } }) {
 
         const groupMembers = await getAllGroupMembers(params.id)
         setGroupMembers(groupMembers)
-        console.log("GROUP members : ", groupMembers)
         setGroupInfo(groupInfo)
         setPosts(groupFeed)
       } catch (error) {
         console.error("Error fetching group info:", error)
+      } finally {
+        setIsLoaded(true)
       }
     }
     getGroupData()
@@ -98,7 +103,15 @@ export default function Group({ params }: { params: { id: string } }) {
     }
     setShowCreatePost(false)
   }
-  console.log(groupFeed)
+
+  if (!isLoaded) {
+    return <Loader />
+  }
+
+  const creatorInfo = groupMembers.Members.filter(
+    (member) => member.user_id === groupInfo.CreatorID
+  )
+  console.log("creator", creatorInfo)
   return (
     <div className={styles.container}>
       {groupMembers && groupMembers.IsMember ? (
@@ -173,9 +186,10 @@ export default function Group({ params }: { params: { id: string } }) {
               showCreateEvent={showCreateEvent}
               setShowCreateEvent={setShowCreateEvent}
             />
-            <Events />
-            <GroupMembers />
-            <GroupContacts />
+            <GroupMembers members={groupMembers} />
+            <GroupContacts creatorInfo={creatorInfo} />
+            <Options />
+
           </div>
         </>
       ) : (

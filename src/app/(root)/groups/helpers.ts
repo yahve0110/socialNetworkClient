@@ -8,3 +8,9 @@ export async function navigateToGroup(id: string) {
 export async function navigateToGroupPage() {
   redirect(`/groups`)
 }
+
+
+
+export async function navigateToProfile() {
+  redirect(`/`)
+}

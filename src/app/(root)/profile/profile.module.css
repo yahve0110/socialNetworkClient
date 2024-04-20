@@ -21,7 +21,6 @@
     grid-template-columns: repeat(6,1fr);
     grid-template-rows: repeat(20,50px);
 
-    margin-top: 10px;
 
     height: 92%;
     overflow: hidden ;
@@ -64,6 +63,9 @@ margin-bottom: 1rem;
 padding:12px;
 
 }
+.followersBLock h2{
+    margin-bottom: 10px;
+}
 
 .myFollowersDiv{
     display: flex;
@@ -71,11 +73,14 @@ padding:12px;
 }
 
 .myFollowersDiv a{
-    margin-right: 7px;
+    margin-right: 10px;
+    color: var(--main-text-color);
 }
 
 .followersBLock img{
     border-radius: 50%;
+    width: 35px;
+    height: 35px;
     object-fit: cover;
 }
 
@@ -115,4 +120,24 @@ padding:12px;
         width: 100%;
         justify-content: center;
         padding: 3rem;
+    }
+
+    .groupItem{
+        display: flex;
+        align-items: center;
+        margin-top: 5px;
+
+    }
+    .groupItem img{
+        margin-right: 10px;
+    }
+
+    .groupItem:hover{
+        background-color: var(--main-section-color);
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+   .followersBLock h4{
+        margin-bottom: 5px;
     }

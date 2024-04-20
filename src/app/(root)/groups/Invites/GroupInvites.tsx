@@ -66,7 +66,7 @@ console.log(groupInvites)
           </div>
         ))
       ) : (
-        <div className={styles.noInvites}>You don't have any invites</div>
+        <div className={styles.noInvites}>{`You don't have any invites`}</div>
       )}
     </div>
   )

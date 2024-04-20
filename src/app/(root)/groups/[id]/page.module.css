@@ -13,6 +13,8 @@
     grid-column-start: 7;
     grid-column-end: -1;
 
+   
+
 
 }
 
@@ -59,8 +61,14 @@
     display: flex;
     justify-content: center;
     margin: 0 auto;
-grid-column-start: 1;
-grid-column-end: -1;
-margin-top: 50px;
+    grid-column-start: 1;
+    grid-column-end: -1;
+    margin-top: 50px;
     font-size: 30px;
+}
+/* Updated CSS */
+.app-container a {
+    text-decoration: none;
+    color: var(--main-text-color);
+
 }

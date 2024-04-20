@@ -1,6 +1,4 @@
-
-
-.eventsContainer{
+.options{
     grid-column-start: 7;
     grid-column-end: -1;
 
@@ -11,4 +9,5 @@
     margin-bottom: 10px;
 
     background-color: var(--secondary-section-color);
+    opacity: 0%;
 }

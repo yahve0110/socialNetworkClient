@@ -5,10 +5,11 @@ import { useEffect, useState } from "react"
 import { getGroupEnterRequests } from "@/actions/groups/getAllGroupEnterRequests"
 import { acceptGroupEnterRequest } from "@/actions/groups/acceptGroupEnterRequest"
 import { deleteGroup } from "@/actions/groups/deleteGroup"
-import { navigateToGroupPage } from "../../helpers"
+import { navigateToGroupPage, navigateToProfile } from "../../helpers"
 import { getUserFollowers } from "@/actions/follows/getFollowers"
 import { inviteUserToGroup } from "@/actions/groups/inviteUserToGroup"
 import { getAllUninvitedFollowers } from "@/actions/groups/getAllUninvitedFollowers"
+import { leaveGroup } from "@/actions/groups/leaveGroup"
 
 type UserType = {
   user_id: string
@@ -98,6 +99,12 @@ export default function GroupAbout({
     }
   }
 
+  const leaveGroupHandler = async ()=>{
+      const leftSuccessfully = await leaveGroup(groupId)
+      if(leftSuccessfully){
+        navigateToProfile()      }
+  }
+
   return (
     <div className={styles.groupAbout}>
       <Image
@@ -128,12 +135,30 @@ export default function GroupAbout({
             />
           </div>
         )}
+        {currentUserId !== creatorId && (
+          <div className={styles.leave} onClick={leaveGroupHandler}>
+            Leave group
+            <Image
+              src={"/assets/icons/leave.svg"}
+              width={15}
+              height={15}
+              alt="leave img"
+            />
+          </div>
+        )}
         <div
           className={styles.invite}
           onClick={() => setInviteToGroupModal(!inviteToGroupModal)}
         >
           Invite to group
+          <Image
+              src={"/assets/icons/addPerson.svg"}
+              width={15}
+              height={15}
+              alt="leave img"
+            />
         </div>
+
         {inviteToGroupModal && (
           <div className={styles.inviteToGroupModal}>
             <div>

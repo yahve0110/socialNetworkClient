@@ -9,3 +9,20 @@
 
     background-color: var(--secondary-section-color);
 }
+
+.contactsWrapper a{
+    color: var(--main-text-color);
+}
+
+.avatar{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.info{
+    display: flex;
+    margin-top: 10px;
+}

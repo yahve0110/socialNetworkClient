@@ -12,6 +12,7 @@ import { getUserInfoById } from "@/actions/user/getUserInfoById"
 import { usePersonStore } from "@/lib/state/userStore"
 import { getAllFollowers } from "@/actions/follows/getAllFollowers"
 import ProfilePostHOC from "@/components/Post/ProfilePostHOC"
+import Loader from "@/components/Loader/Loader"
 
 export interface UserInfo {
   first_name: string
@@ -40,6 +41,7 @@ export default function Profile({ params }: ProfileProps) {
   useEffect(() => {
     async function fetchPageData() {
       try {
+        console.log("HERE 1")
         console.log(params.id)
         setLoading(true)
 
@@ -74,10 +76,13 @@ export default function Profile({ params }: ProfileProps) {
     (follower) => follower.user_id === currentUserId
   )
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <Loader/>
   if (error) return <div>Error: {error.message}</div>
 
   console.log(followers)
+
+  console.log("HERE 2")
+  console.log("POSTS: ",posts)
   return (
     <div className={`sectionComponent ${styles.profile}`}>
       {userInfo && (userInfo.privacy === "public" || profileAccess) ? (

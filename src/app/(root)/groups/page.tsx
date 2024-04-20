@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Events from "./Events/Events"
 import GroupSearch from "./GroupSearch/GroupSearch"
 import styles from "./Groups.module.css"
 import MyGroups from "./MyGroups/MyGroups"
@@ -23,7 +22,7 @@ export default function Groups() {
       </div>
       <div className={styles.sidebar}>
         <SwitchPages setMyGroupsPage={setMyGroupsPage} pageNr={pageNr} />
-        <Events />
+     
       </div>
     </div>
   )

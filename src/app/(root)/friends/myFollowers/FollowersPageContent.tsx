@@ -7,6 +7,7 @@ import { usePersonStore } from "@/lib/state/userStore"
 import { getUserFollowers } from "@/actions/follows/getFollowers"
 import { debounce } from "@/components/Input/inputHelpers"
 import { followUser } from "@/actions/follows/followUser"
+import Loader from "@/components/Loader/Loader"
 
 interface Friend {
   user_id: string
@@ -88,9 +89,9 @@ export function FollowersPageContent() {
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return <Loader/>
   }
-console.log(friends);
+
 
   return (
     <>

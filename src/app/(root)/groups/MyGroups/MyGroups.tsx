@@ -3,8 +3,9 @@ import MyGroup from "./MyGroup"
 import { useEffect, useState } from "react"
 import { getMyGroups } from "@/actions/groups/getMyGroups"
 import styles from "./ MyGroups.module.css"
+import { debounce } from "@/components/Input/inputHelpers"
 
-interface MyGroupProps {
+export type MyGroupProps = {
   key: string
   GroupID: string
   group_name: string
@@ -12,13 +13,16 @@ interface MyGroupProps {
 
 export default function MyGroups() {
   const [groupsArr, setGroupsArr] = useState<MyGroupProps[]>([])
+  const [initialGroupsArr, setInitialGroupsArr] = useState<MyGroupProps[]>([])
+
+  const [searchTerm, setSearchTerm] = useState<string>("")
 
   useEffect(() => {
     async function getGroups() {
       try {
         const myGroups = await getMyGroups()
-        console.log(myGroups)
         setGroupsArr(myGroups)
+        setInitialGroupsArr(myGroups)
       } catch (error) {
         console.error("Error fetching user's groups:", error)
       }
@@ -26,10 +30,25 @@ export default function MyGroups() {
     getGroups()
   }, [])
 
+  //search
+
+  const handleSearch = debounce((params: string) => {
+    setSearchTerm(params)
+    if (params) {
+      const lowerCaseParams = params.toLowerCase().trim()
+      const newArr = groupsArr.filter((group) =>
+        group.group_name.toLowerCase().includes(lowerCaseParams)
+      )
+      setGroupsArr(newArr)
+    } else {
+      setGroupsArr(initialGroupsArr)
+    }
+  }, 300)
+
   return (
     <div>
       <div>
-        <InputComponent sortHandler={() => console.log("ads")} />
+        <InputComponent sortHandler={handleSearch} />
       </div>
       <div>
         {groupsArr &&
@@ -41,7 +60,11 @@ export default function MyGroups() {
               group_name={el.group_name}
             />
           ))}
-        {!groupsArr && <div className={styles.noGroups}>You are not belong to any group </div>}
+        {!groupsArr && (
+          <div className={styles.noGroups}>
+            You are not belong to any group{" "}
+          </div>
+        )}
       </div>
     </div>
   )

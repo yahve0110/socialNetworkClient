@@ -11,6 +11,7 @@ import { getStaticProps } from "@/actions/user/getUserInfo"
 import { useProfilePostStore } from "@/lib/state/profilePostStore"
 import { getAllFollowers } from "@/actions/follows/getAllFollowers"
 import ProfilePostHOC from "@/components/Post/ProfilePostHOC"
+import Loader from "@/components/Loader/Loader"
 
 export default function Profile() {
   const setPosts = useProfilePostStore((state) => state.setPostsArray)
@@ -67,7 +68,7 @@ export default function Profile() {
     <div className={`sectionComponent ${styles.profile}`}>
       {/* Show loading indicator while data is being fetched */}
       {loading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <>
           <ProfileInfo />
@@ -84,7 +85,6 @@ export default function Profile() {
               <CreatePost
                 placeholder="What's on your mind?"
                 followers={followers}
-
               />
 
               {/* Display posts */}
