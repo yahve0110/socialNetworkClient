@@ -29,8 +29,6 @@ export default function GroupEvent(props: GroupEventType) {
   const [goingProgress, setGoingProgress] = useState(0)
   const [notGoingProgress, setNotGoingProgress] = useState(0)
 
-  console.log("EVENT OPTIONS:", eventOptions)
-
   // Function to format the creation time
   function formatCreationTime(creationTime: string) {
     const date = new Date(creationTime)

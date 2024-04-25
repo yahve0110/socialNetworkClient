@@ -46,7 +46,6 @@
     border-radius: 5px;
     padding: 20px 20px;
 
-    border:var(--main-border);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 
     background-color: var(--secondary-section-color);

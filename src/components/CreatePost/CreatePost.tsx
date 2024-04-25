@@ -32,7 +32,7 @@ export const InputFormInactive: FC<PostFormInactiveProps> = ({
     >
       <div className={styles.leftPart}>
         <Image
-          src="/assets/imgs/search.png"
+          src="/assets/icons/search.svg"
           alt="avatar"
           width={20}
           height={20}

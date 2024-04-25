@@ -4,6 +4,7 @@
 import Link from "next/link"
 import styles from "./Navbar.module.css"
 import { usePathname } from "next/navigation"
+import Image from "next/image"
 
 export default function Navbar() {
   const pathname = usePathname()
@@ -13,7 +14,7 @@ export default function Navbar() {
     { name: "Friends", href: "/friends" },
     { name: "Messages", href: "/messages" },
     { name: "Groups", href: "/groups" },
-    { name: "News", href: "/news" },
+   // { name: "News", href: "/news" },
     { name: "Settings", href: "/settings" },
   ]
 
@@ -29,7 +30,6 @@ export default function Navbar() {
                   pathname === route.href ? styles.active : styles.link
                 }
               >
-
                 {route.name}
               </Link>
             </li>

@@ -25,9 +25,14 @@ background-color: var(--main-section-color);
 
 padding: 5px;
 cursor: pointer;
+border-radius: 5px;
 }
 
 .btnsBlock button:hover{
     background-color: var(--main-details-color);
 
+}
+
+.selected{
+    background-color: var(--main-details-color) !important;
 }

@@ -8,6 +8,7 @@ import { logoutHandler } from "@/actions/auth/logout"
 import { useRouter } from "next/navigation"
 import { usePersonStore } from "@/lib/state/userStore"
 import UserStorePopulation from "@/lib/populateState/UserStorePopulation"
+import Link from "next/link"
 
 export const Header: React.FC = () => {
   const { push } = useRouter()
@@ -42,7 +43,7 @@ export const Header: React.FC = () => {
           <Image
             width={50}
             height={50}
-            src="/assets/imgs/notification.png"
+            src="/assets/icons/notifibell.svg"
             alt="notification"
           />
 
@@ -60,10 +61,19 @@ export const Header: React.FC = () => {
 
             {modalOpen && (
               <div className={styles.modal}>
-                <button className={styles.logoutBtn}>My profile</button>
+                <Link className={styles.logoutBtn} href={"/profile"}>
+                  My profile
+                </Link>
 
                 <button className={styles.logoutBtn} onClick={logUserOut}>
-                  logout
+                  Logout{" "}
+                  <Image
+                    className={styles.logoutImg}
+                    src={"/assets/icons/logout.svg"}
+                    alt="logout"
+                    width={15}
+                    height={15}
+                  />
                 </button>
               </div>
             )}

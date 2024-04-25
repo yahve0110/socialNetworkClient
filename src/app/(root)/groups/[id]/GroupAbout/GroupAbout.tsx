@@ -125,7 +125,7 @@ export default function GroupAbout({
               setSettingsModalOpen(!settingsModalOpen)
             }}
           >
-            <button> Group settings</button>
+            <button>Settings</button>
             <Image
               className={styles.settingIcon}
               src={"/assets/icons/gear.svg"}

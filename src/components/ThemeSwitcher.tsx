@@ -9,7 +9,6 @@ const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
   let { theme, setTheme } = useTheme()
 
-
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
     setMounted(true)
@@ -18,24 +17,26 @@ const ThemeSwitch = () => {
   if (!mounted) {
     return null
   }
-console.log(theme);
+  console.log(theme)
 
-const toggleTheme = () => {
-  if (theme === "light") {
-    setTheme("dark");
-  } else if (theme === "dark") {
-    setTheme("system"); 
-  } else if (theme === "system") {
-    setTheme("light");
+  const toggleTheme = () => {
+    if (theme === "light") {
+      setTheme("dark")
+    } else {
+      setTheme("light")
+    }
   }
-};
+
 
 
   return (
     <>
-    {theme === "light" ?   <div className={styles.sunMoonDiv}></div> : <div className={styles.moonDiv}></div>}
+      {theme === "light" ? (
+        <div className={styles.sunMoonDiv}></div>
+      ) : (
+        <div className={styles.moonDiv}></div>
+      )}
       <div className={styles.swithcDiv}>
-
         <label className={styles.switchLabel}>
           <input
             type="checkbox"

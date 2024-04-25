@@ -33,7 +33,7 @@ const followHandler = (e:React.MouseEvent<HTMLElement>) =>{
     <Link href={`/profile/${user_id}`}>
       <div className={styles.cartDiv}>
         <div className={styles.imageDiv}>
-          <Image src={profilePicture} alt="Avatar" width={60} height={60} />
+          <Image src={profilePicture} alt="Avatar" width={100} height={100} />
           <p>
             {firstName} {lastName}
           </p>
