@@ -3,6 +3,8 @@ import styles from "./FriendCart.module.css"
 import Image from "next/image"
 import Link from "next/link"
 import { unFollowUser } from "@/actions/follows/unfollowUser"
+import { openChat } from "@/actions/privateChat/openChat"
+import { navigateToChat } from "../../groups/helpers"
 
 type FriendCartProps = {
   user_id:string
@@ -29,6 +31,16 @@ const unfollowHanlder = (e: React.MouseEvent<HTMLElement>) => {
   e.preventDefault()
   unfollowHanlderCallback(user_id)
 }
+
+const sendMessageHandler = async (e: React.MouseEvent<HTMLElement>) => {
+  e.preventDefault()
+  const resp = await openChat(user_id)
+  if (resp) {
+    navigateToChat(resp.chat_id)
+  }
+}
+
+
   return (
     <Link href={`/profile/${user_id}`}>
       <div className={styles.cartDiv}>
@@ -41,7 +53,7 @@ const unfollowHanlder = (e: React.MouseEvent<HTMLElement>) => {
 
         <div className={styles.buttonContainer}>
         <button onClick={(e)=>(unfollowHanlder(e))}>Unfollow</button>
-          <button>Send message</button>
+          <button onClick={(e)=>{sendMessageHandler(e)}}>Send message</button>
           <Image
             src="/assets/imgs/plane.png"
             alt="searchIcon"

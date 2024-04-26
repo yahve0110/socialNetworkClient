@@ -1,25 +1,50 @@
 import styles from "./Messages.module.css"
 import Image from "next/image"
-import Link from 'next/link'
+import Link from "next/link"
 
-export default function PreviewMessage() {
-  let id = 1
+export type PreviewMessageType = {
+  chat_id: string
+  first_name: string
+  last_name: string
+  profile_picture: string
+  last_message: string
+  last_message_time: string
+}
+
+export default function PreviewMessage({
+  chat_id,
+  first_name,
+  last_name,
+  profile_picture,
+  last_message,
+  last_message_time,
+}: PreviewMessageType) {
+  last_message = last_message.slice(0, 6) + "..."
+
+  const formattedTimestamp = new Date(last_message_time).toLocaleString(
+    "eu-EU",
+    {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false, // Установка параметра hour12 в false для 24-часового формата
+    }
+  )
+
   return (
-    <Link href="messages/${id}"className={styles.messageDiv}>
+    <Link href={`messages/${chat_id}`} className={styles.messageDiv}>
       <div className={styles.messageLeftPart}>
-        <Image
-          src="/assets/imgs/avatar.png"
-          alt="avatar"
-          width={50}
-          height={50}
-        />
+        <Image className={styles.previewAvatar} src={profile_picture} alt="avatar" width={50} height={50} />
         <div className={styles.messageName}>
-          <p>Ilya Skorokhodov</p>
-          <div className={styles.message}>Heei how are you?</div>
+          <p>
+            {first_name} {last_name}
+          </p>
+          <div className={styles.message}>{last_message}</div>
         </div>
-      </div>
 
-      <div className={styles.time}>12.30</div>
+      </div>
+      <div>
+        <div className={styles.msgTime}>{last_message_time ? formattedTimestamp : ""}</div>
+      </div>
     </Link>
   )
 }

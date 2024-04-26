@@ -80,3 +80,8 @@ align-items: flex-end;
 .messageName div{
 margin-left: 20px;
 }
+
+.previewAvatar{
+   border-radius: 50%;
+   object-fit: cover;
+}

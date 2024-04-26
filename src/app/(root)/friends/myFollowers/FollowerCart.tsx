@@ -2,17 +2,19 @@ import React from "react"
 import styles from "./FollowerCart.module.css"
 import Image from "next/image"
 import Link from "next/link"
+import { openChat } from "@/actions/privateChat/openChat"
+import { navigateToChat } from "../../groups/helpers"
 
 type FriendCartProps = {
-  user_id:string
+  user_id: string
   profilePicture: string
   firstName: string
   lastName: string
-  about:string
-  email:string
-  birthday:string
-  canBeFollowed:boolean
-  onFollow:(userId:string)=>void
+  about: string
+  email: string
+  birthday: string
+  canBeFollowed: boolean
+  onFollow: (userId: string) => void
 }
 
 export const FollowerCart = ({
@@ -21,13 +23,20 @@ export const FollowerCart = ({
   firstName,
   lastName,
   canBeFollowed,
-  onFollow
-}:FriendCartProps) => {
+  onFollow,
+}: FriendCartProps) => {
+  const followHandler = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    onFollow(user_id)
+  }
 
-const followHandler = (e:React.MouseEvent<HTMLElement>) =>{
-  e.preventDefault()
-  onFollow(user_id)
-}
+  const sendMessageHandler = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    const resp = await openChat(user_id)
+    if (resp) {
+      navigateToChat(resp.chat_id)
+    }
+  }
 
   return (
     <Link href={`/profile/${user_id}`}>
@@ -40,8 +49,17 @@ const followHandler = (e:React.MouseEvent<HTMLElement>) =>{
         </div>
 
         <div className={styles.buttonContainer}>
-      {canBeFollowed &&   <button onClick={(e)=>(followHandler(e))}>Follow back</button>}
-          <button>Send message</button>
+          {canBeFollowed && (
+            <button onClick={(e) => followHandler(e)}>Follow back</button>
+          )}
+          <button
+            className={styles.sendMsg}
+            onClick={(e) => {
+              sendMessageHandler(e)
+            }}
+          >
+            Send message
+          </button>
 
           <Image
             src="/assets/imgs/plane.png"
@@ -50,10 +68,7 @@ const followHandler = (e:React.MouseEvent<HTMLElement>) =>{
             height={15}
           />
         </div>
-
       </div>
     </Link>
   )
 }
-
-
