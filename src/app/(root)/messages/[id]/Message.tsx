@@ -32,7 +32,7 @@ export default function Message({
 
 
   return (
-    <div className={currentUserId === message_author_id ? styles.message : styles.msgReverse}>
+    <div className={currentUserId === message_author_id ? styles.msgReverse : styles.message}>
       <div className={styles.messageLeftPart}>
         <div className={styles.messageName}>
           <p>{first_name}</p>

@@ -80,6 +80,7 @@ cursor: pointer;
     overflow: auto;
     display: flex;
     flex-direction: column;
+    padding-bottom: 5rem;
 
  }
 
@@ -108,6 +109,8 @@ cursor: pointer;
     max-width: 70%;
     border-radius: 10px 10px 10px 0;
     position: relative;
+    text-wrap: wrap;
+word-wrap: break-word;
 
 
 }
@@ -127,12 +130,15 @@ cursor: pointer;
 
 .msgReverse{
    margin-bottom: 20px;
-   background-color: var(--main-section-color);
+   background-color: var(--mymsg-color);
    padding: 7px;
    max-width: 70%;
    border-radius: 10px 10px 0px 10px;
    position: relative;
    align-self: flex-end;
+   overflow-wrap: break-word;
+
+
 }
 .msgReverse::after {
    content: "";
@@ -142,7 +148,7 @@ cursor: pointer;
    display: block;
    width: 30px;
    height: 30px;
-   background: radial-gradient(60px at top right, transparent 49%, var(--main-section-color) 51%) no-repeat right bottom;
+   background: radial-gradient(60px at top right, transparent 49%,  var(--mymsg-color) 51%) no-repeat right bottom;
 
 
 }
@@ -164,6 +170,10 @@ display: flex;
     align-items: flex-end;
 margin-left: 30px;
 margin-bottom: 5px;
+overflow-wrap: break-word;
+overflow-wrap: anywhere;
+
+
  }
 
  .messagePageWrapper{
@@ -208,4 +218,36 @@ margin-bottom: 5px;
    height: 30px;
    border-radius: 50%;
    object-fit: cover;
+ }
+
+ .emojiBtn{
+   width: 40px;
+   height: 40px;
+   margin-right: 20px;
+   cursor: pointer;
+   border: transparent;
+   background: transparent;
+ }
+
+.emojiPicker{
+   position: relative;
+}
+
+ .emojiDiv{
+   background-color: var(--mymsg-color);
+   border-radius: 10px;
+   position: absolute;
+   top: -100px;
+   left: -20px;
+   max-width: 200px;
+   padding: 3px;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-around;
+
+ }
+
+ .emojiContainer{
+
+   cursor: pointer;
  }

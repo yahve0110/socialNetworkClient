@@ -48,7 +48,7 @@ export default function FollowersBlock({
                 width={100}
                 height={100}
               />
-              <div> {el.username}</div>
+              <div> {el.first_name}</div>
             </Link>
           ))
         ) : (

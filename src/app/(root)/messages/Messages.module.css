@@ -36,6 +36,7 @@
   padding: 5px;
   text-decoration: none;
   color: var(--main-text-color);
+  word-wrap: break-word;
 
  }
 
@@ -62,6 +63,7 @@ background-color: var(--main-section-color);
  .message{
 display: flex;
 align-items: flex-end;
+word-wrap: break-word;
  }
 
  .time{

@@ -8,6 +8,8 @@ import Link from "next/link"
 import { getChatHistory } from "@/actions/privateChat/getChatHistory"
 import { sendPrivateMessage } from "@/actions/privateChat/sendMessage"
 import Loader from "@/components/Loader/Loader"
+import { usePersonStore } from "@/lib/state/userStore"
+import { ws } from "../page"
 
 type ChatInfoType = {
   first_name: string
@@ -17,12 +19,42 @@ type ChatInfoType = {
 
 export default function MessagePage({ id }: { id: string }) {
   const messageContainerRef = useRef<HTMLDivElement>(null)
-  const [messages, setMessages] = useState<MessageType[]>([])
+  // const [messages, setMessages] = useState<MessageType[]>([])
+  const [messages, setMessages] = useState<any[]>([])
+
   const [text, setText] = useState<string>("")
-  const [chatInfo, setChatInfo] = useState<ChatInfoType>({first_name:"", last_name:"",profile_picture:""})
-  const [rerender, setRerender] = useState(1)
+  const [chatInfo, setChatInfo] = useState<ChatInfoType>({
+    first_name: "",
+    last_name: "",
+    profile_picture: "",
+  })
   const [isloaded, setIsLoaded] = useState(false)
 
+  const currentUserId = usePersonStore((state) => state.userID)
+
+  function sendMessage() {
+    // Отправка сообщения через WebSocket
+    if (!text.trim()) {
+      return
+    }
+    ws.send(
+      JSON.stringify({ message: text, user_id: currentUserId, chat_id: id })
+    )
+    setText("")
+    scrollToBottom()
+  }
+
+  ws.onmessage = function (event) {
+    const data = JSON.parse(event.data)
+
+    if (messages && messages.length > 0) {
+      setMessages([...messages, data])
+    } else {
+      setMessages([data])
+    }
+
+    scrollToBottom()
+  }
 
   // Загрузка сообщений и прокрутка вниз
   useEffect(() => {
@@ -30,18 +62,21 @@ export default function MessagePage({ id }: { id: string }) {
       const chatData = await getChatHistory(id)
       setMessages(chatData.messages_with_user)
       setChatInfo(chatData.chat_info)
-      console.log(chatData)
       scrollToBottom()
       setIsLoaded(true)
     }
     getData()
-  }, [rerender])
+  }, [])
 
   // Прокрутка контейнера к последнему сообщению
   const scrollToBottom = () => {
+    console.log("Scrolling to bottom...")
     if (messageContainerRef.current) {
+      console.log("Message container ref found:", messageContainerRef.current)
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight
+    } else {
+      console.log("Message container ref is null")
     }
   }
 
@@ -52,20 +87,22 @@ export default function MessagePage({ id }: { id: string }) {
     event.target.style.height = Math.min(event.target.scrollHeight, 200) + "px"
   }
 
-  const sendMessageHandler = async () => {
-    const newMessage = await sendPrivateMessage(id, text)
-    setText("") // Очищаем текстовое поле
-    scrollToBottom() // Прокручиваем контейнер к последнему сообщению
-    setRerender(rerender + 1)
+  const emojis = ["😀", "😂", "😊", "😍", "🥰", "😎", "🤩", "😘", "😋", "🤔"] // Add more emojis as needed
+  const [showPicker, setShowPicker] = useState(false)
+
+  const togglePicker = () => {
+    setShowPicker(!showPicker)
   }
-  console.log("Chat INFO:", chatInfo)
 
+  const handleEmojiSelect = (emoji:string) => {
+    setText(text+emoji)
+    togglePicker();
+  };
 
- if(!isloaded){
-  return <Loader/>
- }
-
-
+  if (!isloaded) {
+    return <Loader />
+  }
+  console.log("MESSAGES", messages)
   return (
     <div className={styles.messagePageWrapper}>
       <div className={styles.messagePageContainerUp}>
@@ -84,7 +121,7 @@ export default function MessagePage({ id }: { id: string }) {
         </div>
         <div>
           <Image
-          className={styles.profile_picture}
+            className={styles.profile_picture}
             src={chatInfo.profile_picture}
             alt="avatar"
             width={40}
@@ -115,14 +152,32 @@ export default function MessagePage({ id }: { id: string }) {
       </div>
 
       <div className={styles.messagePageContainerBottom}>
+        <div className={styles.emojiPicker}>
+          <button className={styles.emojiBtn} onClick={togglePicker}>😊</button>
+          {showPicker && (
+            <div className={styles.emojiDiv}>
+              {emojis.map((emoji, index) => (
+                <span className={styles.emojiContainer} key={index} onClick={() => handleEmojiSelect(emoji)}>
+                  {emoji}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
         <textarea
           onChange={handleTextChange}
           value={text}
           placeholder="Your message..."
+          onKeyUp={(e) => {
+            if (e.keyCode === 13) {
+              sendMessage()
+            }
+          }}
         ></textarea>
         <Image
           className={styles.sendMsgIcon}
-          onClick={sendMessageHandler}
+          onClick={sendMessage}
           src="/assets/icons/sendMsg.svg"
           alt="avatar"
           width={30}
