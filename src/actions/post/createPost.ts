@@ -13,7 +13,6 @@ export const createUserPost = async (
   if (!imageBase64) {
     imageBase64 = ""
   }
-  console.log("Selected users: " + selectedUsersFinal)
   try {
     const response = await fetch(URL + "/addpost", {
       method: "POST",

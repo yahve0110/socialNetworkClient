@@ -14,7 +14,6 @@ export const getAllGroups = async () => {
     })
     if (response.ok) {
       const responseData = await response.json()
-      console.log(responseData)
       return responseData
     } else {
       console.error("Failed to get data:", response.statusText)

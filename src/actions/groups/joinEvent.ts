@@ -4,7 +4,6 @@ import { cookies } from "next/headers"
 import { URL } from "@/globals"
 
 export const joinEvent = async (eventId: string) => {
-  console.log("event ID: " + eventId)
   try {
     const response = await fetch(URL + `/joinEvent`, {
       method: "POST",

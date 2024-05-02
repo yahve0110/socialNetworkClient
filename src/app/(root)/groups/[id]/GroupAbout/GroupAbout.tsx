@@ -161,6 +161,16 @@ export default function GroupAbout({
 
         {inviteToGroupModal && (
           <div className={styles.inviteToGroupModal}>
+                   <Image
+            className={styles.closeModal}
+            onClick={() => {
+              setInviteToGroupModal(false)
+            }}
+            src={"/assets/icons/delete.svg"}
+            width={30}
+            height={30}
+            alt="gear"
+          />
             <div>
               {userFollowers &&
                 userFollowers.map((el) => {

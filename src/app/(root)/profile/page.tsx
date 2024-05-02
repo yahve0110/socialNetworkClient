@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import ProfileInfo from "./profileInfo/ProfileInfoHOC"
 import styles from "./profile.module.css"
 import FollowersBlock from "./profileInfo/FollowersBlock"
@@ -12,6 +12,20 @@ import { useProfilePostStore } from "@/lib/state/profilePostStore"
 import { getAllFollowers } from "@/actions/follows/getAllFollowers"
 import ProfilePostHOC from "@/components/Post/ProfilePostHOC"
 import Loader from "@/components/Loader/Loader"
+import { usePersonStore } from "@/lib/state/userStore"
+
+ type User = {
+  user_id: string;
+  about: string;
+  birth_date: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  gender: string;
+  profilePicture: string;
+  username: string;
+  privacy:string;
+};
 
 export default function Profile() {
   const setPosts = useProfilePostStore((state) => state.setPostsArray)
@@ -23,12 +37,36 @@ export default function Profile() {
 
   console.log("RERENDER PAGE")
 
+  const updateUserID = usePersonStore((state) => state.updateUserID)
+  const updateFirstName = usePersonStore((state) => state.updateFirstName)
+  const updateLastName = usePersonStore((state) => state.updateLastName)
+  const updateAbout = usePersonStore((state) => state.updateAbout)
+  const updateBirthDate = usePersonStore((state) => state.updateBirthDate)
+  const updateAvatar = usePersonStore((state) => state.updateAvatar)
+  const updateEmail = usePersonStore((state) => state.updateEmail)
+  const updateUsername = usePersonStore((state) => state.updateUsername)
+  const updatePrivacy = usePersonStore((state) => state.updatePrivacy)
+
+  const updateUserData = useCallback((userData:User) => {
+    updateUserID(userData.user_id)
+    updateFirstName(userData.first_name)
+    updateLastName(userData.last_name)
+    updateAbout(userData.about)
+    updateBirthDate(userData.birth_date)
+    updateAvatar(userData.profilePicture)
+    updateEmail(userData.email)
+    updateUsername(userData.username)
+    updatePrivacy(userData.privacy)
+  }, [updateUserID, updateFirstName, updateLastName, updateAbout, updateBirthDate, updateAvatar, updateEmail, updateUsername, updatePrivacy])
+
   useEffect(() => {
     let isFinished = false
     async function fetchPageData() {
       try {
         // Fetch user data
         const userData = await getStaticProps()
+        updateUserData(userData)
+
         const userId = userData.user_id
 
         // Fetch posts for the profile

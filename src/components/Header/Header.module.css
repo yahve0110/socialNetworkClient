@@ -208,3 +208,70 @@ width: 15px !important;
 height: 15px !important;
 margin-left: 10px;
 }
+
+
+.notificationBell{
+    cursor: pointer;
+}
+
+
+.notificationModal{
+    width: 300px;
+    min-height: 150px;
+    background-color: var(--main-section-color);
+    position: absolute;
+    right:150px;
+    top: 60px;
+    z-index: 444;
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 250px;
+    overflow: auto;
+}
+
+
+.notificationModal::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Define the thumb style */
+  .notificationModal::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 5px;
+  }
+
+  /* Define the track style */
+  .notificationModal::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+
+.notificationDiv{
+    padding: 5px;
+    margin-bottom: 6px;
+    background: var(--secondary-section-color);
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+
+.popUpDiv{
+    width: 300px;
+    height: 100px;
+    background-color: rgba(46, 44, 44, 0.759);
+    padding: 20px;
+    position: absolute;
+    bottom: 20px;
+    right: 50px;
+    border-radius: 5px;
+    color: white;
+}
+
+.closeModal{
+    position: absolute;
+    top: 7px;
+    right: 15px;
+    cursor: pointer;
+}

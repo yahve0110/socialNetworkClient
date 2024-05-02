@@ -87,3 +87,60 @@ margin-left: 20px;
    border-radius: 50%;
    object-fit: cover;
 }
+
+
+.switchDiv{
+   grid-column-start: 7;
+   grid-column-end: -1;
+
+   height: 400px;
+   padding: 20px;
+
+   border-radius: 10px;
+
+   background-color: var(--secondary-section-color);
+}
+
+.switchOption{
+   margin-bottom: 7px;
+   background-color: var(--main-section-color);
+   padding: 3px;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+.activeSwitch{
+   background-color: var(--main-details-color);
+}
+
+.noMessages{
+   font-size: 18px;
+   width: 100%;
+   margin-top: 50px;
+   display: flex;
+   justify-content: center;
+}
+
+.groupChatItem{
+   border-bottom: var(--main-border);
+   display: flex;
+   padding: 5px;
+   border-radius: 10px;
+   margin-bottom: 10px;
+   color: var(--main-text-color);
+}
+
+
+.groupChatItem:hover{
+   background-color: var(--main-section-color);
+   cursor: pointer;
+}
+.groupChatItem div{
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+}
+
+.groupChatItem img{
+   margin-right: 10px;
+}

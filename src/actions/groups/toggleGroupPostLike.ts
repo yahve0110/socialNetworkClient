@@ -3,12 +3,7 @@ import { cookies } from "next/headers"
 
 import { URL } from "@/globals"
 
-export const toggleGroupPostLike = async (
-  groupId: string,
-  postId: string,
-
-) => {
-
+export const toggleGroupPostLike = async (groupId: string, postId: string) => {
   try {
     const response = await fetch(URL + "/addGroupPostLike", {
       method: "POST",
@@ -18,7 +13,7 @@ export const toggleGroupPostLike = async (
       },
       body: JSON.stringify({
         group_id: groupId,
-        post_id:postId
+        post_id: postId,
       }),
     })
     if (response.ok) {

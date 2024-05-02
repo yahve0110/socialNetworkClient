@@ -2,7 +2,6 @@
 import { cookies } from "next/headers"
 
 import { URL } from "@/globals"
-import { log } from "console"
 
 export const createComment = async (
   postContent: string,

@@ -2,6 +2,8 @@
 import { changeUserPrivacy } from "@/actions/user/updatePrivacy"
 import { usePersonStore } from "@/lib/state/userStore"
 import { useState, useEffect } from "react"
+import styles from "./settings.module.css"
+
 
 const Settings = () => {
   const [privacy, setPrivacy] = useState("")
@@ -21,9 +23,9 @@ const Settings = () => {
   }
 
   return (
-    <div>
+    <div className={styles.settingsContainer}>
       Your profile is: {privacy}
-      <button onClick={handleChangePrivacy}>Change</button>
+      <button className={styles.btnPrivacy} onClick={handleChangePrivacy}>Change</button>
     </div>
   )
 }

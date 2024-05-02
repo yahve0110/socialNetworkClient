@@ -2,7 +2,7 @@ import Link from "next/link"
 import styles from "./ MyGroups.module.css"
 import Image from "next/image"
 
-type MyGroupType = {
+export type MyGroupType = {
   group_id: string
   group_name: string
 }

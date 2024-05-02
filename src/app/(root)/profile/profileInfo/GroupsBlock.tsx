@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react"
-import styles from "../profile.module.css"
-import { MyGroupProps } from "../../groups/MyGroups/MyGroups"
-import { getMyGroups } from "@/actions/groups/getMyGroups"
-import Image from "next/image"
-import Link from "next/link"
+import React, { useEffect, useState } from "react";
+import styles from "../profile.module.css";
+import { MyGroupProps } from "../../groups/MyGroups/MyGroups";
+import { getMyGroups } from "@/actions/groups/getMyGroups";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function GroupsBlock() {
-  const [groupsArr, setGroupsArr] = useState<MyGroupProps[]>([])
+const GroupsBlock = React.memo(function GroupsBlock() {
+  const [groupsArr, setGroupsArr] = useState<MyGroupProps[]>([]);
 
   useEffect(() => {
     async function showUserGroups() {
-      const myGroups = await getMyGroups()
-      setGroupsArr(myGroups)
+      const myGroups = await getMyGroups();
+      setGroupsArr(myGroups);
     }
-    showUserGroups()
-  }, [])
+    showUserGroups();
+  }, []);
 
   return (
     <div className={styles.groupsBlock}>
@@ -25,18 +25,18 @@ export default function GroupsBlock() {
             return (
               <Link href={`/groups/${el.GroupID}`} key={el.GroupID} id={el.GroupID} className={styles.groupItem}>
                 <Image
-                  src={
-                    "https://cdn0.iconfinder.com/data/icons/avatar-1-2/512/group-512.png"
-                  }
+                  src={"https://cdn0.iconfinder.com/data/icons/avatar-1-2/512/group-512.png"}
                   alt="group avatar"
                   width={40}
                   height={40}
                 />{" "}
                 {el.group_name}
               </Link>
-            )
+            );
           })}
       </div>
     </div>
-  )
-}
+  );
+});
+
+export default GroupsBlock;

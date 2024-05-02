@@ -1,9 +1,10 @@
 "use server"
 import { cookies } from "next/headers"
 import { URL } from "@/globals"
+import { usePersonStore } from "@/lib/state/userStore"
+
 
 export const getStaticProps = async () => {
-  console.log("ENTERED")
   try {
     const response = await fetch(URL + "/getUserInfo", {
       method: "GET",
@@ -15,6 +16,8 @@ export const getStaticProps = async () => {
 
     if (response.ok) {
       const responseData = await response.json()
+
+
       return responseData
     } else {
       console.error("Failed to get data:", response.statusText)

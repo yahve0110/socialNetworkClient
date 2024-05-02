@@ -4,7 +4,6 @@ import { cookies } from "next/headers"
 import { URL } from "@/globals"
 
 export const deleteGroup = async (groupId: string) => {
-  console.log("Group id: " + groupId);
   try {
     const response = await fetch(URL + "/deleteGroup?group_id=" + groupId, {
       method: "DELETE",

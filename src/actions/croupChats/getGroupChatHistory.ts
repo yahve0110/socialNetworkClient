@@ -3,10 +3,10 @@ import { cookies } from "next/headers"
 
 import { URL } from "@/globals"
 
-export const getAllUninvitedFollowers = async (groupID: string) => {
+export const getGroupChatHistory = async (groupId: string) => {
   try {
     const response = await fetch(
-      URL + `/getAllUninvitedFollowers?group_id=${groupID}`,
+      `${URL}/getGroupChatHistory?chat_id=${groupId}`,
       {
         method: "GET",
         headers: {
@@ -17,11 +17,12 @@ export const getAllUninvitedFollowers = async (groupID: string) => {
     )
     if (response.ok) {
       const responseData = await response.json()
+
       return responseData
     } else {
       console.error("Failed to get data:", response.statusText)
     }
   } catch (error) {
-    console.error("Error getting uninvitedFolowers:", error)
+    console.error("Error getting group chat history:", error)
   }
 }

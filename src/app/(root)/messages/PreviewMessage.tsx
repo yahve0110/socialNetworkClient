@@ -26,7 +26,7 @@ export default function PreviewMessage({
     {
       hour: "numeric",
       minute: "numeric",
-      hour12: false, // Установка параметра hour12 в false для 24-часового формата
+      hour12: false, 
     }
   )
 

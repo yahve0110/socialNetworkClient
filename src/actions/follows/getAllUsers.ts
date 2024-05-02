@@ -14,7 +14,6 @@ export const getAllUsers = async () => {
     })
     if (response.ok) {
       const responseData = await response.json()
-      console.log("users: ", responseData)
 
       return responseData
     } else {

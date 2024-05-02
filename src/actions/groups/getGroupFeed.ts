@@ -14,7 +14,6 @@ export const getGroupFeed = async (groupId: string) => {
     })
     if (response.ok) {
       const responseData = await response.json()
-      console.log("GROUP FEEED", responseData)
       return responseData
     } else {
       console.error("Failed to get data:", response.statusText)

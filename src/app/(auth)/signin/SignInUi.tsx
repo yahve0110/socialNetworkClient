@@ -6,7 +6,6 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { signIn } from "@/actions/auth/login"
-import UserStorePopulation from "@/lib/populateState/UserStorePopulation"
 
 export const SignInUi = () => {
   const [username, setUsername] = useState("")

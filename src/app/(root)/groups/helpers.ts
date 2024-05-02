@@ -15,3 +15,9 @@ export async function navigateToProfile() {
 export async function navigateToChat(id: string) {
   redirect(`/messages/${id}`)
 }
+
+
+
+export async function navigateToGroupChat(id: string) {
+  redirect(`/groupMessages/${id}`)
+}

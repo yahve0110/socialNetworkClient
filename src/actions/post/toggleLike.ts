@@ -19,7 +19,6 @@ export const togglePostLike = async (id: string) => {
     if (response.ok) {
 
     const responseData = await response.json()
-console.log(responseData);
 
 
      return responseData

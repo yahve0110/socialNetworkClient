@@ -111,7 +111,6 @@ export default function Group({ params }: { params: { id: string } }) {
   const creatorInfo = groupMembers.Members.filter(
     (member) => member.user_id === groupInfo.CreatorID
   )
-  console.log("creator", creatorInfo)
   return (
     <div className={styles.container}>
       {groupMembers && groupMembers.IsMember ? (
@@ -181,6 +180,7 @@ export default function Group({ params }: { params: { id: string } }) {
           </Container>
           <div className={styles.sidebar}>
             <ButtonsBlock
+              groupId={params.id}
               setShowCreatePost={setShowCreatePost}
               showCreatePost={showCreatePost}
               showCreateEvent={showCreateEvent}
@@ -189,7 +189,6 @@ export default function Group({ params }: { params: { id: string } }) {
             <GroupMembers members={groupMembers} />
             <GroupContacts creatorInfo={creatorInfo} />
             <Options />
-
           </div>
         </>
       ) : (

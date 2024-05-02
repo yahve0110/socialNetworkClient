@@ -1,25 +1,60 @@
 "use client"
+
+import React, { useEffect, useRef, useState } from "react"
 import ThemeSwitch from "@/components/ThemeSwitcher"
 import styles from "./Header.module.css"
 import Image from "next/image"
-
-import { useState } from "react"
 import { logoutHandler } from "@/actions/auth/logout"
 import { useRouter } from "next/navigation"
 import { usePersonStore } from "@/lib/state/userStore"
-import UserStorePopulation from "@/lib/populateState/UserStorePopulation"
 import Link from "next/link"
+import NotificationModal from "./NotificationModal"
+import NotificationPopUp from "./NotificationPopUp"
 
 export const Header: React.FC = () => {
   const { push } = useRouter()
-  UserStorePopulation()
   const [modalOpen, setModalOpen] = useState(false)
+  const modalRef = useRef<HTMLDivElement>(null)
+  const [notificationsModal, setNotificationsModal] = useState(false)
 
   async function logUserOut() {
     const res = await logoutHandler()
     if (res) {
       push("/")
     }
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const notificationModal = document.querySelector('.notification-modal');
+      if (
+        notificationsModal &&
+        notificationModal &&
+        !notificationModal.contains(event.target as Node)
+      ) {
+        setNotificationsModal(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [notificationsModal]);
+
+
+
+
+
+
+  const handleNotificationModal = () => {
+    setModalOpen(false)
+    setNotificationsModal(!notificationsModal)
+  }
+
+  const handleInfoToggle = () => {
+    setModalOpen(!modalOpen)
+    setNotificationsModal(false)
   }
 
   const avatarImg = usePersonStore((state) => state.avatar)
@@ -35,22 +70,20 @@ export const Header: React.FC = () => {
             className={styles.logo}
             alt="logo"
           />
-
           <h1>Kood/Network</h1>
         </div>
         <div className={styles.HeaderInputDiv}></div>
         <div className={styles.UserInfoBlock}>
           <Image
+            className={styles.notificationBell}
             width={50}
             height={50}
             src="/assets/icons/notifibell.svg"
             alt="notification"
+            onClick={handleNotificationModal}
           />
-
-          <div
-            className={styles.UserProfileBlock}
-            onClick={() => setModalOpen(!modalOpen)}
-          >
+          {notificationsModal && <NotificationModal />}
+          <div className={styles.UserProfileBlock} onClick={handleInfoToggle}>
             <Image
               className={styles.userAvatar}
               src={avatarImg}
@@ -58,13 +91,11 @@ export const Header: React.FC = () => {
               width={100}
               height={100}
             />
-
             {modalOpen && (
-              <div className={styles.modal}>
+              <div className={styles.modal} ref={modalRef}>
                 <Link className={styles.logoutBtn} href={"/profile"}>
                   My profile
                 </Link>
-
                 <button className={styles.logoutBtn} onClick={logUserOut}>
                   Logout{" "}
                   <Image
@@ -83,15 +114,16 @@ export const Header: React.FC = () => {
                   ? `${styles.arrow} ${styles.arrowReverse}`
                   : styles.arrow
               }
-              src="/assets/imgs/arrow.png"
+              src="/assets/icons/arrow.svg"
               alt="arrow"
-              width={10}
-              height={10}
+              width={15}
+              height={15}
             />
           </div>
           <ThemeSwitch />
         </div>
       </div>
+      <NotificationPopUp/>
     </div>
   )
 }

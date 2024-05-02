@@ -3,9 +3,10 @@ import { cookies } from "next/headers"
 
 import { URL } from "@/globals"
 
-export const acceptGroupEnterRequest = async (userId: string, groupId: string) => {
-    console.log("GROUP ID:",groupId)
-    console.log("USER ID:",userId)
+export const acceptGroupEnterRequest = async (
+  userId: string,
+  groupId: string
+) => {
   try {
     const response = await fetch(URL + `/acceptGroupEnterRequest`, {
       method: "POST",

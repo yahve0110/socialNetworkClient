@@ -3,25 +3,26 @@ import { cookies } from "next/headers"
 
 import { URL } from "@/globals"
 
-export const getChatHistory = async (chatId:string) => {
+export const joinGroupChat = async (groupId: string) => {
   try {
-    const response = await fetch(URL + `/getChatHistory?chat_id=${chatId}`, {
-      method: "GET",
+    const response = await fetch(URL + "/joinGroupChat", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Cookie: cookies().toString(),
       },
+      body: JSON.stringify({
+        group_id: groupId,
+      }),
     })
     if (response.ok) {
       const responseData = await response.json()
 
       return responseData
-      //   return true
     } else {
       console.error("Failed to get data:", response.statusText)
-      return false
     }
   } catch (error) {
-    console.error("Error getting chat history:", error)
+    console.error("Error joining group chat:", error)
   }
 }
