@@ -50,6 +50,7 @@ export default function GroupSearch() {
                 group_name={group.group_name}
                 groups={groups}
                 setGroups={setGroups}
+                CreatorID={group.CreatorID}
               />
             )
           })}

@@ -13,7 +13,7 @@
     grid-column-start: 7;
     grid-column-end: -1;
 
-   
+
 
 
 }
@@ -71,4 +71,9 @@
     text-decoration: none;
     color: var(--main-text-color);
 
+}
+
+
+.groupContainer{
+    margin-bottom: 50px;
 }

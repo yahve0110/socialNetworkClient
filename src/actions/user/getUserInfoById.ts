@@ -20,7 +20,7 @@ export const getUserInfoById = async (userId:string) => {
       return response.statusText
     }
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error getting user info by id:", error)
     return "serverError"
   }
 }

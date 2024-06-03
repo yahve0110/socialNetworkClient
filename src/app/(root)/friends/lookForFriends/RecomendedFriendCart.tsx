@@ -1,14 +1,13 @@
 import React from "react"
 import styles from "./LookForFriends.module.css"
 import Image from "next/image"
-import { followUser } from "@/actions/follows/followUser"
 
 interface FriendCardProps {
-  id:string
+  id: string
   avatar: string
   firstName: string
-  lastName:string
-  followUserHandler:(id:string)=>void
+  lastName: string
+  followUserHandler: (id: string) => void
 }
 
 const RecommendedFriendCard: React.FC<FriendCardProps> = ({
@@ -16,11 +15,8 @@ const RecommendedFriendCard: React.FC<FriendCardProps> = ({
   avatar,
   firstName,
   lastName,
-  followUserHandler
+  followUserHandler,
 }) => {
-
-
-
   return (
     <div className={styles.rFriendCard} id={id}>
       <div className={styles.friendImageDiv}>
@@ -36,7 +32,7 @@ const RecommendedFriendCard: React.FC<FriendCardProps> = ({
         </h3>
       </div>{" "}
       <div className={styles.followDiv}>
-        <button onClick={()=>followUserHandler(id)}>
+        <button onClick={() => followUserHandler(id)}>
           Follow{" "}
           <Image
             src="/assets/icons/addPerson.svg"

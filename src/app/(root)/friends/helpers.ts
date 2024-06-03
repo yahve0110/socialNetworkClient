@@ -14,3 +14,8 @@ export async function navigateToGroupPage() {
 export async function navigateToProfile() {
   redirect(`/`)
 }
+
+
+export async function navigateTo(linkTo:string) {
+  redirect(`${linkTo}`)
+}

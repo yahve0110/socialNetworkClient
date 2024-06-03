@@ -3,10 +3,11 @@ import Info from "@/components/Info/Info"
 import React from "react"
 import GroupMessagePage from "./GroupMessagePage"
 import styles from "./MessagePage.module.css"
+import { URL_SOCKETS } from "@/globals"
 
 const GroupChat = ({ params }: { params: { id: string } }) => {
   const ws = new WebSocket(
-    `ws://localhost:8080/wsGroupChat?chatID=${params.id}`
+    `${URL_SOCKETS}/wsGroupChat?chatID=${params.id}`
   )
 
   return (

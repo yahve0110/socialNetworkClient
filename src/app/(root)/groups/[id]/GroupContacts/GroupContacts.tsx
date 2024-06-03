@@ -20,6 +20,7 @@ const GroupContacts: React.FC<GroupContactsProps> = ({ creatorInfo }) => {
       {creatorInfo.map((creator) => (
         <Link href={`/profile/${creator.user_id}`} key={creator.user_id} className={styles.info}>
           <Image
+            key={creator.user_id}
             className={styles.avatar}
             src={creator.profilePicture}
             width={50}
@@ -29,7 +30,6 @@ const GroupContacts: React.FC<GroupContactsProps> = ({ creatorInfo }) => {
           <p>
             {creator.first_name} {creator.last_name}
           </p>
-          {/* Add more information as needed */}
         </Link>
       ))}
     </div>

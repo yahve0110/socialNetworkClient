@@ -16,12 +16,11 @@ export const getComments = async (postId: string) => {
       const responseData = await response.json()
 
       return responseData
-      //   return true
     } else {
       console.error("Failed to get data:", response.statusText)
       return false
     }
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error getting comments for post:", error)
   }
 }

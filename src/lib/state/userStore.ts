@@ -27,7 +27,7 @@ type Action = {
 };
 
 export const usePersonStore = create<User & Action>((set) => ({
-  userID: "", // Initialize userID with an empty string
+  userID: "", 
   firstName: "John",
   lastName: "Doe",
   about:

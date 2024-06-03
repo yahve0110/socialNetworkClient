@@ -3,27 +3,22 @@ import { cookies } from "next/headers"
 
 import { URL } from "@/globals"
 
-export const deleteUserPost = async (postId: string) => {
-
+export const deleteNotification = async (notificationId: string) => {
   try {
-    const response = await fetch(URL + "/deletePost", {
+    const response = await fetch(`${URL}/deleteNotification?notification_id=${notificationId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Cookie: cookies().toString(),
       },
-      body: JSON.stringify({
-        post_id: postId,
-      }),
     })
     if (response.ok) {
-        return true
+      return true
     } else {
-      console.error("Failed to get data:", response.statusText)
+      console.error("Failed to delete :", response.statusText)
       return false
-
     }
   } catch (error) {
-    console.error("Error deleting post:", error)
+    console.error("Error deleting:", error)
   }
 }

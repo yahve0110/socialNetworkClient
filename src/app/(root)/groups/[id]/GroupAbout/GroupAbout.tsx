@@ -6,10 +6,11 @@ import { getGroupEnterRequests } from "@/actions/groups/getAllGroupEnterRequests
 import { acceptGroupEnterRequest } from "@/actions/groups/acceptGroupEnterRequest"
 import { deleteGroup } from "@/actions/groups/deleteGroup"
 import { navigateToGroupPage, navigateToProfile } from "../../helpers"
-import { getUserFollowers } from "@/actions/follows/getFollowers"
 import { inviteUserToGroup } from "@/actions/groups/inviteUserToGroup"
 import { getAllUninvitedFollowers } from "@/actions/groups/getAllUninvitedFollowers"
 import { leaveGroup } from "@/actions/groups/leaveGroup"
+import { sendNotification } from "@/actions/notifications/sendNotification"
+import { sendNotificationWs } from "@/app/(root)/layout"
 
 type UserType = {
   user_id: string
@@ -87,9 +88,14 @@ export default function GroupAbout({
     }
   }
 
+
+
   const inviteUserToGroupHandler = async (userId: string) => {
-    console.log("entering inviteUserToGroupHandler")
     const isInvited = await inviteUserToGroup(groupId, userId)
+    sendNotification(userId,"group_invite","New group invite",groupId)
+    sendNotificationWs(userId,currentUserId,"New group invite!", "group_invite")
+
+
     if (isInvited) {
       const newUserFollowers = userFollowers.filter(
         (user) => user.user_id !== userId
@@ -116,7 +122,7 @@ export default function GroupAbout({
       />
       <div className={styles.groupInfo}>
         <h2>{groupName}</h2>
-        <p>{groupDescription}</p>
+        <p className={styles.about}>{groupDescription}</p>
 
         {currentUserId === creatorId && (
           <div

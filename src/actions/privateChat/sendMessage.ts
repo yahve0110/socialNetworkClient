@@ -24,6 +24,6 @@ export const sendPrivateMessage = async (chatId: string, content: string) => {
       console.error("Failed to get data:", response.statusText)
     }
   } catch (error) {
-    console.error("Error creating message:", error)
+    console.error("Error sending message:", error)
   }
 }

@@ -253,20 +253,28 @@ margin-left: 10px;
     background: var(--secondary-section-color);
     border-radius: 5px;
     cursor: pointer;
+    position: relative;
+    transition: all 0.23s ease-in-out;
 
 }
 
+.notificationDiv:hover{
+    transform: scale(1.05);
+    background: var(--secondary-section-color);
+    background: var(--mymsg-color);
+}
 
 .popUpDiv{
     width: 300px;
     height: 100px;
     background-color: rgba(46, 44, 44, 0.759);
     padding: 20px;
-    position: absolute;
+
     bottom: 20px;
     right: 50px;
     border-radius: 5px;
     color: white;
+    margin-bottom: 20px;
 }
 
 .closeModal{
@@ -274,4 +282,32 @@ margin-left: 10px;
     top: 7px;
     right: 15px;
     cursor: pointer;
+}
+
+.closeNotification{
+    position: absolute;
+    top: 2px;
+    right: 15px;
+    cursor: pointer;
+}
+
+.notificationContainer{
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+
+}
+
+.notificationCount{
+    background-color: #fa8006;
+    border-radius: 50%;
+    height: 13px;
+    width: 13px;
+    font-size: 11px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 7px;
+    top: -5px;
 }

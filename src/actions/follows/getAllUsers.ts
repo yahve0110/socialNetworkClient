@@ -21,7 +21,7 @@ export const getAllUsers = async () => {
       console.log(response.statusText)
     }
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error getting all users:", error)
     return "serverError"
   }
 }

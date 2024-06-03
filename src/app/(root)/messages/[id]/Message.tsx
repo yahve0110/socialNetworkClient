@@ -1,6 +1,5 @@
 import { usePersonStore } from "@/lib/state/userStore"
 import styles from "./MessagePage.module.css"
-import Image from "next/image"
 
 export type MessageType = {
   chatId: string
@@ -24,7 +23,7 @@ export default function Message({
   const formattedTimestamp = new Date(timestamp).toLocaleString("eu-EU", {
     hour: "numeric",
     minute: "numeric",
-    hour12: false, // Установка параметра hour12 в false для 24-часового формата
+    hour12: false, 
   })
 
 

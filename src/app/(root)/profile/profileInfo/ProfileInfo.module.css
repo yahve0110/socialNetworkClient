@@ -78,7 +78,8 @@
 
 .about{
   max-width: 550px;
-  margin-left:50px;
+  margin-top: 20px;
+  margin-left:80px;
   border-right: var(--main-border);
 }
 

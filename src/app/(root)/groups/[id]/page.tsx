@@ -33,7 +33,7 @@ interface GroupEventProps {
   event_id: string
   title: string
   description: string
-  event_created_at: string
+  date_time: string
   options: eventOptionsType
 }
 
@@ -70,10 +70,8 @@ export default function Group({ params }: { params: { id: string } }) {
     async function getGroupData() {
       try {
         const groupInfo = await getGroupById(params.id)
-        // const groupPosts = await getGroupPosts(params.id)
         const groupFeed = await getGroupFeed(params.id)
-        console.log("GROUP FEED : ", groupFeed)
-        console.log("GROUP INFO : ", groupInfo)
+
 
         const groupMembers = await getAllGroupMembers(params.id)
         setGroupMembers(groupMembers)
@@ -111,6 +109,8 @@ export default function Group({ params }: { params: { id: string } }) {
   const creatorInfo = groupMembers.Members.filter(
     (member) => member.user_id === groupInfo.CreatorID
   )
+
+  console.log(groupFeed)
   return (
     <div className={styles.container}>
       {groupMembers && groupMembers.IsMember ? (
@@ -137,7 +137,8 @@ export default function Group({ params }: { params: { id: string } }) {
             )}
           </div>
           <Container>
-            {groupFeed &&
+          <div className={styles.groupContainer}>
+          {groupFeed &&
               groupFeed.map((item) => {
                 if ("post_id" in item) {
                   const post = item as Post
@@ -159,11 +160,11 @@ export default function Group({ params }: { params: { id: string } }) {
                   const event = item as GroupEventProps
                   return (
                     <GroupEvent
-                      key={event.id}
+                      key={event.event_id}
                       id={event.event_id}
                       title={event.title}
                       content={event.description}
-                      creationTime={event.event_created_at}
+                      creationTime={event.date_time}
                       eventImg={event.event_img}
                       eventOptions={event.options}
                     />
@@ -177,6 +178,7 @@ export default function Group({ params }: { params: { id: string } }) {
                 <button onClick={() => setShowCreatePost(true)}>Create</button>
               </div>
             )}
+          </div>
           </Container>
           <div className={styles.sidebar}>
             <ButtonsBlock

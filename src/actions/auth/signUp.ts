@@ -14,7 +14,6 @@ export async function signUp(formData: FormData) {
     })
 
     if (!response.ok) {
-      // Если ответ не успешен, извлечь текст ошибки из тела ответа
       const errorText = await response.text()
       console.error("Failed to sign up:", errorText)
       return errorText

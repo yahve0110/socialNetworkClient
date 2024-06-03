@@ -251,3 +251,7 @@ overflow-wrap: anywhere;
 
    cursor: pointer;
  }
+
+ .goBackDivLink{
+   color: var(--main-text-color);
+ }

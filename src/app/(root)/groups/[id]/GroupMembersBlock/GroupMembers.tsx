@@ -17,6 +17,7 @@ export default function GroupMembers({
           return (
             <Link href={`/profile/${el.user_id}`} key={el.user_id} id={el.user_id}  className={styles.userBlock}>
               <Image
+              key={el.user_id}
               className={styles.avatar}
                 src={el.profilePicture}
                 width={50}

@@ -1,17 +1,11 @@
 "use client"
 import styles from "./Messages.module.css"
-import Info from "@/components/Info/Info"
 import { useEffect, useState } from "react"
-import { getChats } from "@/actions/privateChat/getChats" // Подразумевается, что у вас уже есть тип Chat
+import { getChats } from "@/actions/privateChat/getChats" 
 import PreviewMessage, { PreviewMessageType } from "./PreviewMessage"
-import { usePersonStore } from "@/lib/state/userStore"
-import SwitchPages from "../groups/SwitchGroupPages/SwitchPages"
+
 import SwitchMessages from "./SwitchMessages"
-import { getGroupChats } from "@/actions/croupChats/getGroups"
-import PreviewGroupMessage, {
-  PreviewGroupMessageType,
-} from "./PreviewGroupMessage"
-import { MyGroupType } from "../groups/MyGroups/MyGroup"
+
 import GroupMessages from "../groupMessages/page"
 
 export default function Messages() {

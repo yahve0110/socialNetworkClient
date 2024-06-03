@@ -135,7 +135,6 @@ export default function GroupEvent(props: GroupEventType) {
         <div>
           <div className={styles.votingBlock}>
             <button
-              //  onClick={() => checkVote("going")} value="going"
               onClick={joinEventHandler}
             >
               Yes
@@ -147,7 +146,6 @@ export default function GroupEvent(props: GroupEventType) {
               />
             </button>
             <button
-              // onClick={() => checkVote("notGoing")} value="notGoing"
               onClick={declineEventHandler}
             >
               No

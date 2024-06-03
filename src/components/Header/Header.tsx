@@ -10,14 +10,46 @@ import { usePersonStore } from "@/lib/state/userStore"
 import Link from "next/link"
 import NotificationModal from "./NotificationModal"
 import NotificationPopUp from "./NotificationPopUp"
+import { URL_SOCKETS } from "@/globals"
+
+interface Notification {
+  id: string
+  content: string
+}
+
+export let Socket: WebSocket
 
 export const Header: React.FC = () => {
   const { push } = useRouter()
   const [modalOpen, setModalOpen] = useState(false)
   const modalRef = useRef<HTMLDivElement>(null)
   const [notificationsModal, setNotificationsModal] = useState(false)
+  const avatarImg = usePersonStore((state) => state.avatar)
+  const [popupNotifications, setPopupNotifications] = useState<Notification[]>(
+    []
+  )
+  const [notificationCount, setNotificationCount] = useState(0)
+  const userId = usePersonStore((state) => state.userID)
 
-  async function logUserOut() {
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const notificationModal = document.querySelector(".notification-modal")
+      if (
+        notificationsModal &&
+        notificationModal &&
+        !notificationModal.contains(event.target as Node)
+      ) {
+        setNotificationsModal(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [notificationsModal])
+
+  const logUserOut = async () => {
     const res = await logoutHandler()
     if (res) {
       push("/")
@@ -25,30 +57,59 @@ export const Header: React.FC = () => {
   }
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      const notificationModal = document.querySelector('.notification-modal');
-      if (
-        notificationsModal &&
-        notificationModal &&
-        !notificationModal.contains(event.target as Node)
-      ) {
-        setNotificationsModal(false);
+    Socket = new WebSocket(
+      `${URL_SOCKETS}/Wsnotifications?userId=${userId}`
+    )
+    Socket.addEventListener("open", function () {
+      console.log("Websocket connected.")
+    })
+
+    Socket.addEventListener("message", function (event: MessageEvent) {
+      const message = JSON.parse(event.data)
+      console.log("Received message:", message)
+    })
+
+    Socket.addEventListener("close", function (event: CloseEvent) {
+      console.log("Socket closed:", event.reason)
+    })
+
+    Socket.addEventListener("error", function (error: Event) {
+      console.error("Socket error:", error)
+    })
+    if (Socket) {
+      const handleSocketMessage = (event: MessageEvent) => {
+        const message = JSON.parse(event.data)
+        console.log("WS MESSAGE:", message)
+        setNotificationCount((prevCount) => prevCount + 1)
+        handleAddToast(message.text)
+      }
+
+      Socket.addEventListener("message", handleSocketMessage)
+
+      return () => {
+        Socket.removeEventListener("message", handleSocketMessage)
       }
     }
+  }, [Socket])
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [notificationsModal]);
+  const handleAddToast = (text: string) => {
+    const notification = {
+      id: Date.now().toString(),
+      content: text,
+    }
 
+    setPopupNotifications([notification, ...popupNotifications])
 
-
-
-
+    setTimeout(() => {
+      setPopupNotifications((prevNotifications) =>
+        prevNotifications.filter((item) => item.id !== notification.id)
+      )
+    }, 5000)
+  }
 
   const handleNotificationModal = () => {
     setModalOpen(false)
+    setNotificationCount(0)
     setNotificationsModal(!notificationsModal)
   }
 
@@ -56,8 +117,6 @@ export const Header: React.FC = () => {
     setModalOpen(!modalOpen)
     setNotificationsModal(false)
   }
-
-  const avatarImg = usePersonStore((state) => state.avatar)
 
   return (
     <div className={styles.Header}>
@@ -82,7 +141,13 @@ export const Header: React.FC = () => {
             alt="notification"
             onClick={handleNotificationModal}
           />
-          {notificationsModal && <NotificationModal />}
+          {notificationCount > 0 && (
+            <div className={styles.notificationCount}>{notificationCount}</div>
+          )}
+
+          {notificationsModal && (
+            <NotificationModal setNotificationsModal={setNotificationsModal} />
+          )}
           <div className={styles.UserProfileBlock} onClick={handleInfoToggle}>
             <Image
               className={styles.userAvatar}
@@ -93,7 +158,7 @@ export const Header: React.FC = () => {
             />
             {modalOpen && (
               <div className={styles.modal} ref={modalRef}>
-                <Link className={styles.logoutBtn} href={"/profile"}>
+                <Link href={"/profile"} className={styles.logoutBtn}>
                   My profile
                 </Link>
                 <button className={styles.logoutBtn} onClick={logUserOut}>
@@ -123,7 +188,14 @@ export const Header: React.FC = () => {
           <ThemeSwitch />
         </div>
       </div>
-      <NotificationPopUp/>
+      <div id="popUpContainer" className={styles.popUpContainer}></div>
+      <div className={styles.notificationContainer}>
+        {popupNotifications &&
+          popupNotifications.length > 0 &&
+          popupNotifications.map((el) => {
+            return <NotificationPopUp key={el.id} content={el.content} />
+          })}
+      </div>
     </div>
   )
 }

@@ -21,7 +21,6 @@ export default function MyGroup({group_name,group_id}:MyGroupType) {
       />
       <div>
         <p className={styles.groupName}>{group_name}</p>
-        {/* <p className={styles.subscribers}>10 subscribers</p> */}
       </div>
     </div>
 </Link>

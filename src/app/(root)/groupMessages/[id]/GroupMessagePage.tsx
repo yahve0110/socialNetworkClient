@@ -8,9 +8,14 @@ import Loader from "@/components/Loader/Loader"
 import { usePersonStore } from "@/lib/state/userStore"
 import Message from "../../messages/[id]/Message"
 import { getGroupChatHistory } from "@/actions/croupChats/getGroupChatHistory"
-import { sendGroupMessage } from "@/actions/croupChats/sendMessage"
 
-export default function GroupMessagePage({ id,ws }: { id: string,ws:WebSocket }) {
+export default function GroupMessagePage({
+  id,
+  ws,
+}: {
+  id: string
+  ws: WebSocket
+}) {
   const messageContainerRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<any[]>([])
   const [text, setText] = useState<string>("")
@@ -19,13 +24,10 @@ export default function GroupMessagePage({ id,ws }: { id: string,ws:WebSocket })
   const currentUserId = usePersonStore((state) => state.userID)
 
   const scrollToBottom = () => {
-    console.log("Scrolling to bottom...")
     if (messageContainerRef.current) {
-      console.log("Message container ref found:", messageContainerRef.current)
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight
     } else {
-      console.log("Message container ref is null")
     }
   }
 
@@ -45,7 +47,6 @@ export default function GroupMessagePage({ id,ws }: { id: string,ws:WebSocket })
 
   ws.onmessage = function (event: any) {
     const data = JSON.parse(event.data)
-    console.log("WS MESSAGE:", data)
     if (messages && messages.length > 0) {
       setMessages([...messages, data])
     } else {
@@ -54,7 +55,6 @@ export default function GroupMessagePage({ id,ws }: { id: string,ws:WebSocket })
 
     scrollToBottom()
   }
-
 
   function sendMessage() {
     // Send message logic
@@ -91,7 +91,6 @@ export default function GroupMessagePage({ id,ws }: { id: string,ws:WebSocket })
   if (!isLoaded) {
     return <Loader />
   }
-  console.log("CHATS:", messages)
   return (
     <div className={styles.messagePageWrapper}>
       {/* Top section */}

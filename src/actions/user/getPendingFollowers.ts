@@ -20,7 +20,7 @@ export const getPendingFollowers = async (userID:string) => {
       return response.statusText
     }
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error getting pending followers:", error)
     return "serverError"
   }
 }

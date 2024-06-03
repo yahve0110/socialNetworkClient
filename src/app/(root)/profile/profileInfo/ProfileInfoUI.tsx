@@ -20,7 +20,7 @@ const ProfileInfoUI = (props:ProfileInfoUIType) => {
     <div className={styles.profileInfo}>
       <div>
         <div className={styles.avatarImg}>
-          <Image src={avatarImg} alt="avatar" width={240} height={240} fetchPriority="high"/>
+          <Image src={avatarImg} alt="avatar" width={140} height={140} />
         </div>
       </div>
       <div className={styles.nameDiv}>

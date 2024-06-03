@@ -57,7 +57,6 @@ export default function News() {
     }
     getFeed()
   }, [])
-  console.log("fEED: ", feed)
   return (
     <div className={`sectionComponent ${styles.newsContainer}`}>
       <div className={styles.newsPostsContainer}>

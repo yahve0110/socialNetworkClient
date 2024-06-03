@@ -4,12 +4,13 @@ import Info from "@/components/Info/Info"
 import MessagePage from "./MessagePage"
 import styles from "./MessagePage.module.css"
 import { usePersonStore } from "@/lib/state/userStore"
+import { URL_SOCKETS } from "@/globals"
 
 const MessageId = ({ params }: { params: { id: string } }) => {
   const userId = usePersonStore((state) => state.userID)
 
   const ws = new WebSocket(
-    `ws://localhost:8080/ws?userID=${userId}&chatID=${params.id}`
+    `${URL_SOCKETS}/ws?userID=${userId}&chatID=${params.id}`
   )
 
   return (

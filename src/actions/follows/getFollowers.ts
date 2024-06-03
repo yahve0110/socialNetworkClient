@@ -23,7 +23,7 @@ export const getUserFollowers = async (userId: string) => {
       console.log(response.statusText)
     }
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error getting followers:", error)
     return "serverError"
   }
 }

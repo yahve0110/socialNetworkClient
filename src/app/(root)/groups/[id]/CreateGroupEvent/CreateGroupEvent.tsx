@@ -1,38 +1,41 @@
-import { useState } from "react";
-import styles from "./CreateGroupEvent.module.css";
-import { createGroupEvent } from "@/actions/groups/createEvent";
-import { useGroupFeedStore } from "@/lib/state/groupFeedSore";
-import Image from "next/image";
-import { MAX_FILE_SIZE_MB } from "@/globals";
-import { handleFileChange } from "@/helpers/imageUpload";
+import { useState } from "react"
+import styles from "./CreateGroupEvent.module.css"
+import { createGroupEvent } from "@/actions/groups/createEvent"
+import { useGroupFeedStore } from "@/lib/state/groupFeedSore"
+import Image from "next/image"
+import { MAX_FILE_SIZE_MB } from "@/globals"
+import { handleFileChange } from "@/helpers/imageUpload"
+import { sendNotification } from "@/actions/notifications/sendNotification"
+import { sendNotificationWs } from "@/app/(root)/layout"
+import { usePersonStore } from "@/lib/state/userStore"
 
 export default function CreateGroupEvent({
   groupId,
   setShowCreateEvent,
 }: {
-  groupId: string;
-  setShowCreateEvent: (closeEvent: boolean) => void;
+  groupId: string
+  setShowCreateEvent: (closeEvent: boolean) => void
 }) {
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const [eventDate, setEventDate] = useState("");
-  const [emptyTextError, setEmptyTextError] = useState("");
-  const [eventImg, setEventImg] = useState<string | ArrayBuffer | null>(null);
+  const [eventTitle, setEventTitle] = useState("")
+  const [eventDescription, setEventDescription] = useState("")
+  const [eventDate, setEventDate] = useState("")
+  const [emptyTextError, setEmptyTextError] = useState("")
+  const [eventImg, setEventImg] = useState<string | ArrayBuffer | null>(null)
 
-  const groupFeed = useGroupFeedStore((state) => state.postsArray);
-  const addGroupPost = useGroupFeedStore((state) => state.addPost);
-  const setPosts = useGroupFeedStore((state) => state.setPostsArray);
+  const groupFeed = useGroupFeedStore((state) => state.postsArray)
+  const addGroupPost = useGroupFeedStore((state) => state.addPost)
+  const setPosts = useGroupFeedStore((state) => state.setPostsArray)
+  const currentUserId = usePersonStore((state) => state.userID)
 
   const createEventHandler = async () => {
     try {
-      // Manual validation
       if (!eventTitle || !eventDate) {
-        setEmptyTextError("Event title and date are required.");
-        return;
+        setEmptyTextError("Event title and date are required.")
+        return
       }
 
       // Adjust the format of the event date string
-      const formattedDate = new Date(eventDate.replace("T", " ")).toISOString();
+      const formattedDate = new Date(eventDate.replace("T", " ")).toISOString()
 
       const newEvent = await createGroupEvent(
         groupId,
@@ -40,43 +43,44 @@ export default function CreateGroupEvent({
         eventDescription,
         formattedDate,
         eventImg
-      );
+      )
+      sendNotification("", "group_event", "New group event", groupId)
+      sendNotificationWs(groupId, currentUserId, "New event created!", "event")
 
       if (!groupFeed) {
-        setPosts([newEvent]);
+        setPosts([newEvent])
       } else {
-        addGroupPost(newEvent);
+        addGroupPost(newEvent)
       }
-      setShowCreateEvent(false);
+      setShowCreateEvent(false)
     } catch (error) {
-      console.error("Error creating group event:", error);
-      // Optionally, you can display an error message to the user
+      console.error("Error creating group event:", error)
     }
-  };
+  }
 
   //image handling
   function activateInput() {
-    const input = document.getElementById("input");
-    input?.click();
+    const input = document.getElementById("input")
+    input?.click()
   }
 
   const handleImageUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setEmptyTextError("");
-    const file = event.target.files?.[0];
+    setEmptyTextError("")
+    const file = event.target.files?.[0]
     if (!file) {
-      setEmptyTextError(`Can't upload file`);
+      setEmptyTextError(`Can't upload file`)
     }
     if (file instanceof File) {
-      const response = await handleFileChange(file);
+      const response = await handleFileChange(file)
       if (!response) {
-        setEmptyTextError(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit.`);
+        setEmptyTextError(`File size exceeds ${MAX_FILE_SIZE_MB}MB limit.`)
       } else {
-        setEventImg(response);
+        setEventImg(response)
       }
     }
-  };
+  }
 
   return (
     <div className={styles.crateEventContainer}>
@@ -97,9 +101,9 @@ export default function CreateGroupEvent({
 
           <input
             type="datetime-local"
-            value={eventDate}
+            value={eventDate || new Date().toISOString().slice(0, 16)}
             onChange={(e) => {
-              setEventDate(e.target.value);
+              setEventDate(e.target.value)
             }}
           />
         </div>
@@ -158,5 +162,5 @@ export default function CreateGroupEvent({
         <button onClick={createEventHandler}>Create</button>
       </div>
     </div>
-  );
+  )
 }

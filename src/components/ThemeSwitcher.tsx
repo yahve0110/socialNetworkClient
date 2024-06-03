@@ -17,7 +17,6 @@ const ThemeSwitch = () => {
   if (!mounted) {
     return null
   }
-  console.log(theme)
 
   const toggleTheme = () => {
     if (theme === "light") {

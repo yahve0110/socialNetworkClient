@@ -2,13 +2,9 @@
 
 import { URL } from "@/globals"
 import { useProfilePostStore } from "@/lib/state/profilePostStore"
-import { usePersonStore } from "@/lib/state/userStore"
 import { cookies } from "next/headers"
 
-export const getPostsForProfile = async (userId:string) => {
-  // const userId = usePersonStore.getState().userID;
-
-
+export const getPostsForProfile = async (userId: string) => {
   try {
     const response = await fetch(URL + "/getposts", {
       method: "POST",
@@ -28,7 +24,7 @@ export const getPostsForProfile = async (userId:string) => {
       console.log(response.statusText)
     }
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error getting posts:", error)
     return "serverError"
   }
 }

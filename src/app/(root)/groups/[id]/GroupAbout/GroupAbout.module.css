@@ -22,6 +22,10 @@ border-radius: 10px;
 
 }
 
+.about{
+    margin-bottom: 8px;
+}
+
 .groupInfo{
     z-index: 2;
     position: absolute;
@@ -29,6 +33,7 @@ border-radius: 10px;
     background-color: var(--main-section-color);
     border-radius: 30px 30px 0 0;
     padding: 10px;
+
     width: 100%;
 
 
@@ -129,15 +134,18 @@ border-radius: 10px;
 }
 
 
+
 .requestAccept button{
     width: 70px;
     height: 20px;
-    background-color: var(--secondary-section-color);
+    background-color:rgb(188, 230, 90);
     border: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
     transition: all 0.2s ease-in-out;
 }
 .requestAccept button img{
@@ -145,8 +153,7 @@ border-radius: 10px;
     margin-left: 5px;
 }
 .requestAccept button:hover{
-    background-color: var(--main-details-color);
-
+    background-color:rgb(200, 246, 93);
 }
 
 .deleteGroup{

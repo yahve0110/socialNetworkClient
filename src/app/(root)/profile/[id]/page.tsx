@@ -41,8 +41,6 @@ export default function Profile({ params }: ProfileProps) {
   useEffect(() => {
     async function fetchPageData() {
       try {
-        console.log("HERE 1")
-        console.log(params.id)
         setLoading(true)
 
         const userId = params.id
@@ -79,10 +77,7 @@ export default function Profile({ params }: ProfileProps) {
   if (loading) return <Loader/>
   if (error) return <div>Error: {error.message}</div>
 
-  console.log(followers)
 
-  console.log("HERE 2")
-  console.log("POSTS: ",posts)
   return (
     <div className={`sectionComponent ${styles.profile}`}>
       {userInfo && (userInfo.privacy === "public" || profileAccess) ? (
@@ -104,7 +99,6 @@ export default function Profile({ params }: ProfileProps) {
             </div>
             <div className={styles.postsContainer}>
               {posts.map((post) => {
-                console.log("Post privacy:", post.privacy) // Log privacy value
                 if (post.privacy === "public") {
                   return (
                     <ProfilePostHOC

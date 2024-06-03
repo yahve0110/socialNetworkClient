@@ -19,7 +19,7 @@ export async function logoutHandler() {
       return false;
     }
   } catch (error) {
-    console.error("Error checking session:", error);
+    console.error("Error when logout:", error);
     return false;
   }
 }

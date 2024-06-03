@@ -70,11 +70,9 @@ export const SignUpUi: React.FC = () => {
 
     try {
       const response = await signUp(formData)
-      console.log(response)
       if (response !== "success" && response !== undefined) {
         setError(response)
       } else if (response === "success" && response !== undefined) {
-        console.log("sucsss")
 
         router.push("/signin")
       } else {

@@ -23,7 +23,7 @@ export const unFollowUser = async (userId:string) => {
       console.log(response.statusText)
     }
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error unfollowing:", error)
     return "serverError"
   }
 }

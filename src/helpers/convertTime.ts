@@ -4,7 +4,7 @@ export function formatDateWithoutSeconds(dateTimeString:string) {
 
     // Get the components of the date
     var year = date.getFullYear();
-    var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
     var day = date.getDate().toString().padStart(2, '0');
     var hours = date.getHours().toString().padStart(2, '0');
     var minutes = date.getMinutes().toString().padStart(2, '0');

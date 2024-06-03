@@ -16,7 +16,7 @@ export const followUser = async (userId:string) => {
       })
     })
     if (response.ok) {
-   
+
 
       return true
     } else {
@@ -24,7 +24,7 @@ export const followUser = async (userId:string) => {
       console.log(response.statusText)
     }
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error following:", error)
     return "serverError"
   }
 }

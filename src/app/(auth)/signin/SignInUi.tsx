@@ -2,7 +2,6 @@
 
 import styles from "./SignIn.module.css"
 import { useState } from "react"
-
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { signIn } from "@/actions/auth/login"
@@ -15,7 +14,6 @@ export const SignInUi = () => {
 
   const router = useRouter()
   const sendData = async () => {
-    // Вызываем signIn и передаем ему данные о пользователе
     setUnauthorized(false)
     setServerError(false)
 
@@ -23,7 +21,6 @@ export const SignInUi = () => {
     console.log(response)
     if (response.message === "Login successful") {
       router.push(`/profile`)
-
     } else if (response === "Unauthorized") {
       setUnauthorized(true)
     } else {

@@ -1,7 +1,6 @@
 "use server"
 import { cookies } from "next/headers"
 import { URL } from "@/globals"
-import { usePersonStore } from "@/lib/state/userStore"
 
 
 export const getStaticProps = async () => {
@@ -24,7 +23,7 @@ export const getStaticProps = async () => {
       return response.statusText
     }
   } catch (error) {
-    console.error("Error signing in:", error)
+    console.error("Error getting user info:", error)
     return "serverError"
   }
 }

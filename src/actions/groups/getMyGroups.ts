@@ -14,12 +14,12 @@ export const getMyGroups = async () => {
     })
     if (response.ok) {
       const responseData = await response.json()
-      
+
       return responseData
     } else {
       console.error("Failed to get data:", response.statusText)
     }
   } catch (error) {
-    console.error("Error creating group:", error)
+    console.error("Error getting groups:", error)
   }
 }

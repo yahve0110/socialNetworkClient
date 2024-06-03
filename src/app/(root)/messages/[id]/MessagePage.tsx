@@ -3,10 +3,9 @@
 import styles from "./MessagePage.module.css"
 import Image from "next/image"
 import { useState, ChangeEvent, useEffect, useRef } from "react"
-import Message, { MessageType } from "./Message"
+import Message from "./Message"
 import Link from "next/link"
 import { getChatHistory } from "@/actions/privateChat/getChatHistory"
-import { sendPrivateMessage } from "@/actions/privateChat/sendMessage"
 import Loader from "@/components/Loader/Loader"
 import { usePersonStore } from "@/lib/state/userStore"
 
@@ -14,28 +13,24 @@ type ChatInfoType = {
   first_name: string
   last_name: string
   profile_picture: string
+  interlocutor_id:string
 }
 
-
-export default function MessagePage({ id,ws }: { id: string,ws:WebSocket }) {
-
-
+export default function MessagePage({ id, ws }: { id: string; ws: WebSocket }) {
   const messageContainerRef = useRef<HTMLDivElement>(null)
-  // const [messages, setMessages] = useState<MessageType[]>([])
   const [messages, setMessages] = useState<any[]>([])
+  const currentUserId = usePersonStore((state) => state.userID)
+  const [isloaded, setIsLoaded] = useState(false)
 
   const [text, setText] = useState<string>("")
   const [chatInfo, setChatInfo] = useState<ChatInfoType>({
     first_name: "",
     last_name: "",
     profile_picture: "",
+    interlocutor_id:""
   })
-  const [isloaded, setIsLoaded] = useState(false)
-
-  const currentUserId = usePersonStore((state) => state.userID)
 
   function sendMessage() {
-    // Отправка сообщения через WebSocket
     if (!text.trim()) {
       return
     }
@@ -58,7 +53,6 @@ export default function MessagePage({ id,ws }: { id: string,ws:WebSocket }) {
     scrollToBottom()
   }
 
-  // Загрузка сообщений и прокрутка вниз
   useEffect(() => {
     async function getData() {
       const chatData = await getChatHistory(id)
@@ -70,19 +64,15 @@ export default function MessagePage({ id,ws }: { id: string,ws:WebSocket }) {
     getData()
   }, [])
 
-  // Прокрутка контейнера к последнему сообщению
   const scrollToBottom = () => {
-    console.log("Scrolling to bottom...")
     if (messageContainerRef.current) {
-      console.log("Message container ref found:", messageContainerRef.current)
+
       messageContainerRef.current.scrollTop =
         messageContainerRef.current.scrollHeight
     } else {
-      console.log("Message container ref is null")
     }
   }
 
-  // Работа с текстовым полем и отправка сообщения
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value)
     event.target.style.height = "auto"
@@ -104,31 +94,34 @@ export default function MessagePage({ id,ws }: { id: string,ws:WebSocket }) {
   if (!isloaded) {
     return <Loader />
   }
-  console.log("MESSAGES", messages)
   return (
     <div className={styles.messagePageWrapper}>
       <div className={styles.messagePageContainerUp}>
-        <div className={styles.goBackDiv}>
-          <Image
-            className={styles.arrowImg}
-            src="/assets/imgs/arrow.png"
-            alt="avatar"
-            width={17}
-            height={17}
-          />
-          <Link href="/messages">Back</Link>
-        </div>
+        <Link href="/messages" className={styles.goBackDivLink}>
+          <div className={styles.goBackDiv}>
+            <Image
+              className={styles.arrowImg}
+              src="/assets/imgs/arrow.png"
+              alt="avatar"
+              width={17}
+              height={17}
+            />
+            Back
+          </div>
+        </Link>
         <div>
           {chatInfo.first_name} {chatInfo.last_name}
         </div>
         <div>
-          <Image
-            className={styles.profile_picture}
-            src={chatInfo.profile_picture}
-            alt="avatar"
-            width={40}
-            height={40}
-          />
+          <Link href={`/profile/${chatInfo.interlocutor_id}`}>
+            <Image
+              className={styles.profile_picture}
+              src={chatInfo.profile_picture}
+              alt="avatar"
+              width={40}
+              height={40}
+            />
+          </Link>
         </div>
       </div>
 

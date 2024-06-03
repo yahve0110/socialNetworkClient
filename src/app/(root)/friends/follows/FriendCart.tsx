@@ -2,7 +2,6 @@ import React from "react"
 import styles from "./FriendCart.module.css"
 import Image from "next/image"
 import Link from "next/link"
-import { unFollowUser } from "@/actions/follows/unfollowUser"
 import { openChat } from "@/actions/privateChat/openChat"
 import { navigateToChat } from "../../groups/helpers"
 
